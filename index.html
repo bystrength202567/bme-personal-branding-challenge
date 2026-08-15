@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="나를 발견하고, 나만의 브랜드 북을 완성하는 B, Me 퍼스널 브랜딩 챌린지" />
+    <title>B, Me — 나를 브랜드로 만드는 6주</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain"></div>
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="B, Me 홈"><span>B,</span> Me<i></i></a>
+      <nav><a class="active" href="#home">홈</a><a href="#challenge">챌린지</a><a href="#books">브랜드 북</a><a href="#after">After B, Me</a></nav>
+      <button class="profile-button" id="profileButton"><span class="avatar">김</span><span class="profile-label">김양희</span><span>⌄</span></button>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-copy"><p class="eyebrow">PERSONAL BRANDING CHALLENGE · 2기</p><h1>당신답게,<br /><em>빛나는 이름</em>을 만들어요.</h1><p class="hero-text">매일 한 문장으로 나를 발견하고, 여섯 주의 여정 끝에 세상에 보여 줄 나만의 브랜드 북을 완성해요.</p><div class="hero-actions"><button class="primary" data-scroll="challenge">오늘의 여정 시작하기 <span>→</span></button><button class="text-button" data-scroll="books">브랜드 북 둘러보기</button></div></div>
+        <div class="hero-art"><div class="sun"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><article class="today-card"><span class="card-kicker">DAY 17 · 오늘의 1문 1답</span><h2>나를 가장 나답게<br />표현하는 순간은<br /><em>언제인가요?</em></h2><button class="answer-shortcut" data-scroll="challenge">답하기 <b>↗</b></button></article><div class="floating-note note-one">나의 속도로<br />꾸준히</div><div class="floating-note note-two">BRAND<br />IN PROGRESS</div></div>
+      </section>
+
+      <section class="progress-strip" aria-label="챌린지 진행 현황"><div><span class="metric-value">17</span><span class="metric-label">함께한 날</span></div><div><span class="metric-value">82<span class="small">%</span></span><span class="metric-label">나의 여정 완성도</span></div><div><span class="metric-value">3</span><span class="metric-label">작성한 인사이트</span></div><div class="streak"><span>✦</span><p>17일째 나를 만나고 있어요.<br /><strong>오늘도 한 걸음, 충분해요.</strong></p></div></section>
+
+      <section class="journey section" id="challenge"><div class="section-heading"><div><p class="eyebrow">MY JOURNEY</p><h2>나를 알아가는<br /><em>6주간의 기록</em></h2></div><p>서두르지 않아도 괜찮아요. 각각의 미션은<br />당신의 언어로 브랜드를 발견하게 합니다.</p></div>
+        <div class="mission-layout"><div class="mission-list" id="missionList"></div><aside class="daily-answer"><span class="today-pill">TODAY'S QUESTION</span><p class="day-number">DAY <b>17</b></p><h3>지금 내 삶에서<br />브랜딩이 필요한<br /><em>영역은 어디인가요?</em></h3><textarea id="dailyAnswer" maxlength="500" placeholder="정답은 없어요. 지금 떠오르는 마음을 적어 보세요."></textarea><div class="answer-footer"><span id="charCount">0 / 500</span><button class="primary compact" id="saveAnswer">기록하기 <span>→</span></button></div><p class="saved-message" id="savedMessage" role="status"></p></aside></div>
+      </section>
+
+      <section class="brandbook section" id="books"><div class="section-heading"><div><p class="eyebrow">BRAND BOOKS</p><h2>우리의 이야기가<br /><em>서로의 용기가 됩니다.</em></h2></div><button class="text-button" id="openBookGallery">모두 보기 <span>→</span></button></div><div class="book-grid" id="bookGrid"></div></section>
+
+      <section class="after section" id="after"><div class="after-intro"><p class="eyebrow">AFTER B, ME</p><h2>챌린지가 끝나도,<br /><em>브랜드는 계속 자라요.</em></h2><p>졸업생만의 커뮤니티에서 서로의 시도를 응원하고, 함께 배우며 자신만의 브랜드를 이어 갑니다.</p><button class="primary" id="joinAfter">After B, Me 둘러보기 <span>→</span></button></div><div class="community-wall"><div class="wall-head"><span>졸업생의 지금</span><span class="online">● 24명 온라인</span></div><div id="communityPosts"></div><button class="write-post" id="writePost">+ 이야기 남기기</button></div></section>
+    </main>
+
+    <footer><a class="brand" href="#home"><span>B,</span> Me<i></i></a><p>나를 발견하고, 나답게 세상과 연결되는 여정.</p><span>© 2026 B, Me</span></footer>
+    <dialog id="modal"><button class="close" aria-label="닫기">×</button><div id="modalContent"></div></dialog>
+    <script src="app.js"></script>
+  </body>
+</html>
