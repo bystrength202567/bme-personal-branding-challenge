@@ -1,0 +1,271 @@
+{
+  "sceneId": "scene-05",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "할 일은 이미 다 안다. 문제는 '그래서 나는 뭘 해야 하지?' 이다.",
+  "sceneDurationMs": 35000,
+  "srtRange": {
+    "startMs": 65000,
+    "endMs": 100000
+  },
+  "elements": [
+    {
+      "id": "owner",
+      "label": "대표",
+      "sequence": 1,
+      "narrativeRole": "문제의 주체",
+      "subtitle": "대표님들이 마케팅을 어려워하는 이유는 방법을 몰라서만은 아니에요.",
+      "type": "structure",
+      "region": {
+        "x": 140,
+        "y": 400,
+        "width": 300,
+        "height": 310
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 4400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          290,
+          400
+        ],
+        "end": [
+          290,
+          710
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "todo",
+      "label": "할 일 목록",
+      "sequence": 2,
+      "narrativeRole": "이미 알고 있는 것들",
+      "subtitle": "오히려 뭘 해야 하는지는 너무 많이 알고 있습니다.",
+      "type": "structure",
+      "region": {
+        "x": 520,
+        "y": 130,
+        "width": 430,
+        "height": 430
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 5500,
+        "durationMs": 3600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          735,
+          130
+        ],
+        "end": [
+          735,
+          560
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "reels",
+      "label": "릴스",
+      "sequence": 3,
+      "narrativeRole": "해야 할 일 1",
+      "subtitle": "릴스 해야 하고, 블로그 해야 하고, 검색 노출도 해야 하고, 광고도 해야 하고",
+      "type": "structure",
+      "region": {
+        "x": 1000,
+        "y": 140,
+        "width": 200,
+        "height": 280
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 9500,
+        "durationMs": 2200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1100,
+          140
+        ],
+        "end": [
+          1100,
+          420
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "blog",
+      "label": "블로그",
+      "sequence": 4,
+      "narrativeRole": "해야 할 일 2",
+      "subtitle": "릴스 해야 하고, 블로그 해야 하고, 검색 노출도 해야 하고, 광고도 해야 하고",
+      "type": "structure",
+      "region": {
+        "x": 1250,
+        "y": 150,
+        "width": 300,
+        "height": 250
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 11800,
+        "durationMs": 2200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1400,
+          150
+        ],
+        "end": [
+          1400,
+          400
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "seo",
+      "label": "검색 노출",
+      "sequence": 5,
+      "narrativeRole": "해야 할 일 3",
+      "subtitle": "릴스 해야 하고, 블로그 해야 하고, 검색 노출도 해야 하고, 광고도 해야 하고",
+      "type": "structure",
+      "region": {
+        "x": 1600,
+        "y": 150,
+        "width": 280,
+        "height": 250
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 14000,
+        "durationMs": 2000,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1740,
+          150
+        ],
+        "end": [
+          1740,
+          400
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "question",
+      "label": "그래서 나는?",
+      "sequence": 6,
+      "narrativeRole": "핵심 질문",
+      "subtitle": "그래서 나는 뭘 해야 하지?",
+      "type": "structure",
+      "region": {
+        "x": 520,
+        "y": 600,
+        "width": 350,
+        "height": 400
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16200,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          695,
+          600
+        ],
+        "end": [
+          695,
+          1000
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "ai",
+      "label": "AI 유행",
+      "sequence": 7,
+      "narrativeRole": "따라가기",
+      "subtitle": "AI가 대세라고 하면 AI를 배우고",
+      "type": "structure",
+      "region": {
+        "x": 960,
+        "y": 600,
+        "width": 350,
+        "height": 350
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 21000,
+        "durationMs": 3000,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1135,
+          600
+        ],
+        "end": [
+          1135,
+          950
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "blur",
+      "label": "흐려지는 브랜드",
+      "sequence": 8,
+      "narrativeRole": "결과",
+      "subtitle": "열심히는 하는데 브랜드는 점점 더 복잡해집니다.",
+      "type": "structure",
+      "region": {
+        "x": 1400,
+        "y": 600,
+        "width": 440,
+        "height": 390
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 24500,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1620,
+          600
+        ],
+        "end": [
+          1620,
+          990
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

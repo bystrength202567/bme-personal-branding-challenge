@@ -1,0 +1,239 @@
+{
+  "sceneId": "scene-11",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "애플이 보통 회사처럼 말했다면? 애플은 믿음을 먼저 말하고 제품으로 증명한다.",
+  "sceneDurationMs": 35000,
+  "srtRange": {
+    "startMs": 235000,
+    "endMs": 270000
+  },
+  "elements": [
+    {
+      "id": "book",
+      "label": "책 속 사례",
+      "sequence": 1,
+      "narrativeRole": "사례의 출처",
+      "subtitle": "책에서는 애플을 예로 들어요.",
+      "type": "structure",
+      "region": {
+        "x": 120,
+        "y": 310,
+        "width": 470,
+        "height": 310
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 3600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          355,
+          310
+        ],
+        "end": [
+          355,
+          620
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "apple",
+      "label": "사과",
+      "sequence": 2,
+      "narrativeRole": "사례의 주인공",
+      "subtitle": "만약 애플이 이렇게 말했다면 어떨까요?",
+      "type": "structure",
+      "region": {
+        "x": 680,
+        "y": 290,
+        "width": 320,
+        "height": 350
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 4000,
+        "durationMs": 3800,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          840,
+          290
+        ],
+        "end": [
+          840,
+          640
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "pitch",
+      "label": "제품 설명",
+      "sequence": 3,
+      "narrativeRole": "가상의 WHAT 화법",
+      "subtitle": "우리는 훌륭한 컴퓨터를 만듭니다. 디자인이 예쁘고 사용하기 편합니다.",
+      "type": "structure",
+      "region": {
+        "x": 1090,
+        "y": 250,
+        "width": 740,
+        "height": 310
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 8000,
+        "durationMs": 5400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1460,
+          250
+        ],
+        "end": [
+          1460,
+          560
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "product",
+      "label": "컴퓨터",
+      "sequence": 4,
+      "narrativeRole": "설명의 대상",
+      "subtitle": "하나 사시겠어요?",
+      "type": "structure",
+      "region": {
+        "x": 1090,
+        "y": 620,
+        "width": 350,
+        "height": 290
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 13600,
+        "durationMs": 3400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1265,
+          620
+        ],
+        "end": [
+          1265,
+          910
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "meh",
+      "label": "시큰둥한 반응",
+      "sequence": 5,
+      "narrativeRole": "결과 — 마음이 안 움직임",
+      "subtitle": "글쎄요.",
+      "type": "structure",
+      "region": {
+        "x": 1490,
+        "y": 620,
+        "width": 350,
+        "height": 390
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 17200,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1665,
+          620
+        ],
+        "end": [
+          1665,
+          1010
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "flip",
+      "label": "순서를 뒤집다",
+      "sequence": 6,
+      "narrativeRole": "전환",
+      "subtitle": "그런데 애플은 제품부터 이야기하지 않죠.",
+      "type": "structure",
+      "region": {
+        "x": 120,
+        "y": 700,
+        "width": 430,
+        "height": 300
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 21600,
+        "durationMs": 3200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          335,
+          700
+        ],
+        "end": [
+          335,
+          1000
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "belief",
+      "label": "다르게 생각하는 믿음",
+      "sequence": 7,
+      "narrativeRole": "먼저 말하는 WHY",
+      "subtitle": "우리는 다르게 생각합니다.",
+      "type": "structure",
+      "region": {
+        "x": 620,
+        "y": 700,
+        "width": 350,
+        "height": 330
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 25000,
+        "durationMs": 3600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          795,
+          700
+        ],
+        "end": [
+          795,
+          1030
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

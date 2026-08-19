@@ -1,0 +1,175 @@
+{
+  "sceneId": "scene-10",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "보통은 WHAT부터 말한다. 책은 WHY부터 말하라고 한다.",
+  "sceneDurationMs": 25000,
+  "srtRange": {
+    "startMs": 210000,
+    "endMs": 235000
+  },
+  "elements": [
+    {
+      "id": "what-speaker",
+      "label": "WHAT부터 말하는 브랜드",
+      "sequence": 1,
+      "narrativeRole": "통념",
+      "subtitle": "우리는 보통 고객에게 WHAT부터 이야기합니다.",
+      "type": "structure",
+      "region": {
+        "x": 120,
+        "y": 290,
+        "width": 700,
+        "height": 350
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 5400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          470,
+          290
+        ],
+        "end": [
+          470,
+          640
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "offer",
+      "label": "제품과 가격",
+      "sequence": 2,
+      "narrativeRole": "통념의 내용",
+      "subtitle": "저희는 이런 제품을 판매합니다. 이런 서비스를 제공합니다.",
+      "type": "structure",
+      "region": {
+        "x": 120,
+        "y": 700,
+        "width": 700,
+        "height": 330
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 5800,
+        "durationMs": 5400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          470,
+          700
+        ],
+        "end": [
+          470,
+          1030
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "divide",
+      "label": "구분선",
+      "sequence": 3,
+      "narrativeRole": "대비의 축",
+      "subtitle": "가격은 얼마고, 이런 혜택이 있습니다.",
+      "type": "structure",
+      "region": {
+        "x": 880,
+        "y": 210,
+        "width": 130,
+        "height": 830
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 11400,
+        "durationMs": 2200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          945,
+          210
+        ],
+        "end": [
+          945,
+          1040
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "why-speaker",
+      "label": "WHY부터 말하는 브랜드",
+      "sequence": 4,
+      "narrativeRole": "책의 제안",
+      "subtitle": "그런데 이 책은 WHY부터 이야기하라고 합니다.",
+      "type": "structure",
+      "region": {
+        "x": 1060,
+        "y": 290,
+        "width": 760,
+        "height": 350
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 13800,
+        "durationMs": 5400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1440,
+          290
+        ],
+        "end": [
+          1440,
+          640
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "core",
+      "label": "안에서 바깥으로",
+      "sequence": 5,
+      "narrativeRole": "제안의 근거",
+      "subtitle": "그런데 이 책은 WHY부터 이야기하라고 합니다.",
+      "type": "structure",
+      "region": {
+        "x": 1060,
+        "y": 700,
+        "width": 760,
+        "height": 330
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 19400,
+        "durationMs": 4400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1440,
+          700
+        ],
+        "end": [
+          1440,
+          1030
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

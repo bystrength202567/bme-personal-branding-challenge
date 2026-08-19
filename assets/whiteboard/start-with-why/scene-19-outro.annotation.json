@@ -1,0 +1,111 @@
+{
+  "sceneId": "scene-19",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "직접 읽고 추천하는 책만 가져오겠다는 약속과 인사.",
+  "sceneDurationMs": 10000,
+  "srtRange": {
+    "startMs": 410000,
+    "endMs": 420000
+  },
+  "elements": [
+    {
+      "id": "books",
+      "label": "다음 책들",
+      "sequence": 1,
+      "narrativeRole": "약속",
+      "subtitle": "다음에도 제가 직접 읽어보고 정말 추천하고 싶은 책만 가져올게요.",
+      "type": "structure",
+      "region": {
+        "x": 250,
+        "y": 330,
+        "width": 460,
+        "height": 430
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          480,
+          330
+        ],
+        "end": [
+          480,
+          760
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "wave",
+      "label": "인사하는 스텔라",
+      "sequence": 2,
+      "narrativeRole": "마무리 인사",
+      "subtitle": "다음 영상에서 만나요.",
+      "type": "structure",
+      "region": {
+        "x": 820,
+        "y": 330,
+        "width": 400,
+        "height": 430
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 4600,
+        "durationMs": 3200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1020,
+          330
+        ],
+        "end": [
+          1020,
+          760
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "mark",
+      "label": "브랜드 마크",
+      "sequence": 3,
+      "narrativeRole": "여운 — WHY",
+      "subtitle": "다음 영상에서 만나요.",
+      "type": "structure",
+      "region": {
+        "x": 1360,
+        "y": 350,
+        "width": 400,
+        "height": 400
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 7900,
+        "durationMs": 1500,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1560,
+          350
+        ],
+        "end": [
+          1560,
+          750
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

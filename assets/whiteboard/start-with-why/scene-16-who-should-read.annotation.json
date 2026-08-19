@@ -1,0 +1,143 @@
+{
+  "sceneId": "scene-16",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "사업을 시작하는 분, 방향이 흔들리는 분에게 권한다.",
+  "sceneDurationMs": 20000,
+  "srtRange": {
+    "startMs": 355000,
+    "endMs": 375000
+  },
+  "elements": [
+    {
+      "id": "starter",
+      "label": "시작하는 대표",
+      "sequence": 1,
+      "narrativeRole": "대상 1",
+      "subtitle": "특히 사업을 시작하시는 분,",
+      "type": "structure",
+      "region": {
+        "x": 160,
+        "y": 370,
+        "width": 340,
+        "height": 430
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 3600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          330,
+          370
+        ],
+        "end": [
+          330,
+          800
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "wobble",
+      "label": "흔들리는 방향",
+      "sequence": 2,
+      "narrativeRole": "대상 2",
+      "subtitle": "이미 사업을 하고 있지만 브랜드 방향이 자꾸 흔들리는 분이라면",
+      "type": "structure",
+      "region": {
+        "x": 560,
+        "y": 380,
+        "width": 480,
+        "height": 310
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 4000,
+        "durationMs": 5400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          800,
+          380
+        ],
+        "end": [
+          800,
+          690
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "checklist",
+      "label": "추천 체크리스트",
+      "sequence": 3,
+      "narrativeRole": "정리 — 이런 분께",
+      "subtitle": "이미 사업을 하고 있지만 브랜드 방향이 자꾸 흔들리는 분이라면",
+      "type": "structure",
+      "region": {
+        "x": 1110,
+        "y": 230,
+        "width": 720,
+        "height": 430
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 9800,
+        "durationMs": 5600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1470,
+          230
+        ],
+        "end": [
+          1470,
+          660
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "book",
+      "label": "권하는 책",
+      "sequence": 4,
+      "narrativeRole": "행동 제안",
+      "subtitle": "한번 읽어보셨으면 좋겠어요.",
+      "type": "structure",
+      "region": {
+        "x": 1110,
+        "y": 720,
+        "width": 400,
+        "height": 330
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 15600,
+        "durationMs": 3600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1310,
+          720
+        ],
+        "end": [
+          1310,
+          1050
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "sceneId": "scene-02",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "공부할수록 어려워진다 — 그러니 잠깐 멈춰야 한다.",
+  "sceneDurationMs": 10000,
+  "srtRange": {
+    "startMs": 20000,
+    "endMs": 30000
+  },
+  "elements": [
+    {
+      "id": "confused",
+      "label": "어깨를 으쓱한 대표",
+      "sequence": 1,
+      "narrativeRole": "문제 확인",
+      "subtitle": "그런데 이상하게 공부하면 할수록 마케팅이 더 어려워집니다.",
+      "type": "structure",
+      "region": {
+        "x": 360,
+        "y": 300,
+        "width": 340,
+        "height": 470
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 3200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          530,
+          300
+        ],
+        "end": [
+          530,
+          770
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "mess",
+      "label": "머릿속의 엉킴",
+      "sequence": 2,
+      "narrativeRole": "감정 — 혼란",
+      "subtitle": "그런데 이상하게 공부하면 할수록 마케팅이 더 어려워집니다.",
+      "type": "structure",
+      "region": {
+        "x": 760,
+        "y": 220,
+        "width": 420,
+        "height": 320
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 3200,
+        "durationMs": 1600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          970,
+          220
+        ],
+        "end": [
+          970,
+          540
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "stop",
+      "label": "멈춤 손짓",
+      "sequence": 3,
+      "narrativeRole": "전환 — 잠깐 멈추세요",
+      "subtitle": "그렇다면 잠깐, 공부를 멈춰주세요.",
+      "type": "structure",
+      "region": {
+        "x": 1230,
+        "y": 380,
+        "width": 400,
+        "height": 350
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 6200,
+        "durationMs": 3200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1430,
+          380
+        ],
+        "end": [
+          1430,
+          730
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

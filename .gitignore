@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+assets/whiteboard/**/*.renderlog
+assets/whiteboard/**/*_raw.mp4

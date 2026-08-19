@@ -1,0 +1,175 @@
+{
+  "sceneId": "scene-13",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "WHY가 선명하면 콘텐츠·고객·상품, 그리고 하지 않을 것까지 정해진다.",
+  "sceneDurationMs": 25000,
+  "srtRange": {
+    "startMs": 295000,
+    "endMs": 320000
+  },
+  "elements": [
+    {
+      "id": "why",
+      "label": "선명한 WHY",
+      "sequence": 1,
+      "narrativeRole": "출발점",
+      "subtitle": "WHY가 선명하면 어떤 콘텐츠를 만들지,",
+      "type": "structure",
+      "region": {
+        "x": 110,
+        "y": 330,
+        "width": 540,
+        "height": 540
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 5400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          380,
+          330
+        ],
+        "end": [
+          380,
+          870
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "content",
+      "label": "콘텐츠",
+      "sequence": 2,
+      "narrativeRole": "결정 1",
+      "subtitle": "WHY가 선명하면 어떤 콘텐츠를 만들지,",
+      "type": "structure",
+      "region": {
+        "x": 750,
+        "y": 170,
+        "width": 350,
+        "height": 310
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 5800,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          925,
+          170
+        ],
+        "end": [
+          925,
+          480
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "customer",
+      "label": "고객",
+      "sequence": 3,
+      "narrativeRole": "결정 2",
+      "subtitle": "어떤 고객을 만날지,",
+      "type": "structure",
+      "region": {
+        "x": 750,
+        "y": 530,
+        "width": 350,
+        "height": 320
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 10200,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          925,
+          530
+        ],
+        "end": [
+          925,
+          850
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "product",
+      "label": "상품",
+      "sequence": 4,
+      "narrativeRole": "결정 3",
+      "subtitle": "어떤 상품을 만들지,",
+      "type": "structure",
+      "region": {
+        "x": 1190,
+        "y": 170,
+        "width": 350,
+        "height": 310
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 14600,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1365,
+          170
+        ],
+        "end": [
+          1365,
+          480
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "not-do",
+      "label": "하지 않을 것",
+      "sequence": 5,
+      "narrativeRole": "결정 4 — 가장 중요한 것",
+      "subtitle": "심지어 무엇을 하지 않을지도 결정하기 쉬워집니다.",
+      "type": "structure",
+      "region": {
+        "x": 1190,
+        "y": 530,
+        "width": 350,
+        "height": 320
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 18900,
+        "durationMs": 4600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1365,
+          530
+        ],
+        "end": [
+          1365,
+          850
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

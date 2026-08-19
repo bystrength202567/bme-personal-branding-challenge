@@ -1,0 +1,143 @@
+{
+  "sceneId": "scene-18",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "새 방법을 배우는 대신, 딱 하나만 — 나는 왜 이 일을 하고 있지?",
+  "sceneDurationMs": 15000,
+  "srtRange": {
+    "startMs": 395000,
+    "endMs": 410000
+  },
+  "elements": [
+    {
+      "id": "owner",
+      "label": "대표",
+      "sequence": 1,
+      "narrativeRole": "청자",
+      "subtitle": "그리고 오늘은 새로운 마케팅 방법 하나 더 배우는 대신",
+      "type": "structure",
+      "region": {
+        "x": 180,
+        "y": 380,
+        "width": 340,
+        "height": 350
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          350,
+          380
+        ],
+        "end": [
+          350,
+          730
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "skip",
+      "label": "덜어내기",
+      "sequence": 2,
+      "narrativeRole": "제안 — 하나 더 배우지 말고",
+      "subtitle": "딱 하나만 생각해보세요.",
+      "type": "structure",
+      "region": {
+        "x": 620,
+        "y": 300,
+        "width": 420,
+        "height": 300
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 4600,
+        "durationMs": 2400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          830,
+          300
+        ],
+        "end": [
+          830,
+          600
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "question",
+      "label": "나는 왜 이 일을 하고 있지?",
+      "sequence": 3,
+      "narrativeRole": "핵심 질문",
+      "subtitle": "나는 왜 이 일을 하고 있지?",
+      "type": "structure",
+      "region": {
+        "x": 1100,
+        "y": 210,
+        "width": 400,
+        "height": 540
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 7400,
+        "durationMs": 4200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1300,
+          210
+        ],
+        "end": [
+          1300,
+          750
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "answer",
+      "label": "답의 실마리",
+      "sequence": 4,
+      "narrativeRole": "여운",
+      "subtitle": "나는 왜 이 일을 하고 있지?",
+      "type": "structure",
+      "region": {
+        "x": 1560,
+        "y": 300,
+        "width": 300,
+        "height": 350
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 11800,
+        "durationMs": 2600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1710,
+          300
+        ],
+        "end": [
+          1710,
+          650
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+{
+  "sceneId": "scene-07",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "대표님께 던지는 세 개의 질문, 그리고 망설여진다면 이 책.",
+  "sceneDurationMs": 20000,
+  "srtRange": {
+    "startMs": 130000,
+    "endMs": 150000
+  },
+  "elements": [
+    {
+      "id": "owner",
+      "label": "질문을 받는 대표",
+      "sequence": 1,
+      "narrativeRole": "청자 지목",
+      "subtitle": "대표님.",
+      "type": "structure",
+      "region": {
+        "x": 160,
+        "y": 380,
+        "width": 320,
+        "height": 330
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 2600,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          320,
+          380
+        ],
+        "end": [
+          320,
+          710
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "q1",
+      "label": "첫 번째 질문",
+      "sequence": 2,
+      "narrativeRole": "질문 1 — 왜 시작했는가",
+      "subtitle": "나는 왜 이 일을 시작했는지, 지금 바로 이야기할 수 있으세요?",
+      "type": "structure",
+      "region": {
+        "x": 620,
+        "y": 170,
+        "width": 280,
+        "height": 320
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 3000,
+        "durationMs": 2800,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          760,
+          170
+        ],
+        "end": [
+          760,
+          490
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "q2",
+      "label": "두 번째 질문",
+      "sequence": 3,
+      "narrativeRole": "질문 2 — 왜 존재하는가",
+      "subtitle": "우리 브랜드는 왜 존재하는가?",
+      "type": "structure",
+      "region": {
+        "x": 980,
+        "y": 170,
+        "width": 280,
+        "height": 320
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 6200,
+        "durationMs": 2400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1120,
+          170
+        ],
+        "end": [
+          1120,
+          490
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "q3",
+      "label": "세 번째 질문",
+      "sequence": 4,
+      "narrativeRole": "질문 3 — 왜 선택해야 하는가",
+      "subtitle": "왜 고객은 우리를 선택해야 하는가?",
+      "type": "structure",
+      "region": {
+        "x": 1340,
+        "y": 170,
+        "width": 280,
+        "height": 320
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 9000,
+        "durationMs": 2400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1480,
+          170
+        ],
+        "end": [
+          1480,
+          490
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "book",
+      "label": "책",
+      "sequence": 5,
+      "narrativeRole": "해답의 제안",
+      "subtitle": "만약 조금 망설여진다면 이 책을 한번 읽어보셨으면 좋겠습니다.",
+      "type": "structure",
+      "region": {
+        "x": 880,
+        "y": 620,
+        "width": 380,
+        "height": 420
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 12000,
+        "durationMs": 4400,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1070,
+          620
+        ],
+        "end": [
+          1070,
+          1040
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "bridge",
+      "label": "대표에서 책으로",
+      "sequence": 6,
+      "narrativeRole": "연결",
+      "subtitle": "만약 조금 망설여진다면 이 책을 한번 읽어보셨으면 좋겠습니다.",
+      "type": "structure",
+      "region": {
+        "x": 480,
+        "y": 650,
+        "width": 360,
+        "height": 280
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16800,
+        "durationMs": 2200,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          660,
+          650
+        ],
+        "end": [
+          660,
+          930
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}

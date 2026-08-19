@@ -1,0 +1,143 @@
+{
+  "sceneId": "scene-08",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "storyBasis": "골든서클 — 바깥 WHAT, 가운데 HOW, 가장 안쪽 WHY.",
+  "sceneDurationMs": 35000,
+  "srtRange": {
+    "startMs": 150000,
+    "endMs": 185000
+  },
+  "elements": [
+    {
+      "id": "what",
+      "label": "바깥 원",
+      "sequence": 1,
+      "narrativeRole": "WHAT — 무엇을 파는지",
+      "subtitle": "WHAT은 우리가 무엇을 파는지.",
+      "type": "structure",
+      "region": {
+        "x": 500,
+        "y": 80,
+        "width": 920,
+        "height": 920
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 0,
+        "durationMs": 7000,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          960,
+          80
+        ],
+        "end": [
+          960,
+          1000
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "how",
+      "label": "가운데 원",
+      "sequence": 2,
+      "narrativeRole": "HOW — 어떻게 다르게 하는지",
+      "subtitle": "HOW는 어떻게 다르게 하는지.",
+      "type": "structure",
+      "region": {
+        "x": 696,
+        "y": 276,
+        "width": 528,
+        "height": 528
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 7500,
+        "durationMs": 6500,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          960,
+          276
+        ],
+        "end": [
+          960,
+          804
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "why",
+      "label": "가장 안쪽 원",
+      "sequence": 3,
+      "narrativeRole": "WHY — 왜 하는지",
+      "subtitle": "그리고 가장 안쪽에 있는 WHY는 왜 하는지입니다.",
+      "type": "structure",
+      "region": {
+        "x": 832,
+        "y": 412,
+        "width": 256,
+        "height": 256
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 14500,
+        "durationMs": 7500,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          960,
+          412
+        ],
+        "end": [
+          960,
+          668
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "legend",
+      "label": "세 겹의 요약",
+      "sequence": 4,
+      "narrativeRole": "정리 — 무엇을, 어떻게, 왜",
+      "subtitle": "무엇을, 어떻게, 그리고 왜.",
+      "type": "structure",
+      "region": {
+        "x": 110,
+        "y": 280,
+        "width": 300,
+        "height": 500
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 22500,
+        "durationMs": 7000,
+        "maskPaddingPx": 18,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          260,
+          280
+        ],
+        "end": [
+          260,
+          780
+        ],
+        "easing": "easeInOut"
+      }
+    }
+  ]
+}
