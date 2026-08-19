@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>자막 카드 — 스타트 위드 와이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E0F13; --ink-2:#16181F; --paper:#F6F2EA;
+    --gold:#C9A227; --gold-soft:#E3C463; --muted:#9AA0AC;
+    --s:.42;
+    --kr:"Noto Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    --en:"Manrope",var(--kr);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#1B1D24;color:var(--paper);font-family:var(--kr);padding:32px 24px 120px}
+  .page-head{max-width:900px;margin:0 auto 28px}
+  .page-head h1{font-size:24px;font-weight:900;letter-spacing:-.02em}
+  .page-head p{color:var(--muted);font-size:14px;line-height:1.7;margin-top:10px}
+  .page-head code{background:#0E0F13;padding:2px 6px;border-radius:4px;font-size:13px;color:var(--gold-soft)}
+  .bar{position:fixed;bottom:0;left:0;right:0;background:#0E0F13;border-top:1px solid #2A2D36;
+       padding:12px 20px;display:flex;gap:10px;align-items:center;z-index:99;font-size:13px}
+  .bar span{color:var(--muted);margin-right:auto}
+  .bar button{background:#22252E;color:var(--paper);border:1px solid #343846;border-radius:8px;
+              padding:8px 14px;font-family:var(--kr);font-size:13px;font-weight:700;cursor:pointer}
+  .bar button:hover{border-color:var(--gold)}
+  .slot{max-width:calc(1920px * var(--s));margin:0 auto 34px}
+  .label{font-size:13px;font-weight:700;color:var(--gold-soft);margin-bottom:8px;letter-spacing:.04em}
+  .label b{color:var(--muted);font-weight:500;margin-left:8px}
+  .frame{width:calc(1920px * var(--s));height:calc(1080px * var(--s));overflow:hidden;border-radius:6px}
+  .frame.v{width:calc(1080px * var(--s));height:calc(1920px * var(--s))}
+  .slot.v{max-width:calc(1080px * var(--s))}
+  .card{width:1920px;height:1080px;transform:scale(var(--s));transform-origin:0 0;
+        background:var(--ink);display:flex;flex-direction:column;align-items:center;
+        justify-content:center;text-align:center;padding:120px;position:relative}
+  .card.v{width:1080px;height:1920px}
+  .card.top{justify-content:flex-start;padding:300px 90px 120px}
+  .card h2{font-size:112px;font-weight:900;line-height:1.28;letter-spacing:-.03em}
+  .card.v h2{font-size:92px}
+  .gold{color:var(--gold-soft)}
+  .rule{width:88px;height:5px;background:var(--gold);border-radius:3px;margin:44px 0}
+  .kicker{font-family:var(--en);font-size:26px;font-weight:800;letter-spacing:.28em;
+          color:var(--muted);text-transform:uppercase;margin-bottom:40px}
+  .qlist{display:flex;flex-direction:column;gap:38px}
+  .qlist p{font-size:66px;font-weight:500;line-height:1.4;color:#DAD5CB}
+  .qlist p b{font-weight:900;color:var(--paper)}
+  .quote-en{font-family:var(--en);font-size:60px;font-weight:600;font-style:italic;
+            line-height:1.45;color:var(--gold-soft);max-width:1400px}
+  .quote-kr{font-size:56px;font-weight:500;line-height:1.5;color:#DAD5CB;max-width:1400px;margin-top:48px}
+  .quote-kr b{font-weight:900;color:var(--paper)}
+  .src{font-family:var(--en);font-size:26px;color:var(--muted);margin-top:56px;letter-spacing:.06em}
+  .think{font-family:var(--en);font-size:150px;font-weight:800;letter-spacing:-.04em}
+  .legend{display:flex;flex-direction:column;gap:30px;text-align:left}
+  .leg{display:flex;align-items:baseline;gap:26px}
+  .leg span{font-family:var(--en);font-size:52px;font-weight:800;width:180px;color:var(--muted)}
+  .leg em{font-style:normal;font-size:44px;font-weight:500;color:#C8C3BA}
+  .leg.on span{color:var(--gold-soft)}
+  .leg.on em{color:var(--paper);font-weight:900}
+  .gc-row{display:flex;align-items:center;gap:110px}
+  .lower{justify-content:flex-end;align-items:flex-start;background:transparent;
+         background-image:linear-gradient(transparent 62%,rgba(0,0,0,.55));padding:0 0 92px 96px}
+  .lower .chk{background:rgba(14,15,19,.92);border-left:6px solid var(--gold);
+              padding:26px 40px;font-size:34px;font-weight:500;line-height:1.5;text-align:left;color:#E8E4DC}
+  .hook{background:var(--paper);color:var(--ink)}
+  .hook h2{font-size:132px}
+  .hook .tag{font-size:30px;font-weight:800;letter-spacing:.2em;color:#8A8578;margin-bottom:36px;font-family:var(--en)}
+</style>
+</head>
+<body>
+
+<div class="page-head">
+  <h1>풀스크린 자막 카드 · 골든서클 그래픽</h1>
+  <p>
+    편집에 넣을 카드 원본입니다. 하단 <b>1:1 (캡처용)</b> 버튼을 누르면 실제 해상도(가로 1920×1080 / 세로 1080×1920)로 표시돼요.
+    그 상태에서 카드 영역만 캡처하면 바로 편집 툴에 올릴 수 있습니다.<br>
+    macOS <code>⌘+Shift+4</code> · Windows <code>Win+Shift+S</code> · 또는 브라우저 개발자도구의 "노드 스크린샷 캡처".<br>
+    색·문구를 스텔라 브랜드에 맞추려면 이 파일 상단 <code>:root</code>의 <code>--gold</code>, <code>--ink</code> 값만 바꾸면 전체가 따라갑니다.
+  </p>
+</div>
+
+<div class="slot" data-id="T1">
+  <div class="label">T1 <b>1:52 — WHAT이 아니라 WHY</b></div>
+  <div class="frame"><div class="card">
+    <div class="kicker">Start With Why</div>
+    <h2>WHAT이 아니라<br><span class="gold">WHY</span>를 먼저 생각하라</h2>
+  </div></div>
+</div>
+
+<div class="slot" data-id="T2">
+  <div class="label">T2 <b>2:13 — 세 가지 질문 (한 줄씩 등장)</b></div>
+  <div class="frame"><div class="card">
+    <div class="qlist">
+      <p>당신은 <b>왜</b> 이 일을 시작했는가?</p>
+      <p>당신의 브랜드는 <b>왜</b> 존재하는가?</p>
+      <p><b>왜</b> 사람들이 당신의 이야기를 들어야 하는가?</p>
+    </div>
+  </div></div>
+</div>
+
+<div class="slot" data-id="T3">
+  <div class="label">T3 <b>2:36 — 골든서클 (바깥 → 안쪽 순서로 등장)</b></div>
+  <div class="frame"><div class="card">
+    <div class="gc-row">
+      <svg width="520" height="520" viewBox="0 0 520 520" aria-label="골든서클 다이어그램">
+        <g class="step" data-step="1">
+          <circle cx="260" cy="260" r="250" fill="#1A1D25" stroke="#3A3E4A" stroke-width="3"/>
+          <text x="260" y="58" text-anchor="middle" fill="#9AA0AC" font-family="Manrope,sans-serif"
+                font-size="36" font-weight="800" letter-spacing="2">WHAT</text>
+        </g>
+        <g class="step" data-step="2">
+          <circle cx="260" cy="260" r="168" fill="#242832" stroke="#4A4F5D" stroke-width="3"/>
+          <text x="260" y="140" text-anchor="middle" fill="#B9BDC7" font-family="Manrope,sans-serif"
+                font-size="36" font-weight="800" letter-spacing="2">HOW</text>
+        </g>
+        <g class="step" data-step="3">
+          <circle cx="260" cy="260" r="88" fill="#C9A227"/>
+          <text x="260" y="276" text-anchor="middle" fill="#0E0F13" font-family="Manrope,sans-serif"
+                font-size="46" font-weight="800" letter-spacing="2">WHY</text>
+        </g>
+      </svg>
+      <div class="legend">
+        <div class="leg step" data-step="1"><span>WHAT</span><em>무엇을 파는가</em></div>
+        <div class="leg step" data-step="2"><span>HOW</span><em>어떻게 다른가</em></div>
+        <div class="leg on step" data-step="3"><span>WHY</span><em>왜 하는가</em></div>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<div class="slot" data-id="T4">
+  <div class="label">T4 <b>2:47 — 사이먼 시넥 인용 (TED 클립 대체안)</b></div>
+  <div class="frame"><div class="card">
+    <p class="quote-en">“People don’t buy what you do;<br>they buy why you do it.”</p>
+    <div class="rule"></div>
+    <p class="quote-kr">사람들은 당신이 무엇을 하는지가 아니라,<br><b>당신이 왜 그것을 하는지를 삽니다.</b></p>
+    <p class="src">SIMON SINEK · TED</p>
+  </div></div>
+</div>
+
+<div class="slot" data-id="T5">
+  <div class="label">T5 <b>3:36 — Think Different (무음, 2.5초 유지)</b></div>
+  <div class="frame"><div class="card">
+    <p class="think">Think Different.</p>
+  </div></div>
+</div>
+
+<div class="slot" data-id="L1">
+  <div class="label">L1 <b>4:58 — 쿠팡 파트너스 고지 (하단 고정 자막)</b></div>
+  <div class="frame"><div class="card lower">
+    <div class="chk">쿠팡 파트너스 활동의 일환으로<br>이에 따른 일정액의 수수료를 제공받습니다.</div>
+  </div></div>
+</div>
+
+<div class="page-head" style="margin-top:56px">
+  <h1>세로 9:16 (쇼츠 · 릴스용)</h1>
+  <p>본편과 같은 내용을 세로로 다시 짠 카드입니다. 자막이 인스타 UI에 가리지 않도록 화면 위쪽에 배치했습니다.</p>
+</div>
+
+<div class="slot v" data-id="V1">
+  <div class="label">V1 <b>쇼츠 0:00 — 훅 커버</b></div>
+  <div class="frame v"><div class="card v top hook">
+    <div class="tag">MARKETING · 18 YEARS</div>
+    <h2>공부할수록<br>마케팅이<br>더 어려워진다면</h2>
+  </div></div>
+</div>
+
+<div class="slot v" data-id="V2">
+  <div class="label">V2 <b>쇼츠 0:32 — 골든서클</b></div>
+  <div class="frame v"><div class="card v">
+    <div class="kicker">Golden Circle</div>
+    <svg width="620" height="620" viewBox="0 0 520 520" aria-label="골든서클 다이어그램 세로">
+      <circle cx="260" cy="260" r="250" fill="#1A1D25"/>
+      <circle cx="260" cy="260" r="168" fill="#242832"/>
+      <circle cx="260" cy="260" r="88" fill="#C9A227"/>
+      <circle cx="260" cy="260" r="250" fill="none" stroke="#3A3E4A" stroke-width="3"/>
+      <circle cx="260" cy="260" r="168" fill="none" stroke="#4A4F5D" stroke-width="3"/>
+      <text x="260" y="58" text-anchor="middle" fill="#9AA0AC" font-family="Manrope,sans-serif"
+            font-size="36" font-weight="800" letter-spacing="2">WHAT</text>
+      <text x="260" y="140" text-anchor="middle" fill="#B9BDC7" font-family="Manrope,sans-serif"
+            font-size="36" font-weight="800" letter-spacing="2">HOW</text>
+      <text x="260" y="276" text-anchor="middle" fill="#0E0F13" font-family="Manrope,sans-serif"
+            font-size="46" font-weight="800" letter-spacing="2">WHY</text>
+    </svg>
+    <div class="rule"></div>
+    <p style="font-size:52px;font-weight:500;color:#C8C3BA;line-height:1.5">
+      무엇을 파는가 · 어떻게 다른가<br><b style="color:#E3C463;font-weight:900">그리고, 왜 하는가</b>
+    </p>
+  </div></div>
+</div>
+
+<div class="slot v" data-id="V3">
+  <div class="label">V3 <b>쇼츠 0:47 — 마지막 질문</b></div>
+  <div class="frame v"><div class="card v top">
+    <div class="kicker">Ask Yourself</div>
+    <h2>나는 <span class="gold">왜</span><br>이 일을<br>하고 있지?</h2>
+  </div></div>
+</div>
+
+<div class="bar">
+  <span id="now">현재 배율 42% — 미리보기</span>
+  <button onclick="setScale(.42)">42% 미리보기</button>
+  <button onclick="setScale(.7)">70%</button>
+  <button onclick="setScale(1)">1:1 (캡처용)</button>
+</div>
+
+<script>
+  function setScale(v){
+    document.documentElement.style.setProperty('--s', v);
+    document.getElementById('now').textContent =
+      v === 1 ? '1:1 — 이 상태에서 카드 영역만 캡처하세요 (가로 1920×1080 / 세로 1080×1920)'
+              : '현재 배율 ' + Math.round(v*100) + '% — 미리보기';
+  }
+
+  // ── 단일 카드 렌더 모드 ──────────────────────────────
+  // #one=T3 형태로 열면 해당 카드 하나만 1:1 크기로 남깁니다. PNG 자동 렌더링에 사용.
+  (function(){
+    var m = /(?:^|#|&)one=([A-Z]\d)/.exec(location.hash);
+    if(!m) return;
+    var id = m[1];
+    document.documentElement.style.setProperty('--s', 1);
+    document.body.style.cssText = 'margin:0;padding:0;background:#0E0F13;overflow:hidden';
+    document.querySelectorAll('.page-head,.bar,.label').forEach(function(el){ el.remove(); });
+    document.querySelectorAll('.slot').forEach(function(el){
+      if(el.dataset.id !== id){ el.remove(); return; }
+      el.style.cssText = 'margin:0;max-width:none';
+      el.querySelector('.frame').style.borderRadius = '0';
+      document.documentElement.style.margin = '0';
+      var card = el.querySelector('.card');
+      document.body.style.background = getComputedStyle(card).backgroundColor;
+      var st = /(?:#|&)step=(\d)/.exec(location.hash);
+      if(st) el.querySelectorAll('.step').forEach(function(g){
+        if(+g.dataset.step > +st[1]) g.style.visibility = 'hidden';
+      });
+    });
+    document.fonts.ready.then(function(){ document.body.dataset.ready = '1'; });
+  })();
+</script>
+</body>
+</html>
