@@ -4,7 +4,7 @@
     "width": 1920,
     "height": 1080
   },
-  "storyBasis": "오늘 소개할 책 한 권이 등장한다.",
+  "storyBasis": "오늘 소개할 책 한 권 — 『스타트 위드 와이』.",
   "sceneDurationMs": 15000,
   "srtRange": {
     "startMs": 50000,
@@ -12,65 +12,97 @@
   },
   "elements": [
     {
-      "id": "speaker",
-      "label": "책을 권하는 사람",
+      "id": "stella",
+      "label": "책을 권하는 스텔라",
       "sequence": 1,
       "narrativeRole": "도입",
       "subtitle": "오늘은 제가 이 책만큼은 꼭 읽어보세요 하고 싶은 책 한 권을 소개할게요.",
       "type": "structure",
       "region": {
-        "x": 180,
-        "y": 380,
-        "width": 340,
-        "height": 340
+        "x": 170,
+        "y": 270,
+        "width": 330,
+        "height": 480
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          350,
-          380
+          335,
+          270
         ],
         "end": [
-          350,
-          720
+          335,
+          750
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "arrow",
+      "label": "가리키는 손짓",
+      "sequence": 2,
+      "narrativeRole": "시선 유도",
+      "subtitle": "바로 이 책입니다.",
+      "type": "structure",
+      "region": {
+        "x": 540,
+        "y": 480,
+        "width": 240,
+        "height": 220
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 3200,
+        "durationMs": 1400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          660,
+          480
+        ],
+        "end": [
+          660,
+          700
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "book",
-      "label": "책",
-      "sequence": 2,
+      "label": "스타트 위드 와이",
+      "sequence": 3,
       "narrativeRole": "핵심 대상 등장",
       "subtitle": "바로 이 책입니다.",
       "type": "structure",
       "region": {
-        "x": 720,
-        "y": 320,
-        "width": 380,
-        "height": 480
+        "x": 820,
+        "y": 220,
+        "width": 460,
+        "height": 640
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 4600,
-        "durationMs": 4400,
-        "maskPaddingPx": 18,
+        "startMs": 4800,
+        "durationMs": 4600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          910,
-          320
+          1050,
+          220
         ],
         "end": [
-          910,
-          800
+          1050,
+          860
         ],
         "easing": "easeInOut"
       }
@@ -78,63 +110,95 @@
     {
       "id": "shine",
       "label": "반짝임",
-      "sequence": 3,
+      "sequence": 4,
       "narrativeRole": "강조",
       "subtitle": "스타트 위드 와이.",
       "type": "structure",
       "region": {
-        "x": 1180,
-        "y": 330,
-        "width": 300,
-        "height": 300
+        "x": 1330,
+        "y": 250,
+        "width": 220,
+        "height": 220
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 9400,
-        "durationMs": 2200,
-        "maskPaddingPx": 18,
+        "startMs": 9600,
+        "durationMs": 1400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1330,
-          330
+          1440,
+          250
         ],
         "end": [
-          1330,
-          630
+          1440,
+          470
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "idea",
+      "id": "bulb",
       "label": "전구",
-      "sequence": 4,
+      "sequence": 5,
       "narrativeRole": "책이 주는 통찰",
       "subtitle": "스타트 위드 와이.",
       "type": "structure",
       "region": {
-        "x": 1520,
-        "y": 380,
-        "width": 320,
+        "x": 1600,
+        "y": 300,
+        "width": 260,
         "height": 340
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 11800,
-        "durationMs": 2600,
-        "maskPaddingPx": 18,
+        "startMs": 11200,
+        "durationMs": 1900,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1680,
-          380
+          1730,
+          300
         ],
         "end": [
-          1680,
+          1730,
+          640
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "why",
+      "label": "WHY",
+      "sequence": 6,
+      "narrativeRole": "핵심어",
+      "subtitle": "스타트 위드 와이.",
+      "type": "structure",
+      "region": {
+        "x": 1520,
+        "y": 720,
+        "width": 360,
+        "height": 200
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 13300,
+        "durationMs": 1200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1700,
           720
+        ],
+        "end": [
+          1700,
+          920
         ],
         "easing": "easeInOut"
       }

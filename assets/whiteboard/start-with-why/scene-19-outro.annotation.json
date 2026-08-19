@@ -19,26 +19,26 @@
       "subtitle": "다음에도 제가 직접 읽어보고 정말 추천하고 싶은 책만 가져올게요.",
       "type": "structure",
       "region": {
-        "x": 250,
+        "x": 170,
         "y": 330,
         "width": 460,
-        "height": 430
+        "height": 470
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          480,
+          400,
           330
         ],
         "end": [
-          480,
-          760
+          400,
+          800
         ],
         "easing": "easeInOut"
       }
@@ -51,58 +51,90 @@
       "subtitle": "다음 영상에서 만나요.",
       "type": "structure",
       "region": {
-        "x": 820,
-        "y": 330,
-        "width": 400,
-        "height": 430
+        "x": 760,
+        "y": 300,
+        "width": 340,
+        "height": 500
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 4600,
-        "durationMs": 3200,
-        "maskPaddingPx": 18,
+        "startMs": 3000,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1020,
-          330
+          930,
+          300
         ],
         "end": [
-          1020,
-          760
+          930,
+          800
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "mark",
-      "label": "브랜드 마크",
+      "label": "채널 마크",
       "sequence": 3,
       "narrativeRole": "여운 — WHY",
       "subtitle": "다음 영상에서 만나요.",
       "type": "structure",
       "region": {
-        "x": 1360,
-        "y": 350,
-        "width": 400,
-        "height": 400
+        "x": 1250,
+        "y": 300,
+        "width": 460,
+        "height": 460
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 7900,
-        "durationMs": 1500,
-        "maskPaddingPx": 18,
+        "startMs": 5800,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1560,
-          350
+          1480,
+          300
         ],
         "end": [
-          1560,
-          750
+          1480,
+          760
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "club",
+      "label": "STELLA BOOK CLUB",
+      "sequence": 4,
+      "narrativeRole": "채널명",
+      "subtitle": "다음 영상에서 만나요.",
+      "type": "structure",
+      "region": {
+        "x": 500,
+        "y": 860,
+        "width": 1000,
+        "height": 190
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 8200,
+        "durationMs": 1300,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1000,
+          860
+        ],
+        "end": [
+          1000,
+          1050
         ],
         "easing": "easeInOut"
       }

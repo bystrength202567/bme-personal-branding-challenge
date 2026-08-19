@@ -12,23 +12,55 @@
   },
   "elements": [
     {
-      "id": "what",
-      "label": "바깥 원",
+      "id": "title",
+      "label": "골든서클",
       "sequence": 1,
-      "narrativeRole": "WHAT — 무엇을 파는지",
-      "subtitle": "WHAT은 우리가 무엇을 파는지.",
+      "narrativeRole": "개념 이름",
+      "subtitle": "이 책의 가장 유명한 개념이 바로 골든서클입니다.",
       "type": "structure",
       "region": {
-        "x": 500,
-        "y": 80,
-        "width": 920,
-        "height": 920
+        "x": 90,
+        "y": 90,
+        "width": 400,
+        "height": 170
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 7000,
-        "maskPaddingPx": 18,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          290,
+          90
+        ],
+        "end": [
+          290,
+          260
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "what",
+      "label": "바깥 원 — WHAT",
+      "sequence": 2,
+      "narrativeRole": "WHAT — 무엇을 파는지",
+      "subtitle": "WHAT은 우리가 무엇을 파는지.",
+      "type": "structure",
+      "region": {
+        "x": 520,
+        "y": 80,
+        "width": 880,
+        "height": 920
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 2600,
+        "durationMs": 6000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
@@ -45,8 +77,8 @@
     },
     {
       "id": "how",
-      "label": "가운데 원",
-      "sequence": 2,
+      "label": "가운데 원 — HOW",
+      "sequence": 3,
       "narrativeRole": "HOW — 어떻게 다르게 하는지",
       "subtitle": "HOW는 어떻게 다르게 하는지.",
       "type": "structure",
@@ -58,9 +90,9 @@
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 7500,
-        "durationMs": 6500,
-        "maskPaddingPx": 18,
+        "startMs": 9000,
+        "durationMs": 5600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
@@ -77,8 +109,8 @@
     },
     {
       "id": "why",
-      "label": "가장 안쪽 원",
-      "sequence": 3,
+      "label": "가장 안쪽 원 — WHY",
+      "sequence": 4,
       "narrativeRole": "WHY — 왜 하는지",
       "subtitle": "그리고 가장 안쪽에 있는 WHY는 왜 하는지입니다.",
       "type": "structure",
@@ -90,9 +122,9 @@
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 14500,
-        "durationMs": 7500,
-        "maskPaddingPx": 18,
+        "startMs": 15000,
+        "durationMs": 5400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
@@ -108,33 +140,97 @@
       }
     },
     {
-      "id": "legend",
-      "label": "세 겹의 요약",
-      "sequence": 4,
-      "narrativeRole": "정리 — 무엇을, 어떻게, 왜",
+      "id": "inout",
+      "label": "안에서 바깥으로",
+      "sequence": 5,
+      "narrativeRole": "정리 — 그리는 방향",
       "subtitle": "무엇을, 어떻게, 그리고 왜.",
       "type": "structure",
       "region": {
-        "x": 110,
-        "y": 280,
-        "width": 300,
-        "height": 500
+        "x": 1470,
+        "y": 300,
+        "width": 400,
+        "height": 240
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 22500,
-        "durationMs": 7000,
-        "maskPaddingPx": 18,
+        "startMs": 20800,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          260,
-          280
+          1670,
+          300
         ],
         "end": [
-          260,
-          780
+          1670,
+          540
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "owner",
+      "label": "보는 대표",
+      "sequence": 6,
+      "narrativeRole": "청자",
+      "subtitle": "무엇을, 어떻게, 그리고 왜.",
+      "type": "structure",
+      "region": {
+        "x": 1500,
+        "y": 620,
+        "width": 330,
+        "height": 420
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 23600,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1665,
+          620
+        ],
+        "end": [
+          1665,
+          1040
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "three",
+      "label": "세 겹",
+      "sequence": 7,
+      "narrativeRole": "요약",
+      "subtitle": "무엇을, 어떻게, 그리고 왜.",
+      "type": "structure",
+      "region": {
+        "x": 100,
+        "y": 400,
+        "width": 330,
+        "height": 480
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 26400,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          265,
+          400
+        ],
+        "end": [
+          265,
+          880
         ],
         "easing": "easeInOut"
       }

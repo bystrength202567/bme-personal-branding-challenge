@@ -13,32 +13,64 @@
   "elements": [
     {
       "id": "crowd",
-      "label": "사람들",
+      "label": "고객들",
       "sequence": 1,
-      "narrativeRole": "행위 주체 — 고객",
+      "narrativeRole": "행위 주체",
       "subtitle": "사람들은 당신이 무엇을 하는지가 아니라",
       "type": "structure",
       "region": {
-        "x": 140,
+        "x": 110,
         "y": 380,
         "width": 560,
-        "height": 430
+        "height": 460
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 6200,
-        "maskPaddingPx": 18,
+        "durationMs": 4000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          420,
+          390,
           380
         ],
         "end": [
-          420,
-          810
+          390,
+          840
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "notwhat",
+      "label": "WHAT이 아니라",
+      "sequence": 2,
+      "narrativeRole": "부정",
+      "subtitle": "사람들은 당신이 무엇을 하는지가 아니라",
+      "type": "structure",
+      "region": {
+        "x": 110,
+        "y": 120,
+        "width": 560,
+        "height": 220
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 4200,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          390,
+          120
+        ],
+        "end": [
+          390,
+          340
         ],
         "easing": "easeInOut"
       }
@@ -46,31 +78,31 @@
     {
       "id": "toward",
       "label": "향하는 화살표",
-      "sequence": 2,
+      "sequence": 3,
       "narrativeRole": "선택의 방향",
       "subtitle": "당신이 왜 하는지를 선택합니다.",
       "type": "structure",
       "region": {
-        "x": 740,
-        "y": 420,
-        "width": 420,
-        "height": 260
+        "x": 710,
+        "y": 480,
+        "width": 320,
+        "height": 220
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 6600,
-        "durationMs": 3200,
-        "maskPaddingPx": 18,
+        "durationMs": 1600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          950,
-          420
+          870,
+          480
         ],
         "end": [
-          950,
-          680
+          870,
+          700
         ],
         "easing": "easeInOut"
       }
@@ -78,31 +110,63 @@
     {
       "id": "core",
       "label": "브랜드의 WHY",
-      "sequence": 3,
+      "sequence": 4,
       "narrativeRole": "선택의 대상",
       "subtitle": "당신이 왜 하는지를 선택합니다.",
       "type": "structure",
       "region": {
-        "x": 1210,
-        "y": 330,
-        "width": 440,
-        "height": 440
+        "x": 1070,
+        "y": 300,
+        "width": 500,
+        "height": 500
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 10000,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "startMs": 8400,
+        "durationMs": 4800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1430,
-          330
+          1320,
+          300
         ],
         "end": [
-          1430,
-          770
+          1320,
+          800
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "whytext",
+      "label": "WHY",
+      "sequence": 5,
+      "narrativeRole": "선택의 대상",
+      "subtitle": "당신이 왜 하는지를 선택합니다.",
+      "type": "structure",
+      "region": {
+        "x": 1180,
+        "y": 480,
+        "width": 280,
+        "height": 140
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 13400,
+        "durationMs": 1600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1320,
+          480
+        ],
+        "end": [
+          1320,
+          620
         ],
         "easing": "easeInOut"
       }
@@ -110,63 +174,95 @@
     {
       "id": "resonance",
       "label": "공명",
-      "sequence": 4,
+      "sequence": 6,
       "narrativeRole": "감정 — 마음이 움직임",
       "subtitle": "저는 이 말이 이 책의 핵심을 가장 잘 보여준다고 생각해요.",
       "type": "structure",
       "region": {
-        "x": 1680,
-        "y": 340,
-        "width": 220,
+        "x": 1630,
+        "y": 330,
+        "width": 250,
         "height": 260
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 15600,
-        "durationMs": 2400,
-        "maskPaddingPx": 18,
+        "startMs": 15200,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1790,
-          340
+          1755,
+          330
         ],
         "end": [
-          1790,
-          600
+          1755,
+          590
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "quote",
+      "label": "핵심 문장",
+      "sequence": 7,
+      "narrativeRole": "인용 — 책의 요약",
+      "subtitle": "저는 이 말이 이 책의 핵심을 가장 잘 보여준다고 생각해요.",
+      "type": "structure",
+      "region": {
+        "x": 700,
+        "y": 830,
+        "width": 1160,
+        "height": 210
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16900,
+        "durationMs": 4400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1280,
+          830
+        ],
+        "end": [
+          1280,
+          1040
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "book",
-      "label": "책의 핵심",
-      "sequence": 5,
-      "narrativeRole": "출처 재확인",
+      "label": "책",
+      "sequence": 8,
+      "narrativeRole": "출처",
       "subtitle": "저는 이 말이 이 책의 핵심을 가장 잘 보여준다고 생각해요.",
       "type": "structure",
       "region": {
-        "x": 700,
-        "y": 720,
-        "width": 520,
-        "height": 330
+        "x": 170,
+        "y": 848,
+        "width": 420,
+        "height": 222
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 18200,
-        "durationMs": 4600,
-        "maskPaddingPx": 18,
+        "startMs": 21500,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          960,
-          720
+          380,
+          848
         ],
         "end": [
-          960,
-          1050
+          380,
+          1070
         ],
         "easing": "easeInOut"
       }

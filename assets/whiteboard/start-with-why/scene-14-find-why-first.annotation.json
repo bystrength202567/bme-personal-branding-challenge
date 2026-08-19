@@ -19,26 +19,58 @@
       "subtitle": "마케팅을 계속 공부하는데도 점점 더 복잡해지고 있다면",
       "type": "structure",
       "region": {
-        "x": 160,
-        "y": 290,
-        "width": 470,
-        "height": 390
+        "x": 130,
+        "y": 250,
+        "width": 460,
+        "height": 400
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 4600,
-        "maskPaddingPx": 18,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          395,
-          290
+          360,
+          250
         ],
         "end": [
-          395,
-          680
+          360,
+          650
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "more",
+      "label": "더 배우기?",
+      "sequence": 2,
+      "narrativeRole": "유혹",
+      "subtitle": "마케팅을 계속 공부하는데도 점점 더 복잡해지고 있다면",
+      "type": "structure",
+      "region": {
+        "x": 130,
+        "y": 700,
+        "width": 460,
+        "height": 200
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 3200,
+        "durationMs": 1800,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          360,
+          700
+        ],
+        "end": [
+          360,
+          900
         ],
         "easing": "easeInOut"
       }
@@ -46,30 +78,30 @@
     {
       "id": "instead",
       "label": "대신에",
-      "sequence": 2,
+      "sequence": 3,
       "narrativeRole": "전환",
-      "subtitle": "마케팅을 계속 공부하는데도 점점 더 복잡해지고 있다면",
+      "subtitle": "새로운 걸 하나 더 배우기 전에 내 브랜드의 WHY부터 찾아보세요.",
       "type": "structure",
       "region": {
-        "x": 690,
-        "y": 380,
-        "width": 320,
-        "height": 240
+        "x": 660,
+        "y": 400,
+        "width": 280,
+        "height": 220
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 5000,
-        "durationMs": 2200,
-        "maskPaddingPx": 18,
+        "startMs": 5200,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          850,
-          380
+          800,
+          400
         ],
         "end": [
-          850,
+          800,
           620
         ],
         "easing": "easeInOut"
@@ -78,31 +110,63 @@
     {
       "id": "compass",
       "label": "나침반",
-      "sequence": 3,
+      "sequence": 4,
       "narrativeRole": "해법 — WHY부터",
       "subtitle": "새로운 걸 하나 더 배우기 전에 내 브랜드의 WHY부터 찾아보세요.",
       "type": "structure",
       "region": {
-        "x": 1070,
-        "y": 270,
-        "width": 430,
-        "height": 440
+        "x": 1000,
+        "y": 260,
+        "width": 460,
+        "height": 480
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 7600,
-        "durationMs": 5200,
-        "maskPaddingPx": 18,
+        "startMs": 6900,
+        "durationMs": 3400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1285,
-          270
+          1230,
+          260
         ],
         "end": [
-          1285,
-          710
+          1230,
+          740
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "first",
+      "label": "WHY FIRST",
+      "sequence": 5,
+      "narrativeRole": "해법",
+      "subtitle": "새로운 걸 하나 더 배우기 전에 내 브랜드의 WHY부터 찾아보세요.",
+      "type": "structure",
+      "region": {
+        "x": 1000,
+        "y": 790,
+        "width": 640,
+        "height": 200
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 10500,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1320,
+          790
+        ],
+        "end": [
+          1320,
+          990
         ],
         "easing": "easeInOut"
       }
@@ -110,31 +174,31 @@
     {
       "id": "clear",
       "label": "선명해짐",
-      "sequence": 4,
+      "sequence": 6,
       "narrativeRole": "결과",
       "subtitle": "새로운 걸 하나 더 배우기 전에 내 브랜드의 WHY부터 찾아보세요.",
       "type": "structure",
       "region": {
         "x": 1560,
         "y": 300,
-        "width": 290,
-        "height": 270
+        "width": 280,
+        "height": 280
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 12900,
-        "durationMs": 1400,
-        "maskPaddingPx": 18,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1705,
+          1700,
           300
         ],
         "end": [
-          1705,
-          570
+          1700,
+          580
         ],
         "easing": "easeInOut"
       }

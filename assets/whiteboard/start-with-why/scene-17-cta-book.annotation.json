@@ -19,26 +19,58 @@
       "subtitle": "저는 마케팅 책을 딱 한 권만 추천해달라고 하면 이 책을 추천하겠습니다.",
       "type": "structure",
       "region": {
-        "x": 160,
-        "y": 380,
-        "width": 340,
-        "height": 350
+        "x": 110,
+        "y": 260,
+        "width": 320,
+        "height": 480
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          330,
-          380
+          270,
+          260
         ],
         "end": [
-          330,
-          730
+          270,
+          740
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "one",
+      "label": "ONLY ONE",
+      "sequence": 2,
+      "narrativeRole": "딱 한 권",
+      "subtitle": "저는 마케팅 책을 딱 한 권만 추천해달라고 하면 이 책을 추천하겠습니다.",
+      "type": "structure",
+      "region": {
+        "x": 110,
+        "y": 800,
+        "width": 520,
+        "height": 190
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 3000,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          370,
+          800
+        ],
+        "end": [
+          370,
+          990
         ],
         "easing": "easeInOut"
       }
@@ -46,31 +78,31 @@
     {
       "id": "book",
       "label": "스타트 위드 와이",
-      "sequence": 2,
+      "sequence": 3,
       "narrativeRole": "추천 대상",
       "subtitle": "스타트 위드 와이.",
       "type": "structure",
       "region": {
-        "x": 690,
-        "y": 230,
-        "width": 470,
-        "height": 620
+        "x": 680,
+        "y": 180,
+        "width": 520,
+        "height": 700
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 5800,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "startMs": 5300,
+        "durationMs": 4800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          925,
-          230
+          940,
+          180
         ],
         "end": [
-          925,
-          850
+          940,
+          880
         ],
         "easing": "easeInOut"
       }
@@ -78,31 +110,63 @@
     {
       "id": "shine",
       "label": "강조",
-      "sequence": 3,
+      "sequence": 4,
       "narrativeRole": "감정 — 확신",
       "subtitle": "스타트 위드 와이.",
       "type": "structure",
       "region": {
-        "x": 1230,
-        "y": 250,
-        "width": 270,
-        "height": 270
+        "x": 1250,
+        "y": 200,
+        "width": 240,
+        "height": 240
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 11400,
-        "durationMs": 1800,
-        "maskPaddingPx": 18,
+        "startMs": 10200,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1365,
-          250
+          1370,
+          200
         ],
         "end": [
-          1365,
-          520
+          1370,
+          440
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "down",
+      "label": "설명란으로",
+      "sequence": 5,
+      "narrativeRole": "행동 유도",
+      "subtitle": "책 구매 링크는 영상 설명란에 남겨둘게요.",
+      "type": "structure",
+      "region": {
+        "x": 1290,
+        "y": 500,
+        "width": 260,
+        "height": 260
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 11900,
+        "durationMs": 1700,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1420,
+          500
+        ],
+        "end": [
+          1420,
+          760
         ],
         "easing": "easeInOut"
       }
@@ -110,31 +174,63 @@
     {
       "id": "link",
       "label": "설명란 링크",
-      "sequence": 4,
+      "sequence": 6,
       "narrativeRole": "행동 유도",
       "subtitle": "책 구매 링크는 영상 설명란에 남겨둘게요.",
       "type": "structure",
       "region": {
-        "x": 1230,
-        "y": 590,
-        "width": 620,
-        "height": 420
+        "x": 1220,
+        "y": 800,
+        "width": 660,
+        "height": 220
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 13600,
-        "durationMs": 5200,
-        "maskPaddingPx": 18,
+        "startMs": 13800,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1540,
-          590
+          1550,
+          800
         ],
         "end": [
-          1540,
-          1010
+          1550,
+          1020
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "desc",
+      "label": "LINK BELOW",
+      "sequence": 7,
+      "narrativeRole": "행동 유도",
+      "subtitle": "책 구매 링크는 영상 설명란에 남겨둘게요.",
+      "type": "structure",
+      "region": {
+        "x": 1580,
+        "y": 480,
+        "width": 300,
+        "height": 280
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16600,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1730,
+          480
+        ],
+        "end": [
+          1730,
+          760
         ],
         "easing": "easeInOut"
       }

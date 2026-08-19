@@ -19,58 +19,90 @@
       "subtitle": "제가 오늘 보여드린 건 이 책에 그어놓은 밑줄 중 정말 일부예요.",
       "type": "structure",
       "region": {
-        "x": 230,
-        "y": 290,
-        "width": 640,
-        "height": 390
+        "x": 140,
+        "y": 250,
+        "width": 620,
+        "height": 400
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 6200,
-        "maskPaddingPx": 18,
+        "durationMs": 4000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          550,
-          290
+          450,
+          250
         ],
         "end": [
-          550,
-          680
+          450,
+          650
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "part",
+      "label": "JUST A PART",
+      "sequence": 2,
+      "narrativeRole": "일부일 뿐",
+      "subtitle": "제가 오늘 보여드린 건 이 책에 그어놓은 밑줄 중 정말 일부예요.",
+      "type": "structure",
+      "region": {
+        "x": 140,
+        "y": 720,
+        "width": 620,
+        "height": 190
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 4200,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          450,
+          720
+        ],
+        "end": [
+          450,
+          910
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "wright",
-      "label": "비행기",
-      "sequence": 2,
-      "narrativeRole": "책 속 이야기 1 — 라이트 형제",
+      "label": "라이트 형제의 비행기",
+      "sequence": 3,
+      "narrativeRole": "책 속 이야기 1",
       "subtitle": "라이트 형제 이야기부터 신뢰가 만들어지는 원리,",
       "type": "structure",
       "region": {
-        "x": 970,
-        "y": 210,
-        "width": 430,
-        "height": 310
+        "x": 860,
+        "y": 150,
+        "width": 480,
+        "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 6600,
-        "durationMs": 5000,
-        "maskPaddingPx": 18,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1185,
-          210
+          1100,
+          150
         ],
         "end": [
-          1185,
-          520
+          1100,
+          450
         ],
         "easing": "easeInOut"
       }
@@ -78,30 +110,30 @@
     {
       "id": "trust",
       "label": "신뢰",
-      "sequence": 3,
+      "sequence": 4,
       "narrativeRole": "책 속 이야기 2",
       "subtitle": "라이트 형제 이야기부터 신뢰가 만들어지는 원리,",
       "type": "structure",
       "region": {
-        "x": 970,
-        "y": 590,
-        "width": 430,
-        "height": 350
+        "x": 860,
+        "y": 520,
+        "width": 480,
+        "height": 420
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 11800,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "startMs": 9600,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1185,
-          590
+          1100,
+          520
         ],
         "end": [
-          1185,
+          1100,
           940
         ],
         "easing": "easeInOut"
@@ -110,31 +142,63 @@
     {
       "id": "org",
       "label": "조직 적용",
-      "sequence": 4,
+      "sequence": 5,
       "narrativeRole": "책 속 이야기 3",
       "subtitle": "WHY를 조직에 어떻게 적용하는지까지 더 많은 이야기가 들어 있습니다.",
       "type": "structure",
       "region": {
-        "x": 1460,
-        "y": 280,
-        "width": 400,
-        "height": 520
+        "x": 1420,
+        "y": 150,
+        "width": 460,
+        "height": 560
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 16200,
+        "startMs": 12800,
         "durationMs": 3200,
-        "maskPaddingPx": 18,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1660,
-          280
+          1650,
+          150
         ],
         "end": [
-          1660,
-          800
+          1650,
+          710
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "more",
+      "label": "MORE",
+      "sequence": 6,
+      "narrativeRole": "더 많은 이야기",
+      "subtitle": "WHY를 조직에 어떻게 적용하는지까지 더 많은 이야기가 들어 있습니다.",
+      "type": "structure",
+      "region": {
+        "x": 1420,
+        "y": 780,
+        "width": 460,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16200,
+        "durationMs": 1800,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1650,
+          780
+        ],
+        "end": [
+          1650,
+          960
         ],
         "easing": "easeInOut"
       }

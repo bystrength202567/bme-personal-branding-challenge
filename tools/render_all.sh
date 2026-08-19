@@ -11,7 +11,7 @@ JOBS="${JOBS:-4}"
 render_one() {
   local png="$1"
   local stem="${png%.png}"
-  "$PY" "$SW/scripts/render_stream_whiteboard.py" \
+  "$PY" "$ROOT/tools/render_scene.py" \
       "$png" "$stem.annotation.json" "$stem-whiteboard.mp4" \
       "$HAND" \
       --ink-path skeleton --color-fill contour-wipe \
@@ -20,7 +20,7 @@ render_one() {
     || { echo "[FAIL] $(basename "$stem")"; tail -5 "$stem.renderlog"; return 1; }
 }
 export -f render_one
-export PY SW HAND
+export PY SW HAND ROOT
 
 ls "$DIR"/scene-*.png | sort | xargs -P "$JOBS" -I{} bash -c 'render_one "$@"' _ {}
 
@@ -28,4 +28,5 @@ mapfile -t MP4S < <(ls "$DIR"/scene-*-whiteboard.mp4 | sort)
 echo "합칠 장면: ${#MP4S[@]}개"
 # merge_scenes.py 는 이 환경에서 실패한다(ffmpeg 없음 + PyAV pts 미설정) → 자체 병합 사용
 "$PY" "$ROOT/tools/merge_video.py" --inputs "${MP4S[@]}" \
-    --output "$DIR/start-with-why-whiteboard.mp4"
+    --output "$DIR/start-with-why-whiteboard.mp4" \
+    --stage "$ROOT/assets/whiteboard/board-stage.png" --rect 168,74,1584,891

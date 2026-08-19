@@ -19,26 +19,26 @@
       "subtitle": "그리고 오늘은 새로운 마케팅 방법 하나 더 배우는 대신",
       "type": "structure",
       "region": {
-        "x": 180,
-        "y": 380,
-        "width": 340,
-        "height": 350
+        "x": 120,
+        "y": 280,
+        "width": 330,
+        "height": 470
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          350,
-          380
+          285,
+          280
         ],
         "end": [
-          350,
-          730
+          285,
+          750
         ],
         "easing": "easeInOut"
       }
@@ -51,26 +51,58 @@
       "subtitle": "딱 하나만 생각해보세요.",
       "type": "structure",
       "region": {
-        "x": 620,
+        "x": 520,
         "y": 300,
-        "width": 420,
+        "width": 340,
         "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 4600,
-        "durationMs": 2400,
-        "maskPaddingPx": 18,
+        "startMs": 3000,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          830,
+          690,
           300
         ],
         "end": [
-          830,
+          690,
           600
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "just",
+      "label": "JUST ONE",
+      "sequence": 3,
+      "narrativeRole": "제안",
+      "subtitle": "딱 하나만 생각해보세요.",
+      "type": "structure",
+      "region": {
+        "x": 500,
+        "y": 700,
+        "width": 460,
+        "height": 190
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 5200,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          730,
+          700
+        ],
+        "end": [
+          730,
+          890
         ],
         "easing": "easeInOut"
       }
@@ -78,63 +110,95 @@
     {
       "id": "question",
       "label": "나는 왜 이 일을 하고 있지?",
-      "sequence": 3,
+      "sequence": 4,
       "narrativeRole": "핵심 질문",
       "subtitle": "나는 왜 이 일을 하고 있지?",
       "type": "structure",
       "region": {
-        "x": 1100,
-        "y": 210,
-        "width": 400,
-        "height": 540
+        "x": 1020,
+        "y": 200,
+        "width": 420,
+        "height": 560
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 7400,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1300,
-          210
+          1230,
+          200
         ],
         "end": [
-          1300,
-          750
+          1230,
+          760
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "answer",
-      "label": "답의 실마리",
-      "sequence": 4,
-      "narrativeRole": "여운",
+      "id": "whyme",
+      "label": "WHY DO I DO THIS?",
+      "sequence": 5,
+      "narrativeRole": "핵심 질문",
       "subtitle": "나는 왜 이 일을 하고 있지?",
       "type": "structure",
       "region": {
-        "x": 1560,
-        "y": 300,
-        "width": 300,
-        "height": 350
+        "x": 1000,
+        "y": 810,
+        "width": 880,
+        "height": 200
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 11800,
-        "durationMs": 2600,
-        "maskPaddingPx": 18,
+        "startMs": 10400,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1710,
-          300
+          1440,
+          810
         ],
         "end": [
-          1710,
-          650
+          1440,
+          1010
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "bulb",
+      "label": "답의 실마리",
+      "sequence": 6,
+      "narrativeRole": "여운",
+      "subtitle": "나는 왜 이 일을 하고 있지?",
+      "type": "structure",
+      "region": {
+        "x": 1530,
+        "y": 250,
+        "width": 320,
+        "height": 380
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 12900,
+        "durationMs": 1600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1690,
+          250
+        ],
+        "end": [
+          1690,
+          630
         ],
         "easing": "easeInOut"
       }

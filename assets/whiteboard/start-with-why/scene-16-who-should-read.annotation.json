@@ -19,26 +19,58 @@
       "subtitle": "특히 사업을 시작하시는 분,",
       "type": "structure",
       "region": {
-        "x": 160,
-        "y": 370,
-        "width": 340,
-        "height": 430
+        "x": 120,
+        "y": 300,
+        "width": 320,
+        "height": 470
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 3600,
-        "maskPaddingPx": 18,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          330,
-          370
+          280,
+          300
         ],
         "end": [
-          330,
-          800
+          280,
+          770
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "start",
+      "label": "JUST STARTED",
+      "sequence": 2,
+      "narrativeRole": "대상 1",
+      "subtitle": "특히 사업을 시작하시는 분,",
+      "type": "structure",
+      "region": {
+        "x": 110,
+        "y": 820,
+        "width": 520,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 2900,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          370,
+          820
+        ],
+        "end": [
+          370,
+          1000
         ],
         "easing": "easeInOut"
       }
@@ -46,31 +78,63 @@
     {
       "id": "wobble",
       "label": "흔들리는 방향",
-      "sequence": 2,
+      "sequence": 3,
       "narrativeRole": "대상 2",
       "subtitle": "이미 사업을 하고 있지만 브랜드 방향이 자꾸 흔들리는 분이라면",
       "type": "structure",
       "region": {
-        "x": 560,
-        "y": 380,
-        "width": 480,
-        "height": 310
+        "x": 500,
+        "y": 300,
+        "width": 460,
+        "height": 320
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 4000,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "startMs": 5000,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          800,
-          380
+          730,
+          300
         ],
         "end": [
-          800,
-          690
+          730,
+          620
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "lost",
+      "label": "흔들리는 대표",
+      "sequence": 4,
+      "narrativeRole": "대상 2",
+      "subtitle": "이미 사업을 하고 있지만 브랜드 방향이 자꾸 흔들리는 분이라면",
+      "type": "structure",
+      "region": {
+        "x": 680,
+        "y": 640,
+        "width": 280,
+        "height": 380
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 7600,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          820,
+          640
+        ],
+        "end": [
+          820,
+          1020
         ],
         "easing": "easeInOut"
       }
@@ -78,31 +142,31 @@
     {
       "id": "checklist",
       "label": "추천 체크리스트",
-      "sequence": 3,
+      "sequence": 5,
       "narrativeRole": "정리 — 이런 분께",
       "subtitle": "이미 사업을 하고 있지만 브랜드 방향이 자꾸 흔들리는 분이라면",
       "type": "structure",
       "region": {
-        "x": 1110,
-        "y": 230,
-        "width": 720,
-        "height": 430
+        "x": 1030,
+        "y": 130,
+        "width": 810,
+        "height": 480
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 9800,
-        "durationMs": 5600,
-        "maskPaddingPx": 18,
+        "startMs": 10100,
+        "durationMs": 4200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1470,
-          230
+          1435,
+          130
         ],
         "end": [
-          1470,
-          660
+          1435,
+          610
         ],
         "easing": "easeInOut"
       }
@@ -110,31 +174,63 @@
     {
       "id": "book",
       "label": "권하는 책",
-      "sequence": 4,
+      "sequence": 6,
       "narrativeRole": "행동 제안",
       "subtitle": "한번 읽어보셨으면 좋겠어요.",
       "type": "structure",
       "region": {
-        "x": 1110,
-        "y": 720,
-        "width": 400,
-        "height": 330
+        "x": 1080,
+        "y": 660,
+        "width": 380,
+        "height": 400
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 15600,
-        "durationMs": 3600,
-        "maskPaddingPx": 18,
+        "startMs": 14400,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1310,
-          720
+          1270,
+          660
         ],
         "end": [
-          1310,
-          1050
+          1270,
+          1060
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "foryou",
+      "label": "FOR YOU",
+      "sequence": 7,
+      "narrativeRole": "행동 제안",
+      "subtitle": "한번 읽어보셨으면 좋겠어요.",
+      "type": "structure",
+      "region": {
+        "x": 1520,
+        "y": 700,
+        "width": 340,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 17500,
+        "durationMs": 1700,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1690,
+          700
+        ],
+        "end": [
+          1690,
+          880
         ],
         "easing": "easeInOut"
       }

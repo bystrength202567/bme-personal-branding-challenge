@@ -4,7 +4,7 @@
     "width": 1920,
     "height": 1080
   },
-  "storyBasis": "광고학 전공 17년차 마케터가, 헤매는 대표님들의 길을 잡아준다.",
+  "storyBasis": "광고학 전공 17년차 마케터가 헤매는 대표님의 길을 잡아준다.",
   "sceneDurationMs": 20000,
   "srtRange": {
     "startMs": 30000,
@@ -19,122 +19,250 @@
       "subtitle": "안녕하세요. 광고학 전공, 17년차 대기업 마케터 출신 스텔라입니다.",
       "type": "structure",
       "region": {
-        "x": 240,
-        "y": 350,
-        "width": 380,
-        "height": 350
+        "x": 190,
+        "y": 250,
+        "width": 320,
+        "height": 500
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 5200,
-        "maskPaddingPx": 18,
+        "durationMs": 3400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          430,
-          350
+          350,
+          250
         ],
         "end": [
-          430,
-          700
+          350,
+          750
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "career",
-      "label": "쌓인 실무 자료",
+      "id": "years",
+      "label": "17년",
       "sequence": 2,
-      "narrativeRole": "경력의 근거",
-      "subtitle": "지금은 브랜드를 시작한 대표님들이 마케팅 때문에 헤매지 않도록",
+      "narrativeRole": "경력의 크기",
+      "subtitle": "안녕하세요. 광고학 전공, 17년차 대기업 마케터 출신 스텔라입니다.",
       "type": "structure",
       "region": {
-        "x": 700,
-        "y": 330,
-        "width": 300,
-        "height": 390
+        "x": 580,
+        "y": 240,
+        "width": 340,
+        "height": 200
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 6000,
-        "durationMs": 3600,
-        "maskPaddingPx": 18,
+        "startMs": 3600,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          850,
-          330
+          750,
+          240
         ],
         "end": [
-          850,
-          720
+          750,
+          440
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "wander",
-      "label": "헤매는 길",
+      "id": "stack",
+      "label": "쌓인 실무 자료",
       "sequence": 3,
+      "narrativeRole": "경력의 근거",
+      "subtitle": "안녕하세요. 광고학 전공, 17년차 대기업 마케터 출신 스텔라입니다.",
+      "type": "structure",
+      "region": {
+        "x": 600,
+        "y": 500,
+        "width": 300,
+        "height": 400
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 5800,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          750,
+          500
+        ],
+        "end": [
+          750,
+          900
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "lost",
+      "label": "헤매는 대표",
+      "sequence": 4,
+      "narrativeRole": "돕는 대상",
+      "subtitle": "지금은 브랜드를 시작한 대표님들이 마케팅 때문에 헤매지 않도록",
+      "type": "structure",
+      "region": {
+        "x": 980,
+        "y": 480,
+        "width": 300,
+        "height": 430
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 8400,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1130,
+          480
+        ],
+        "end": [
+          1130,
+          910
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "maze",
+      "label": "헤매는 길",
+      "sequence": 5,
       "narrativeRole": "문제 — 방향을 잃음",
       "subtitle": "지금은 브랜드를 시작한 대표님들이 마케팅 때문에 헤매지 않도록",
       "type": "structure",
       "region": {
-        "x": 1050,
-        "y": 330,
-        "width": 440,
-        "height": 390
+        "x": 980,
+        "y": 140,
+        "width": 460,
+        "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 9800,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "startMs": 11200,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1270,
-          330
+          1210,
+          140
         ],
         "end": [
-          1270,
-          720
+          1210,
+          440
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "clarity",
-      "label": "잡힌 방향",
-      "sequence": 4,
+      "id": "arrow",
+      "label": "정리되는 방향",
+      "sequence": 6,
+      "narrativeRole": "해결로 가는 화살표",
+      "subtitle": "브랜딩과 마케팅을 쉽게 알려드리고 있어요.",
+      "type": "structure",
+      "region": {
+        "x": 1340,
+        "y": 480,
+        "width": 260,
+        "height": 260
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 13600,
+        "durationMs": 1600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1470,
+          480
+        ],
+        "end": [
+          1470,
+          740
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "target",
+      "label": "잡힌 과녁",
+      "sequence": 7,
       "narrativeRole": "해결 — 쉽게 알려줌",
       "subtitle": "브랜딩과 마케팅을 쉽게 알려드리고 있어요.",
       "type": "structure",
       "region": {
-        "x": 1540,
-        "y": 380,
-        "width": 300,
+        "x": 1620,
+        "y": 440,
+        "width": 260,
         "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 14200,
-        "durationMs": 4500,
-        "maskPaddingPx": 18,
+        "startMs": 15400,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1750,
+          440
+        ],
+        "end": [
+          1750,
+          740
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "easy",
+      "label": "EASY",
+      "sequence": 8,
+      "narrativeRole": "약속 — 쉽게",
+      "subtitle": "브랜딩과 마케팅을 쉽게 알려드리고 있어요.",
+      "type": "structure",
+      "region": {
+        "x": 1500,
+        "y": 800,
+        "width": 380,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 17800,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
           1690,
-          380
+          800
         ],
         "end": [
           1690,
-          680
+          980
         ],
         "easing": "easeInOut"
       }

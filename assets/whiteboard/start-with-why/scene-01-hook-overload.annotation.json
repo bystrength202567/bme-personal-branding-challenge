@@ -4,7 +4,7 @@
     "width": 1920,
     "height": 1080
   },
-  "storyBasis": "공부할수록 어려워지는 대표님과, 사방에서 몰려오는 마케팅 채널들.",
+  "storyBasis": "공부할수록 어려워지는 대표. 릴스·검색·메일·AI·대행사가 사방에서 몰려온다.",
   "sceneDurationMs": 20000,
   "srtRange": {
     "startMs": 0,
@@ -13,160 +13,320 @@
   "elements": [
     {
       "id": "owner",
-      "label": "고민하는 대표",
+      "label": "머리 긁는 대표",
       "sequence": 1,
-      "narrativeRole": "장면 铺垫 — 이야기의 주인공",
+      "narrativeRole": "주인공 — 마케팅이 어려운 대표",
       "subtitle": "대표님들, 마케팅 공부할수록 더 어려워지시죠?",
       "type": "structure",
       "region": {
         "x": 200,
-        "y": 380,
-        "width": 300,
-        "height": 320
+        "y": 280,
+        "width": 250,
+        "height": 460
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "durationMs": 3200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          350,
-          380
+          325,
+          280
         ],
         "end": [
-          350,
-          700
+          325,
+          740
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "reels",
-      "label": "릴스 화면",
+      "id": "phone",
+      "label": "SNS 앱이 깔린 휴대폰",
       "sequence": 2,
-      "narrativeRole": "채널 나열 1",
+      "narrativeRole": "채널 1 — 릴스·스레드",
       "subtitle": "릴스도 하고, 네이버도 하고, 스레드도 하고",
       "type": "structure",
       "region": {
-        "x": 600,
-        "y": 130,
-        "width": 210,
-        "height": 270
+        "x": 520,
+        "y": 90,
+        "width": 200,
+        "height": 320
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 5000,
-        "durationMs": 1900,
-        "maskPaddingPx": 18,
+        "startMs": 3400,
+        "durationMs": 1800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          705,
-          130
+          620,
+          90
         ],
         "end": [
-          705,
+          620,
+          410
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "mail",
+      "label": "메일",
+      "sequence": 3,
+      "narrativeRole": "채널 2",
+      "subtitle": "릴스도 하고, 네이버도 하고, 스레드도 하고",
+      "type": "structure",
+      "region": {
+        "x": 750,
+        "y": 110,
+        "width": 170,
+        "height": 130
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 5400,
+        "durationMs": 1300,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          835,
+          110
+        ],
+        "end": [
+          835,
+          240
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "at",
+      "label": "계정 알림",
+      "sequence": 4,
+      "narrativeRole": "채널 3",
+      "subtitle": "릴스도 하고, 네이버도 하고, 스레드도 하고",
+      "type": "structure",
+      "region": {
+        "x": 760,
+        "y": 270,
+        "width": 140,
+        "height": 130
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 6900,
+        "durationMs": 1200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          830,
+          270
+        ],
+        "end": [
+          830,
           400
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "search",
-      "label": "검색 노출",
-      "sequence": 3,
-      "narrativeRole": "채널 나열 2",
-      "subtitle": "릴스도 하고, 네이버도 하고, 스레드도 하고",
+      "id": "like",
+      "label": "좋아요",
+      "sequence": 5,
+      "narrativeRole": "반응 — 숫자에 매달림",
+      "subtitle": "요즘은 AI도 배워야 할 것 같고.",
       "type": "structure",
       "region": {
-        "x": 870,
-        "y": 150,
-        "width": 290,
-        "height": 240
+        "x": 930,
+        "y": 110,
+        "width": 165,
+        "height": 165
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 7000,
-        "durationMs": 1900,
-        "maskPaddingPx": 18,
+        "startMs": 8300,
+        "durationMs": 1400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1015,
-          150
+          1012,
+          110
         ],
         "end": [
-          1015,
-          390
+          1012,
+          275
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "dm",
+      "label": "댓글과 DM",
+      "sequence": 6,
+      "narrativeRole": "반응 — 끊이지 않는 응대",
+      "subtitle": "요즘은 AI도 배워야 할 것 같고.",
+      "type": "structure",
+      "region": {
+        "x": 940,
+        "y": 300,
+        "width": 190,
+        "height": 150
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 9900,
+        "durationMs": 1300,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1035,
+          300
+        ],
+        "end": [
+          1035,
+          450
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "ai",
-      "label": "AI 공부",
-      "sequence": 4,
-      "narrativeRole": "채널 나열 3 — 부담의 확대",
+      "label": "AI 생각 구름",
+      "sequence": 7,
+      "narrativeRole": "채널 4 — AI까지",
       "subtitle": "요즘은 AI도 배워야 할 것 같고.",
       "type": "structure",
       "region": {
         "x": 1250,
-        "y": 140,
-        "width": 350,
-        "height": 320
+        "y": 100,
+        "width": 400,
+        "height": 350
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 9000,
-        "durationMs": 3400,
-        "maskPaddingPx": 18,
+        "startMs": 11400,
+        "durationMs": 1800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1425,
-          140
+          1450,
+          100
         ],
         "end": [
-          1425,
-          460
+          1450,
+          450
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "agency",
-      "label": "대행사 상담",
-      "sequence": 5,
-      "narrativeRole": "채널 나열 4 — 외부에 맡겨봄",
+      "id": "growth",
+      "label": "성장 화살표",
+      "sequence": 8,
+      "narrativeRole": "기대 — 성장하고 싶다",
       "subtitle": "그러다 대행사도 만나보고, 한 달 정도 맡겨보기도 하는데",
       "type": "structure",
       "region": {
-        "x": 560,
-        "y": 470,
-        "width": 760,
-        "height": 300
+        "x": 660,
+        "y": 560,
+        "width": 380,
+        "height": 250
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 13000,
-        "durationMs": 2800,
-        "maskPaddingPx": 18,
+        "startMs": 13400,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          940,
-          470
+          850,
+          560
         ],
         "end": [
-          940,
-          770
+          850,
+          810
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "chart",
+      "label": "실적 그래프",
+      "sequence": 9,
+      "narrativeRole": "기대 — 숫자로 증명",
+      "subtitle": "그러다 대행사도 만나보고, 한 달 정도 맡겨보기도 하는데",
+      "type": "structure",
+      "region": {
+        "x": 1080,
+        "y": 620,
+        "width": 300,
+        "height": 230
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 15100,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1230,
+          620
+        ],
+        "end": [
+          1230,
+          850
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "money",
+      "label": "비용",
+      "sequence": 10,
+      "narrativeRole": "대행사 — 돈이 나간다",
+      "subtitle": "그러다 대행사도 만나보고, 한 달 정도 맡겨보기도 하는데",
+      "type": "structure",
+      "region": {
+        "x": 1420,
+        "y": 630,
+        "width": 140,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16800,
+        "durationMs": 1200,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1490,
+          630
+        ],
+        "end": [
+          1490,
+          810
         ],
         "easing": "easeInOut"
       }
@@ -174,31 +334,31 @@
     {
       "id": "tangle",
       "label": "엉킨 실타래",
-      "sequence": 6,
+      "sequence": 11,
       "narrativeRole": "결과 — 더 복잡해짐",
       "subtitle": "그러다 대행사도 만나보고, 한 달 정도 맡겨보기도 하는데",
       "type": "structure",
       "region": {
-        "x": 1450,
-        "y": 460,
-        "width": 400,
-        "height": 330
+        "x": 1590,
+        "y": 600,
+        "width": 300,
+        "height": 240
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 16000,
-        "durationMs": 3300,
-        "maskPaddingPx": 18,
+        "startMs": 18200,
+        "durationMs": 1300,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1650,
-          460
+          1740,
+          600
         ],
         "end": [
-          1650,
-          790
+          1740,
+          840
         ],
         "easing": "easeInOut"
       }

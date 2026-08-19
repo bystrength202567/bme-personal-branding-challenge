@@ -19,58 +19,154 @@
       "subtitle": "그런데 이 책은 여기서 완전히 다른 질문을 던집니다.",
       "type": "structure",
       "region": {
-        "x": 300,
-        "y": 270,
-        "width": 520,
-        "height": 330
+        "x": 120,
+        "y": 250,
+        "width": 440,
+        "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 5000,
-        "maskPaddingPx": 18,
+        "durationMs": 3200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          560,
-          270
+          340,
+          250
         ],
         "end": [
-          560,
+          340,
+          550
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "what",
+      "label": "WHAT",
+      "sequence": 2,
+      "narrativeRole": "통념",
+      "subtitle": "WHAT이 아니라 WHY를 먼저 생각하라.",
+      "type": "structure",
+      "region": {
+        "x": 660,
+        "y": 230,
+        "width": 340,
+        "height": 170
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 3400,
+        "durationMs": 1800,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          830,
+          230
+        ],
+        "end": [
+          830,
+          400
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "no",
+      "label": "지워지는 WHAT",
+      "sequence": 3,
+      "narrativeRole": "부정",
+      "subtitle": "WHAT이 아니라 WHY를 먼저 생각하라.",
+      "type": "structure",
+      "region": {
+        "x": 660,
+        "y": 420,
+        "width": 340,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 5400,
+        "durationMs": 1300,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          830,
+          420
+        ],
+        "end": [
+          830,
           600
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "reverse",
-      "label": "방향을 뒤집는 화살표",
-      "sequence": 2,
-      "narrativeRole": "핵심 전환 — WHAT에서 WHY로",
+      "id": "flip",
+      "label": "먼저",
+      "sequence": 4,
+      "narrativeRole": "전환 화살표",
       "subtitle": "WHAT이 아니라 WHY를 먼저 생각하라.",
       "type": "structure",
       "region": {
-        "x": 880,
-        "y": 270,
-        "width": 620,
-        "height": 320
+        "x": 1050,
+        "y": 230,
+        "width": 260,
+        "height": 220
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 5300,
-        "durationMs": 4400,
-        "maskPaddingPx": 18,
+        "startMs": 6900,
+        "durationMs": 1400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1190,
-          270
+          1180,
+          230
         ],
         "end": [
-          1190,
-          590
+          1180,
+          450
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "why",
+      "label": "WHY",
+      "sequence": 5,
+      "narrativeRole": "책의 제안",
+      "subtitle": "WHAT이 아니라 WHY를 먼저 생각하라.",
+      "type": "structure",
+      "region": {
+        "x": 1360,
+        "y": 210,
+        "width": 400,
+        "height": 240
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 8500,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1560,
+          210
+        ],
+        "end": [
+          1560,
+          450
         ],
         "easing": "easeInOut"
       }
@@ -78,95 +174,95 @@
     {
       "id": "money",
       "label": "돈",
-      "sequence": 3,
+      "sequence": 6,
       "narrativeRole": "흔한 오해",
       "subtitle": "이 책에서 말하는 WHY는 돈을 많이 벌고 싶다가 아닙니다.",
       "type": "structure",
       "region": {
-        "x": 1560,
-        "y": 270,
-        "width": 340,
-        "height": 330
+        "x": 120,
+        "y": 640,
+        "width": 320,
+        "height": 380
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 10000,
-        "durationMs": 3400,
-        "maskPaddingPx": 18,
+        "startMs": 10700,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1730,
-          270
+          280,
+          640
         ],
         "end": [
-          1730,
-          600
+          280,
+          1020
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "result",
-      "label": "결과로 흐르는 화살표",
-      "sequence": 4,
+      "label": "결과일 뿐",
+      "sequence": 7,
       "narrativeRole": "정정 — 돈은 결과",
       "subtitle": "돈은 결과예요.",
       "type": "structure",
       "region": {
-        "x": 1560,
-        "y": 630,
-        "width": 340,
-        "height": 300
+        "x": 490,
+        "y": 700,
+        "width": 420,
+        "height": 220
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 13600,
-        "durationMs": 2600,
-        "maskPaddingPx": 18,
+        "startMs": 13300,
+        "durationMs": 1900,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1730,
-          630
+          700,
+          700
         ],
         "end": [
-          1730,
-          930
+          700,
+          920
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "purpose",
-      "label": "전구 — 왜 하는가",
-      "sequence": 5,
+      "label": "왜 하는가",
+      "sequence": 8,
       "narrativeRole": "WHY 정의 1",
       "subtitle": "WHY는 왜 이 일을 하는지, 무엇을 믿는지,",
       "type": "structure",
       "region": {
-        "x": 300,
-        "y": 640,
-        "width": 400,
-        "height": 350
+        "x": 990,
+        "y": 620,
+        "width": 300,
+        "height": 340
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 16400,
-        "durationMs": 4600,
-        "maskPaddingPx": 18,
+        "startMs": 15400,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          500,
-          640
+          1140,
+          620
         ],
         "end": [
-          500,
-          990
+          1140,
+          960
         ],
         "easing": "easeInOut"
       }
@@ -174,31 +270,31 @@
     {
       "id": "belief",
       "label": "믿음을 든 사람",
-      "sequence": 6,
+      "sequence": 9,
       "narrativeRole": "WHY 정의 2",
       "subtitle": "WHY는 왜 이 일을 하는지, 무엇을 믿는지,",
       "type": "structure",
       "region": {
-        "x": 790,
-        "y": 640,
-        "width": 380,
-        "height": 350
+        "x": 1340,
+        "y": 580,
+        "width": 280,
+        "height": 420
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 21200,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "startMs": 17800,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          980,
-          640
+          1480,
+          580
         ],
         "end": [
-          980,
-          990
+          1480,
+          1000
         ],
         "easing": "easeInOut"
       }
@@ -206,31 +302,63 @@
     {
       "id": "exist",
       "label": "브랜드의 중심",
-      "sequence": 7,
+      "sequence": 10,
       "narrativeRole": "WHY 정의 3",
       "subtitle": "왜 이 브랜드가 존재하는지에 대한 질문입니다.",
       "type": "structure",
       "region": {
-        "x": 1230,
-        "y": 640,
-        "width": 300,
-        "height": 330
+        "x": 1670,
+        "y": 620,
+        "width": 240,
+        "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 25600,
-        "durationMs": 3400,
-        "maskPaddingPx": 18,
+        "startMs": 20600,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1380,
-          640
+          1790,
+          620
         ],
         "end": [
-          1380,
-          970
+          1790,
+          920
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "believe",
+      "label": "BELIEVE",
+      "sequence": 11,
+      "narrativeRole": "정리",
+      "subtitle": "왜 이 브랜드가 존재하는지에 대한 질문입니다.",
+      "type": "structure",
+      "region": {
+        "x": 1030,
+        "y": 55,
+        "width": 720,
+        "height": 140
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 23000,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1390,
+          55
+        ],
+        "end": [
+          1390,
+          195
         ],
         "easing": "easeInOut"
       }

@@ -12,65 +12,129 @@
   },
   "elements": [
     {
-      "id": "what-speaker",
+      "id": "speaker1",
       "label": "WHAT부터 말하는 브랜드",
       "sequence": 1,
       "narrativeRole": "통념",
       "subtitle": "우리는 보통 고객에게 WHAT부터 이야기합니다.",
       "type": "structure",
       "region": {
-        "x": 120,
-        "y": 290,
-        "width": 700,
-        "height": 350
+        "x": 100,
+        "y": 250,
+        "width": 300,
+        "height": 480
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          470,
-          290
+          250,
+          250
         ],
         "end": [
-          470,
-          640
+          250,
+          730
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "offer",
-      "label": "제품과 가격",
+      "id": "bubble1",
+      "label": "제품 설명",
       "sequence": 2,
       "narrativeRole": "통념의 내용",
       "subtitle": "저희는 이런 제품을 판매합니다. 이런 서비스를 제공합니다.",
       "type": "structure",
       "region": {
-        "x": 120,
-        "y": 700,
-        "width": 700,
+        "x": 450,
+        "y": 200,
+        "width": 420,
+        "height": 260
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 3000,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          660,
+          200
+        ],
+        "end": [
+          660,
+          460
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "price",
+      "label": "가격과 혜택",
+      "sequence": 3,
+      "narrativeRole": "통념의 내용",
+      "subtitle": "가격은 얼마고, 이런 혜택이 있습니다.",
+      "type": "structure",
+      "region": {
+        "x": 450,
+        "y": 530,
+        "width": 420,
         "height": 330
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 5800,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          470,
-          700
+          660,
+          530
         ],
         "end": [
-          470,
-          1030
+          660,
+          860
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "meh",
+      "label": "시큰둥한 고객",
+      "sequence": 4,
+      "narrativeRole": "결과 — 마음이 안 움직임",
+      "subtitle": "가격은 얼마고, 이런 혜택이 있습니다.",
+      "type": "structure",
+      "region": {
+        "x": 100,
+        "y": 780,
+        "width": 320,
+        "height": 280
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 8400,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          260,
+          780
+        ],
+        "end": [
+          260,
+          1060
         ],
         "easing": "easeInOut"
       }
@@ -78,95 +142,127 @@
     {
       "id": "divide",
       "label": "구분선",
-      "sequence": 3,
+      "sequence": 5,
       "narrativeRole": "대비의 축",
-      "subtitle": "가격은 얼마고, 이런 혜택이 있습니다.",
+      "subtitle": "그런데 이 책은 WHY부터 이야기하라고 합니다.",
       "type": "structure",
       "region": {
-        "x": 880,
-        "y": 210,
-        "width": 130,
+        "x": 920,
+        "y": 130,
+        "width": 110,
         "height": 830
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 11400,
-        "durationMs": 2200,
-        "maskPaddingPx": 18,
+        "startMs": 11000,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          945,
-          210
+          975,
+          130
         ],
         "end": [
-          945,
-          1040
+          975,
+          960
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "why-speaker",
+      "id": "speaker2",
       "label": "WHY부터 말하는 브랜드",
-      "sequence": 4,
+      "sequence": 6,
       "narrativeRole": "책의 제안",
       "subtitle": "그런데 이 책은 WHY부터 이야기하라고 합니다.",
       "type": "structure",
       "region": {
-        "x": 1060,
-        "y": 290,
-        "width": 760,
-        "height": 350
+        "x": 1070,
+        "y": 250,
+        "width": 300,
+        "height": 480
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 13800,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "startMs": 13200,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1440,
-          290
+          1220,
+          250
         ],
         "end": [
-          1440,
-          640
+          1220,
+          730
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "core",
-      "label": "안에서 바깥으로",
-      "sequence": 5,
-      "narrativeRole": "제안의 근거",
+      "id": "bubble2",
+      "label": "믿음 먼저",
+      "sequence": 7,
+      "narrativeRole": "제안의 내용",
       "subtitle": "그런데 이 책은 WHY부터 이야기하라고 합니다.",
       "type": "structure",
       "region": {
-        "x": 1060,
-        "y": 700,
-        "width": 760,
-        "height": 330
+        "x": 1420,
+        "y": 200,
+        "width": 440,
+        "height": 260
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 19400,
-        "durationMs": 4400,
-        "maskPaddingPx": 18,
+        "startMs": 16200,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1440,
-          700
+          1640,
+          200
         ],
         "end": [
-          1440,
-          1030
+          1640,
+          460
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "heart",
+      "label": "움직이는 마음",
+      "sequence": 8,
+      "narrativeRole": "결과 — 공감",
+      "subtitle": "그런데 이 책은 WHY부터 이야기하라고 합니다.",
+      "type": "structure",
+      "region": {
+        "x": 1420,
+        "y": 530,
+        "width": 440,
+        "height": 400
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 19000,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1640,
+          530
+        ],
+        "end": [
+          1640,
+          930
         ],
         "easing": "easeInOut"
       }

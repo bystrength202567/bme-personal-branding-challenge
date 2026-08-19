@@ -19,26 +19,26 @@
       "subtitle": "대표님.",
       "type": "structure",
       "region": {
-        "x": 160,
-        "y": 380,
-        "width": 320,
-        "height": 330
+        "x": 140,
+        "y": 260,
+        "width": 330,
+        "height": 470
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
         "durationMs": 2600,
-        "maskPaddingPx": 18,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          320,
-          380
+          305,
+          260
         ],
         "end": [
-          320,
-          710
+          305,
+          730
         ],
         "easing": "easeInOut"
       }
@@ -51,26 +51,26 @@
       "subtitle": "나는 왜 이 일을 시작했는지, 지금 바로 이야기할 수 있으세요?",
       "type": "structure",
       "region": {
-        "x": 620,
-        "y": 170,
-        "width": 280,
+        "x": 560,
+        "y": 130,
+        "width": 300,
         "height": 320
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 3000,
-        "durationMs": 2800,
-        "maskPaddingPx": 18,
+        "startMs": 2800,
+        "durationMs": 1900,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          760,
-          170
+          710,
+          130
         ],
         "end": [
-          760,
-          490
+          710,
+          450
         ],
         "easing": "easeInOut"
       }
@@ -83,26 +83,26 @@
       "subtitle": "우리 브랜드는 왜 존재하는가?",
       "type": "structure",
       "region": {
-        "x": 980,
-        "y": 170,
-        "width": 280,
+        "x": 920,
+        "y": 130,
+        "width": 300,
         "height": 320
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 6200,
-        "durationMs": 2400,
-        "maskPaddingPx": 18,
+        "startMs": 4900,
+        "durationMs": 1700,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1120,
-          170
+          1070,
+          130
         ],
         "end": [
-          1120,
-          490
+          1070,
+          450
         ],
         "easing": "easeInOut"
       }
@@ -115,26 +115,58 @@
       "subtitle": "왜 고객은 우리를 선택해야 하는가?",
       "type": "structure",
       "region": {
-        "x": 1340,
-        "y": 170,
-        "width": 280,
+        "x": 1280,
+        "y": 130,
+        "width": 300,
         "height": 320
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 9000,
-        "durationMs": 2400,
-        "maskPaddingPx": 18,
+        "startMs": 6800,
+        "durationMs": 1700,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1480,
-          170
+          1430,
+          130
         ],
         "end": [
-          1480,
-          490
+          1430,
+          450
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "why3",
+      "label": "WHY ×3",
+      "sequence": 5,
+      "narrativeRole": "세 질문의 공통점",
+      "subtitle": "왜 고객은 우리를 선택해야 하는가?",
+      "type": "structure",
+      "region": {
+        "x": 1640,
+        "y": 160,
+        "width": 250,
+        "height": 260
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 8700,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1765,
+          160
+        ],
+        "end": [
+          1765,
+          420
         ],
         "easing": "easeInOut"
       }
@@ -142,31 +174,31 @@
     {
       "id": "book",
       "label": "책",
-      "sequence": 5,
+      "sequence": 6,
       "narrativeRole": "해답의 제안",
       "subtitle": "만약 조금 망설여진다면 이 책을 한번 읽어보셨으면 좋겠습니다.",
       "type": "structure",
       "region": {
-        "x": 880,
-        "y": 620,
-        "width": 380,
-        "height": 420
+        "x": 900,
+        "y": 560,
+        "width": 460,
+        "height": 470
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 12000,
-        "durationMs": 4400,
-        "maskPaddingPx": 18,
+        "startMs": 10400,
+        "durationMs": 3600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1070,
-          620
+          1130,
+          560
         ],
         "end": [
-          1070,
-          1040
+          1130,
+          1030
         ],
         "easing": "easeInOut"
       }
@@ -174,31 +206,63 @@
     {
       "id": "bridge",
       "label": "대표에서 책으로",
-      "sequence": 6,
+      "sequence": 7,
       "narrativeRole": "연결",
       "subtitle": "만약 조금 망설여진다면 이 책을 한번 읽어보셨으면 좋겠습니다.",
       "type": "structure",
       "region": {
-        "x": 480,
-        "y": 650,
-        "width": 360,
-        "height": 280
+        "x": 540,
+        "y": 640,
+        "width": 320,
+        "height": 240
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 16800,
-        "durationMs": 2200,
-        "maskPaddingPx": 18,
+        "startMs": 14200,
+        "durationMs": 1700,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          660,
-          650
+          700,
+          640
         ],
         "end": [
-          660,
-          930
+          700,
+          880
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "read",
+      "label": "READ THIS",
+      "sequence": 8,
+      "narrativeRole": "행동 제안",
+      "subtitle": "만약 조금 망설여진다면 이 책을 한번 읽어보셨으면 좋겠습니다.",
+      "type": "structure",
+      "region": {
+        "x": 1440,
+        "y": 700,
+        "width": 430,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16200,
+        "durationMs": 1700,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1655,
+          700
+        ],
+        "end": [
+          1655,
+          880
         ],
         "easing": "easeInOut"
       }

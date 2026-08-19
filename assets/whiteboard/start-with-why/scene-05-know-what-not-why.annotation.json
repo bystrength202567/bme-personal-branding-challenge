@@ -19,26 +19,26 @@
       "subtitle": "대표님들이 마케팅을 어려워하는 이유는 방법을 몰라서만은 아니에요.",
       "type": "structure",
       "region": {
-        "x": 140,
-        "y": 400,
-        "width": 300,
-        "height": 310
+        "x": 110,
+        "y": 250,
+        "width": 255,
+        "height": 470
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 4400,
-        "maskPaddingPx": 18,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          290,
-          400
+          237,
+          250
         ],
         "end": [
-          290,
-          710
+          237,
+          720
         ],
         "easing": "easeInOut"
       }
@@ -51,26 +51,26 @@
       "subtitle": "오히려 뭘 해야 하는지는 너무 많이 알고 있습니다.",
       "type": "structure",
       "region": {
-        "x": 520,
-        "y": 130,
-        "width": 430,
-        "height": 430
+        "x": 430,
+        "y": 100,
+        "width": 480,
+        "height": 480
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 5500,
-        "durationMs": 3600,
-        "maskPaddingPx": 18,
+        "startMs": 3200,
+        "durationMs": 3000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          735,
-          130
+          670,
+          100
         ],
         "end": [
-          735,
-          560
+          670,
+          580
         ],
         "easing": "easeInOut"
       }
@@ -83,26 +83,26 @@
       "subtitle": "릴스 해야 하고, 블로그 해야 하고, 검색 노출도 해야 하고, 광고도 해야 하고",
       "type": "structure",
       "region": {
-        "x": 1000,
-        "y": 140,
-        "width": 200,
-        "height": 280
+        "x": 980,
+        "y": 100,
+        "width": 190,
+        "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 9500,
-        "durationMs": 2200,
-        "maskPaddingPx": 18,
+        "startMs": 6400,
+        "durationMs": 1600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1100,
-          140
+          1075,
+          100
         ],
         "end": [
-          1100,
-          420
+          1075,
+          400
         ],
         "easing": "easeInOut"
       }
@@ -115,26 +115,26 @@
       "subtitle": "릴스 해야 하고, 블로그 해야 하고, 검색 노출도 해야 하고, 광고도 해야 하고",
       "type": "structure",
       "region": {
-        "x": 1250,
-        "y": 150,
+        "x": 1210,
+        "y": 120,
         "width": 300,
         "height": 250
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 11800,
-        "durationMs": 2200,
-        "maskPaddingPx": 18,
+        "startMs": 8200,
+        "durationMs": 1600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1400,
-          150
+          1360,
+          120
         ],
         "end": [
-          1400,
-          400
+          1360,
+          370
         ],
         "easing": "easeInOut"
       }
@@ -147,58 +147,122 @@
       "subtitle": "릴스 해야 하고, 블로그 해야 하고, 검색 노출도 해야 하고, 광고도 해야 하고",
       "type": "structure",
       "region": {
-        "x": 1600,
-        "y": 150,
-        "width": 280,
-        "height": 250
+        "x": 1560,
+        "y": 110,
+        "width": 300,
+        "height": 270
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 14000,
-        "durationMs": 2000,
-        "maskPaddingPx": 18,
+        "startMs": 10000,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1740,
-          150
+          1710,
+          110
         ],
         "end": [
-          1740,
-          400
+          1710,
+          380
         ],
         "easing": "easeInOut"
       }
     },
     {
-      "id": "question",
-      "label": "그래서 나는?",
+      "id": "ads",
+      "label": "광고비",
       "sequence": 6,
-      "narrativeRole": "핵심 질문",
-      "subtitle": "그래서 나는 뭘 해야 하지?",
+      "narrativeRole": "해야 할 일 4",
+      "subtitle": "릴스 해야 하고, 블로그 해야 하고, 검색 노출도 해야 하고, 광고도 해야 하고",
       "type": "structure",
       "region": {
-        "x": 520,
-        "y": 600,
-        "width": 350,
-        "height": 400
+        "x": 1590,
+        "y": 430,
+        "width": 250,
+        "height": 260
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 16200,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "startMs": 11700,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          695,
-          600
+          1715,
+          430
         ],
         "end": [
-          695,
-          1000
+          1715,
+          690
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "so",
+      "label": "SO WHAT?",
+      "sequence": 7,
+      "narrativeRole": "핵심 질문 — 그래서 나는?",
+      "subtitle": "그래서 나는 뭘 해야 하지?",
+      "type": "structure",
+      "region": {
+        "x": 375,
+        "y": 630,
+        "width": 615,
+        "height": 215
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 13400,
+        "durationMs": 2400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          682,
+          630
+        ],
+        "end": [
+          682,
+          845
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "qmark",
+      "label": "물음표",
+      "sequence": 8,
+      "narrativeRole": "핵심 질문",
+      "subtitle": "그래서 나는 뭘 해야 하지?",
+      "type": "structure",
+      "region": {
+        "x": 400,
+        "y": 860,
+        "width": 300,
+        "height": 200
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 16000,
+        "durationMs": 1800,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          550,
+          860
+        ],
+        "end": [
+          550,
+          1060
         ],
         "easing": "easeInOut"
       }
@@ -206,31 +270,63 @@
     {
       "id": "ai",
       "label": "AI 유행",
-      "sequence": 7,
+      "sequence": 9,
       "narrativeRole": "따라가기",
       "subtitle": "AI가 대세라고 하면 AI를 배우고",
       "type": "structure",
       "region": {
-        "x": 960,
-        "y": 600,
-        "width": 350,
-        "height": 350
+        "x": 1000,
+        "y": 620,
+        "width": 380,
+        "height": 300
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 21000,
-        "durationMs": 3000,
-        "maskPaddingPx": 18,
+        "startMs": 18100,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1135,
-          600
+          1190,
+          620
         ],
         "end": [
-          1135,
-          950
+          1190,
+          920
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "chase",
+      "label": "쫓아가는 화살표",
+      "sequence": 10,
+      "narrativeRole": "유행을 따라감",
+      "subtitle": "AI가 대세라고 하면 AI를 배우고",
+      "type": "structure",
+      "region": {
+        "x": 700,
+        "y": 880,
+        "width": 290,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 20300,
+        "durationMs": 1500,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          845,
+          880
+        ],
+        "end": [
+          845,
+          1060
         ],
         "easing": "easeInOut"
       }
@@ -238,31 +334,63 @@
     {
       "id": "blur",
       "label": "흐려지는 브랜드",
-      "sequence": 8,
+      "sequence": 11,
       "narrativeRole": "결과",
       "subtitle": "열심히는 하는데 브랜드는 점점 더 복잡해집니다.",
       "type": "structure",
       "region": {
-        "x": 1400,
-        "y": 600,
-        "width": 440,
-        "height": 390
+        "x": 1430,
+        "y": 700,
+        "width": 420,
+        "height": 320
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 24500,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "startMs": 22000,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1620,
-          600
+          1640,
+          700
         ],
         "end": [
-          1620,
-          990
+          1640,
+          1020
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "more",
+      "label": "MORE?",
+      "sequence": 12,
+      "narrativeRole": "결과 — 더 배워야 하나",
+      "subtitle": "열심히는 하는데 브랜드는 점점 더 복잡해집니다.",
+      "type": "structure",
+      "region": {
+        "x": 1150,
+        "y": 420,
+        "width": 420,
+        "height": 180
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 24500,
+        "durationMs": 1600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1360,
+          420
+        ],
+        "end": [
+          1360,
+          600
         ],
         "easing": "easeInOut"
       }

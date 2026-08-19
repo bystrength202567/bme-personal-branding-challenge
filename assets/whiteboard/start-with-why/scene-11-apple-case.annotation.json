@@ -19,26 +19,26 @@
       "subtitle": "책에서는 애플을 예로 들어요.",
       "type": "structure",
       "region": {
-        "x": 120,
-        "y": 310,
-        "width": 470,
-        "height": 310
+        "x": 100,
+        "y": 250,
+        "width": 400,
+        "height": 290
       },
       "reveal": {
         "direction": "top_to_bottom",
         "startMs": 0,
-        "durationMs": 3600,
-        "maskPaddingPx": 18,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          355,
-          310
+          300,
+          250
         ],
         "end": [
-          355,
-          620
+          300,
+          540
         ],
         "easing": "easeInOut"
       }
@@ -51,58 +51,58 @@
       "subtitle": "만약 애플이 이렇게 말했다면 어떨까요?",
       "type": "structure",
       "region": {
-        "x": 680,
-        "y": 290,
-        "width": 320,
-        "height": 350
+        "x": 600,
+        "y": 220,
+        "width": 300,
+        "height": 340
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 4000,
-        "durationMs": 3800,
-        "maskPaddingPx": 18,
+        "startMs": 2800,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          840,
-          290
+          750,
+          220
         ],
         "end": [
-          840,
-          640
+          750,
+          560
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "pitch",
-      "label": "제품 설명",
+      "label": "제품 설명 화법",
       "sequence": 3,
       "narrativeRole": "가상의 WHAT 화법",
       "subtitle": "우리는 훌륭한 컴퓨터를 만듭니다. 디자인이 예쁘고 사용하기 편합니다.",
       "type": "structure",
       "region": {
-        "x": 1090,
-        "y": 250,
-        "width": 740,
-        "height": 310
+        "x": 980,
+        "y": 130,
+        "width": 880,
+        "height": 330
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 8000,
-        "durationMs": 5400,
-        "maskPaddingPx": 18,
+        "startMs": 5600,
+        "durationMs": 4400,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1460,
-          250
+          1420,
+          130
         ],
         "end": [
-          1460,
-          560
+          1420,
+          460
         ],
         "easing": "easeInOut"
       }
@@ -115,58 +115,90 @@
       "subtitle": "하나 사시겠어요?",
       "type": "structure",
       "region": {
-        "x": 1090,
-        "y": 620,
-        "width": 350,
-        "height": 290
+        "x": 980,
+        "y": 510,
+        "width": 340,
+        "height": 280
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 13600,
-        "durationMs": 3400,
-        "maskPaddingPx": 18,
+        "startMs": 10200,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1265,
-          620
+          1150,
+          510
         ],
         "end": [
-          1265,
-          910
+          1150,
+          790
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "wanna",
+      "label": "하나 사시겠어요?",
+      "sequence": 5,
+      "narrativeRole": "권유",
+      "subtitle": "하나 사시겠어요?",
+      "type": "structure",
+      "region": {
+        "x": 1350,
+        "y": 505,
+        "width": 510,
+        "height": 185
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 12600,
+        "durationMs": 2000,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1605,
+          505
+        ],
+        "end": [
+          1605,
+          690
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "meh",
-      "label": "시큰둥한 반응",
-      "sequence": 5,
+      "label": "글쎄요",
+      "sequence": 6,
       "narrativeRole": "결과 — 마음이 안 움직임",
       "subtitle": "글쎄요.",
       "type": "structure",
       "region": {
-        "x": 1490,
-        "y": 620,
-        "width": 350,
-        "height": 390
+        "x": 1370,
+        "y": 730,
+        "width": 490,
+        "height": 330
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 17200,
-        "durationMs": 4200,
-        "maskPaddingPx": 18,
+        "startMs": 14800,
+        "durationMs": 2800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          1665,
-          620
+          1615,
+          730
         ],
         "end": [
-          1665,
-          1010
+          1615,
+          1060
         ],
         "easing": "easeInOut"
       }
@@ -174,63 +206,127 @@
     {
       "id": "flip",
       "label": "순서를 뒤집다",
-      "sequence": 6,
+      "sequence": 7,
       "narrativeRole": "전환",
       "subtitle": "그런데 애플은 제품부터 이야기하지 않죠.",
       "type": "structure",
       "region": {
-        "x": 120,
-        "y": 700,
-        "width": 430,
-        "height": 300
+        "x": 110,
+        "y": 620,
+        "width": 380,
+        "height": 220
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 21600,
-        "durationMs": 3200,
-        "maskPaddingPx": 18,
+        "startMs": 17800,
+        "durationMs": 1800,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          335,
-          700
+          300,
+          620
         ],
         "end": [
-          335,
-          1000
+          300,
+          840
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "think",
+      "label": "THINK DIFFERENT",
+      "sequence": 8,
+      "narrativeRole": "먼저 말하는 WHY",
+      "subtitle": "우리는 다르게 생각합니다.",
+      "type": "structure",
+      "region": {
+        "x": 110,
+        "y": 870,
+        "width": 800,
+        "height": 190
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 19800,
+        "durationMs": 3400,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          510,
+          870
+        ],
+        "end": [
+          510,
+          1060
         ],
         "easing": "easeInOut"
       }
     },
     {
       "id": "belief",
-      "label": "다르게 생각하는 믿음",
-      "sequence": 7,
-      "narrativeRole": "먼저 말하는 WHY",
+      "label": "믿음",
+      "sequence": 9,
+      "narrativeRole": "믿음이 먼저",
       "subtitle": "우리는 다르게 생각합니다.",
       "type": "structure",
       "region": {
-        "x": 620,
-        "y": 700,
-        "width": 350,
-        "height": 330
+        "x": 570,
+        "y": 588,
+        "width": 300,
+        "height": 272
       },
       "reveal": {
         "direction": "top_to_bottom",
-        "startMs": 25000,
-        "durationMs": 3600,
-        "maskPaddingPx": 18,
+        "startMs": 23400,
+        "durationMs": 2200,
+        "maskPaddingPx": 16,
         "protectedRegions": []
       },
       "handPath": {
         "start": [
-          795,
-          700
+          720,
+          588
         ],
         "end": [
-          795,
-          1030
+          720,
+          860
+        ],
+        "easing": "easeInOut"
+      }
+    },
+    {
+      "id": "proof",
+      "label": "제품으로 증명",
+      "sequence": 10,
+      "narrativeRole": "믿음을 증명",
+      "subtitle": "그리고 그 믿음을 제품으로 보여주는 거예요.",
+      "type": "structure",
+      "region": {
+        "x": 950,
+        "y": 850,
+        "width": 400,
+        "height": 210
+      },
+      "reveal": {
+        "direction": "top_to_bottom",
+        "startMs": 25800,
+        "durationMs": 2600,
+        "maskPaddingPx": 16,
+        "protectedRegions": []
+      },
+      "handPath": {
+        "start": [
+          1150,
+          850
+        ],
+        "end": [
+          1150,
+          1060
         ],
         "easing": "easeInOut"
       }

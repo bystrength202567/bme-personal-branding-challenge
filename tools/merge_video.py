@@ -11,13 +11,21 @@ import sys
 from fractions import Fraction
 
 import av
+from PIL import Image
 
 
-def merge(inputs, output, fps=30, crf="20", preset="medium"):
+def merge(inputs, output, fps=30, crf="20", preset="medium", stage=None, rect=None):
+    """stage 를 주면 각 프레임을 보드 배경의 rect(x,y,w,h) 안에 합성한다."""
     probe = av.open(inputs[0])
     vs = probe.streams.video[0]
     w, h = vs.codec_context.width, vs.codec_context.height
     probe.close()
+
+    bg = None
+    if stage:
+        bg = Image.open(stage).convert("RGB")
+        w, h = bg.size
+        print("  보드 합성: %s → %dx%d, 영역 %s" % (os.path.basename(stage), w, h, rect))
 
     tb = Fraction(1, fps)
     out = av.open(output, mode="w")
@@ -32,7 +40,12 @@ def merge(inputs, output, fps=30, crf="20", preset="medium"):
         cont = av.open(path)
         count = 0
         for frame in cont.decode(video=0):
-            if frame.width != w or frame.height != h:
+            if bg is not None:
+                rx, ry, rw, rh = rect
+                board = bg.copy()
+                board.paste(frame.to_image().resize((rw, rh), Image.LANCZOS), (rx, ry))
+                frame = av.VideoFrame.from_image(board)
+            elif frame.width != w or frame.height != h:
                 frame = frame.reformat(width=w, height=h)
             frame.pts = n
             frame.time_base = tb
@@ -54,12 +67,18 @@ def main():
     p.add_argument("--inputs", nargs="+", required=True)
     p.add_argument("--output", required=True)
     p.add_argument("--fps", type=int, default=30)
+    p.add_argument("--stage", help="화이트보드 세트 배경 PNG")
+    p.add_argument("--rect", help="합성 영역 x,y,w,h")
     a = p.parse_args()
     missing = [x for x in a.inputs if not os.path.exists(x)]
     if missing:
         print("[err] 없는 입력: %s" % ", ".join(missing), file=sys.stderr)
         return 1
-    merge(a.inputs, a.output, a.fps)
+    rect = tuple(int(v) for v in a.rect.split(",")) if a.rect else None
+    if a.stage and not rect:
+        print("[err] --stage 에는 --rect 가 필요합니다.", file=sys.stderr)
+        return 1
+    merge(a.inputs, a.output, a.fps, stage=a.stage, rect=rect)
     return 0
 
 
