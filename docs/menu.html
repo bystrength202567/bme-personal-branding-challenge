@@ -1,0 +1,457 @@
+<title>B, Me 메뉴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --paper:#FFFCF7; --card:#FFFDFA;
+  --ink:#28272B; --ink-2:#5F5B62; --muted:#8B858D;
+  --rule:#E7E0D7; --rule-2:#D6CCBE;
+  --accent:#C25A55; --accent-d:#A2453F;
+  --rose:#F9E7E4; --yellow:#F7E8B9; --lav:#E9E5FB; --mint:#DCECE1; --sky:#E2E9F5;
+  --rose-i:#8E4B45; --yellow-i:#84652A; --lav-i:#584A88; --mint-i:#456A4C; --sky-i:#42598A;
+  --sun:#F7C750; --orbit:#C98D87; --warm-ink:#5C4E31;
+  --shadow:8px 9px 0 #E4C6C0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#18171A; --card:#201E23;
+    --ink:#F0ECE5; --ink-2:#BEB7B8; --muted:#8C868C;
+    --rule:#322E34; --rule-2:#433E45;
+    --accent:#E28C83; --accent-d:#F2A79F;
+    --rose:#3A2725; --yellow:#37301C; --lav:#282342; --mint:#1F3226; --sky:#1F2839;
+    --rose-i:#EBB0A8; --yellow-i:#DCC486; --lav-i:#BAAFE8; --mint-i:#9CC7A4; --sky-i:#A5BCE2;
+    --sun:#C79B3C; --orbit:#7D5B57; --warm-ink:#BEB7B8;
+    --shadow:8px 9px 0 #2E211F;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#18171A; --card:#201E23;
+  --ink:#F0ECE5; --ink-2:#BEB7B8; --muted:#8C868C;
+  --rule:#322E34; --rule-2:#433E45;
+  --accent:#E28C83; --accent-d:#F2A79F;
+  --rose:#3A2725; --yellow:#37301C; --lav:#282342; --mint:#1F3226; --sky:#1F2839;
+  --rose-i:#EBB0A8; --yellow-i:#DCC486; --lav-i:#BAAFE8; --mint-i:#9CC7A4; --sky-i:#A5BCE2;
+  --sun:#C79B3C; --orbit:#7D5B57; --warm-ink:#BEB7B8;
+  --shadow:8px 9px 0 #2E211F;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Manrope,"Noto Sans KR",system-ui,sans-serif;
+  font-size:15px; line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:780px; margin:0 auto; padding:0 clamp(20px,5vw,32px)}
+
+/* ── cover ──────────────────────────────── */
+.cover{position:relative; overflow:hidden; background:var(--rose); border-bottom:1px solid var(--rule)}
+.sun{position:absolute; width:300px; height:300px; border-radius:50%; background:var(--sun); top:-118px; right:-72px; opacity:.9}
+.orbit{position:absolute; border:1px solid var(--orbit); border-radius:50%; opacity:.6}
+.orbit-1{width:430px; height:215px; right:-90px; top:38px; transform:rotate(-22deg)}
+.orbit-2{width:300px; height:150px; right:20px; top:120px; transform:rotate(28deg)}
+.cover-in{position:relative; z-index:2; padding:clamp(40px,7vw,68px) 0 clamp(34px,5vw,48px)}
+.brandmark{display:inline-flex; align-items:center; gap:7px; font-weight:800; font-size:19px; letter-spacing:-.04em; color:var(--ink)}
+.brandmark span{font-family:"DM Serif Display",serif; font-weight:400}
+.brandmark i{width:6px; height:6px; border-radius:50%; background:var(--accent-d); display:inline-block}
+.cover h1{
+  font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400;
+  font-size:clamp(38px,6.6vw,60px); line-height:1.1; letter-spacing:-.03em;
+  margin:22px 0 0; text-wrap:balance; color:var(--ink);
+}
+.cover h1 em{font-style:italic; color:var(--accent-d)}
+.cover-sub{font-size:15px; line-height:1.85; color:var(--ink-2); max-width:30ch; margin-top:16px}
+.cover-tag{font-size:11px; font-weight:800; letter-spacing:.17em; text-transform:uppercase; color:var(--accent-d); margin-top:26px}
+
+/* ── guide ──────────────────────────────── */
+.guide{padding:clamp(34px,5vw,50px) 0 6px}
+.guide-h{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; font-size:24px; letter-spacing:-.02em; margin-bottom:4px}
+.guide-s{font-size:13.5px; color:var(--ink-2); margin-bottom:20px}
+.picks{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.pick{background:var(--card); display:grid; grid-template-columns:1fr auto; gap:14px; align-items:center; padding:13px 16px}
+.pick q{font-size:14px; font-weight:600; font-style:italic; quotes:'“' '”'}
+.pick .to{font-size:12.5px; font-weight:800; color:var(--accent); text-align:right; line-height:1.4}
+.pick .to small{display:block; font-size:10.5px; font-weight:700; color:var(--muted); letter-spacing:.04em}
+
+/* ── course ─────────────────────────────── */
+.course{margin-top:clamp(38px,5.5vw,56px)}
+.c-head{background:var(--tint); padding:15px 18px 16px; display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+.c-n{font-family:"DM Serif Display",serif; font-size:15px; color:var(--ti); letter-spacing:.04em}
+.c-t{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; font-size:25px; letter-spacing:-.025em; line-height:1.1}
+.c-d{font-size:12.5px; color:var(--ink-2); flex-basis:100%; line-height:1.6}
+.course.rose{--tint:var(--rose); --ti:var(--rose-i)}
+.course.yellow{--tint:var(--yellow); --ti:var(--yellow-i)}
+.course.lav{--tint:var(--lav); --ti:var(--lav-i)}
+.course.mint{--tint:var(--mint); --ti:var(--mint-i)}
+.course.sky{--tint:var(--sky); --ti:var(--sky-i)}
+
+.item{display:grid; grid-template-columns:1fr auto; gap:16px 22px; padding:17px 18px; border-bottom:1px solid var(--rule); align-items:start}
+.item:last-child{border-bottom:0}
+.i-name{font-size:16.5px; font-weight:800; letter-spacing:-.02em; line-height:1.4; margin:0; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.rec{font-size:10px; font-weight:800; letter-spacing:.06em; background:var(--accent); color:#FFFCF7; padding:2.5px 7px; border-radius:2px; white-space:nowrap}
+.i-for{font-size:12.5px; font-weight:700; color:var(--accent); margin-top:5px}
+.i-desc{font-size:13.5px; line-height:1.75; color:var(--ink-2); margin-top:5px}
+.i-inc{margin:9px 0 0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:5px 6px}
+.i-inc li{font-size:11.5px; color:var(--ink-2); border:1px solid var(--rule-2); border-radius:2px; padding:2.5px 7px; line-height:1.45}
+.i-price{text-align:right; white-space:nowrap; padding-top:2px}
+.i-price .p{font-family:"DM Serif Display",serif; font-size:27px; line-height:1; font-variant-numeric:tabular-nums; display:block}
+.i-price .p u{text-decoration:none; font-family:Manrope,sans-serif; font-size:12px; font-weight:700; margin-left:2px}
+.i-price .free{font-family:Manrope,sans-serif; font-size:19px; font-weight:800; color:var(--accent); letter-spacing:-.02em}
+.i-price .was{display:block; font-size:11px; color:var(--muted); margin-top:5px; font-variant-numeric:tabular-nums}
+.i-price .was s{color:var(--muted)}
+.i-price .meta{display:block; font-size:11px; color:var(--muted); margin-top:5px; font-weight:600}
+
+/* signature plate */
+.item.sig{background:var(--card); box-shadow:var(--shadow); border-bottom:0; margin:14px 6px 18px 0}
+.item.sig .i-name{font-size:19px}
+.item.sig .i-price .p{font-size:31px; color:var(--accent)}
+
+/* ── team ───────────────────────────────── */
+.team-rows{border:1px solid var(--rule); border-top:0}
+.trow{display:grid; grid-template-columns:1fr auto; gap:14px; padding:11px 18px; border-bottom:1px solid var(--rule); align-items:baseline}
+.trow:last-child{border-bottom:0}
+.trow .tn{font-size:14px; font-weight:700; letter-spacing:-.01em}
+.trow .td{font-size:12px; color:var(--ink-2); display:block; font-weight:400; margin-top:1px}
+.trow .tp{font-family:"DM Serif Display",serif; font-size:19px; white-space:nowrap; font-variant-numeric:tabular-nums}
+.trow .tp u{text-decoration:none; font-family:Manrope,sans-serif; font-size:11px; font-weight:700; margin-left:2px; color:var(--ink-2)}
+
+/* ── closing ────────────────────────────── */
+.close-note{margin-top:clamp(38px,5.5vw,56px); background:var(--yellow); padding:26px 24px 28px}
+.close-note h2{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; font-size:27px; letter-spacing:-.025em; line-height:1.2; margin:0 0 12px; text-wrap:balance}
+.close-note p{font-size:14px; line-height:1.85; color:var(--warm-ink); max-width:44ch}
+.close-note .cta{display:inline-block; margin-top:18px; background:var(--ink); color:var(--paper); font-weight:700; font-size:13.5px; padding:13px 20px; text-decoration:none}
+.close-note .cta span{margin-left:14px}
+
+.fineprint{margin-top:26px; padding-top:18px; border-top:1px solid var(--rule); display:flex; flex-direction:column; gap:6px}
+.fineprint li{font-size:12px; line-height:1.65; color:var(--muted); list-style:none; padding-left:11px; position:relative}
+.fineprint li::before{content:""; position:absolute; left:0; top:8px; width:4px; height:4px; background:var(--rule-2)}
+footer{padding:24px 0 46px; display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--muted)}
+
+@media (max-width:620px){
+  .item{grid-template-columns:1fr; gap:12px}
+  .i-price{text-align:left}
+  .i-price .p{display:inline}
+  .i-price .meta,.i-price .was{display:inline; margin-left:10px}
+  .pick{grid-template-columns:1fr; gap:6px}
+  .pick .to{text-align:left}
+  .sun{width:210px; height:210px; top:-92px; right:-56px}
+  .item.sig{margin-right:0; box-shadow:4px 5px 0 var(--rule-2)}
+}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+
+@media print{
+  @page{margin:12mm}
+  body{background:#fff; font-size:11px}
+  .cover{background:#F9E7E4}
+  .item.sig{box-shadow:none; border:1.5px solid #C25A55}
+  .course,.item,.close-note{break-inside:avoid}
+  .close-note .cta{border:1px solid #28272B}
+}
+</style>
+
+<div class="cover">
+  <div class="sun"></div>
+  <div class="orbit orbit-1"></div>
+  <div class="orbit orbit-2"></div>
+  <div class="wrap cover-in">
+    <div class="brandmark"><span>B,</span> Me<i></i></div>
+    <h1>당신의 강점으로<br /><em>이름을 만드는</em> 시간.</h1>
+    <p class="cover-sub">무엇부터 시작할지 모르겠다면, 맨 위부터 천천히 읽어 보세요. 아래로 내려갈수록 더 깊이, 더 오래 함께합니다.</p>
+    <p class="cover-tag">Strengths Branding Menu</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="guide">
+    <h2 class="guide-h">지금 어떤 마음이신가요?</h2>
+    <p class="guide-s">가장 가까운 문장을 골라 보세요. 거기서부터 시작하면 됩니다.</p>
+    <div class="picks">
+      <div class="pick">
+        <q>나에 대해 뭘 모르는지도 모르겠어요</q>
+        <p class="to">무료 진단<small>3분 · 0원</small></p>
+      </div>
+      <div class="pick">
+        <q>혼자 하면 자꾸 미뤄져요</q>
+        <p class="to">6주 챌린지<small>가장 많이 선택해요</small></p>
+      </div>
+      <div class="pick">
+        <q>제 이야기에만 집중하고 싶어요</q>
+        <p class="to">4회 · 8회 과정<small>1:1 맞춤</small></p>
+      </div>
+      <div class="pick">
+        <q>우리 팀 전체가 함께했으면 해요</q>
+        <p class="to">팀 강점 진단<small>5인부터</small></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── -->
+  <section class="course rose">
+    <div class="c-head">
+      <span class="c-n">첫 번째</span>
+      <h2 class="c-t">가볍게 만나기</h2>
+      <p class="c-d">아직 결정하지 않아도 괜찮아요. 나에 대해 한 가지만 알고 가셔도 충분합니다.</p>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">강점 브랜딩 무료 진단</h3>
+        <p class="i-for">무엇부터 시작할지 모르겠는 분께</p>
+        <p class="i-desc">12개 질문에 답하면 나의 브랜드 유형과 가장 먼저 채워야 할 한 가지를 알려드려요.</p>
+        <ul class="i-inc"><li>3분 소요</li><li>유형 카드 발송</li></ul>
+      </div>
+      <div class="i-price"><span class="free">무료</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">B, Me 레터</h3>
+        <p class="i-for">천천히 곁에 두고 싶은 분께</p>
+        <p class="i-desc">매주 한 통. 나를 정리하는 질문 하나와, 먼저 걸어간 사람들의 이야기를 보내드려요.</p>
+        <ul class="i-inc"><li>주 1회</li><li>언제든 해지</li></ul>
+      </div>
+      <div class="i-price"><span class="free">무료</span></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── -->
+  <section class="course yellow">
+    <div class="c-head">
+      <span class="c-n">두 번째</span>
+      <h2 class="c-t">혼자 해보기</h2>
+      <p class="c-d">내 속도로, 내 시간에. 부담 없는 값으로 먼저 시작해 보세요.</p>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">퍼스널 브랜딩 첫 30일</h3>
+        <p class="i-for">시작이 가장 어려운 분께</p>
+        <p class="i-desc">하루에 한 가지씩, 30일이면 나를 소개하는 문장 하나가 남습니다.</p>
+        <ul class="i-inc"><li>전자책</li><li>30일 미션</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">9,900<u>원</u></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">버크만으로 읽는 나</h3>
+        <p class="i-for">진단 결과지를 받아 두고 덮어 둔 분께</p>
+        <p class="i-desc">복잡한 진단 결과를 스스로 읽는 법. 내 강점이 어떤 상황에서 힘을 잃는지까지 짚어드려요.</p>
+        <ul class="i-inc"><li>전자책</li><li>해석 가이드</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">14,000<u>원</u></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">B, Me 강점 워크북</h3>
+        <p class="i-for">6주 과정을 혼자 해보고 싶은 분께</p>
+        <p class="i-desc">챌린지에서 다루는 모든 미션을 직접 채워 볼 수 있게 만든 60장짜리 워크북이에요.</p>
+        <ul class="i-inc"><li>전자책 60p</li><li>워크시트 포함</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">19,000<u>원</u></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">세 권 함께 읽기</h3>
+        <p class="i-for">이왕이면 처음부터 끝까지 보고 싶은 분께</p>
+        <p class="i-desc">위의 전자책 세 권을 한 번에. 순서대로 읽으면 그대로 한 과정이 됩니다.</p>
+        <ul class="i-inc"><li>전자책 3권</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">33,000<u>원</u></span><span class="was">따로 사면 <s class="num">42,900원</s></span></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── -->
+  <section class="course mint">
+    <div class="c-head">
+      <span class="c-n">세 번째</span>
+      <h2 class="c-t">함께 걷기</h2>
+      <p class="c-d">혼자보다 함께가 훨씬 멀리 갑니다. B, Me가 가장 잘하는 일이에요.</p>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">원데이 클래스</h3>
+        <p class="i-for">한 번 맛보고 결정하고 싶은 분께</p>
+        <p class="i-desc">2시간 동안 내 강점 하나를 찾아 문장으로 만들어 가는 라이브 수업이에요.</p>
+        <ul class="i-inc"><li>2시간 · 온라인</li><li>정원 20명</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">49,000<u>원</u></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">강점 브랜딩 진단 리포트</h3>
+        <p class="i-for">객관적인 언어로 나를 확인하고 싶은 분께</p>
+        <p class="i-desc">40개 문항에 답하시면 15장 리포트와 음성 해설을 보내드려요. 어디서부터 손대야 할지가 분명해집니다.</p>
+        <ul class="i-inc"><li>40문항</li><li>리포트 15p</li><li>음성 해설</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">99,000<u>원</u></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">VOD · 6주 강점 브랜딩</h3>
+        <p class="i-for">일정을 맞추기 어려운 분께</p>
+        <p class="i-desc">챌린지의 모든 강의를 24편의 영상으로. 원하는 시간에, 원하는 만큼 다시 봅니다.</p>
+        <ul class="i-inc"><li>24강</li><li>무제한 시청</li><li>워크북 포함</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">149,000<u>원</u></span></div>
+    </div>
+
+    <div class="item sig">
+      <div>
+        <h3 class="i-name">B, Me 6주 챌린지 <span class="rec">가장 많이 선택해요</span></h3>
+        <p class="i-for">혼자 하면 자꾸 미뤄지는 분께</p>
+        <p class="i-desc">매일 한 문장으로 나를 만나고, 여섯 주 뒤 세상에 보여 줄 브랜드 북 한 권을 손에 쥡니다. 같은 자리에서 출발한 14명이 끝까지 함께 걸어요.</p>
+        <ul class="i-inc"><li>6주 · 온라인</li><li>정원 15명</li><li>버크만 디브리핑</li><li>브랜드 북 제작</li><li>졸업생 커뮤니티</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">290,000<u>원</u></span><span class="meta">6주 과정</span></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── -->
+  <section class="course lav">
+    <div class="c-head">
+      <span class="c-n">네 번째</span>
+      <h2 class="c-t">깊이 들어가기</h2>
+      <p class="c-d">오직 당신의 이야기만 다루는 시간입니다. 한 회 90분, 스텔라와 단둘이.</p>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">버크만 진단 + 디브리핑</h3>
+        <p class="i-for">내 강점을 데이터로 확인하고 싶은 분께</p>
+        <p class="i-desc">진단을 받고, 그 결과가 실제 내 일과 관계에서 어떻게 나타나는지 함께 읽습니다. 진단 응시비가 포함된 값이에요.</p>
+        <ul class="i-inc"><li>90분</li><li>진단 응시비 포함</li><li>결과 리포트</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">200,000<u>원</u></span><span class="meta">1회</span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">강점 브랜딩 컨설팅</h3>
+        <p class="i-for">지금 걸린 하나를 풀고 싶은 분께</p>
+        <p class="i-desc">포지셔닝, 메시지, 채널 — 무엇이든 지금 가장 막힌 지점 하나를 90분 안에 정리합니다.</p>
+        <ul class="i-inc"><li>90분</li><li>정리 노트 발송</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">300,000<u>원</u></span><span class="meta">1회</span></div>
+    </div>
+
+    <div class="item sig">
+      <div>
+        <h3 class="i-name">나를 세우는 4주</h3>
+        <p class="i-for">한 달 안에 방향을 정하고 싶은 분께</p>
+        <p class="i-desc">버크만으로 강점을 확인하고, 그 강점이 놓일 자리를 정하고, 나를 설명하는 문장까지 만듭니다. 네 번이면 충분해요.</p>
+        <ul class="i-inc"><li>90분 × 4회</li><li>버크만 진단 포함</li><li>주 1회 진행</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">990,000<u>원</u></span><span class="was">따로 받으면 <s class="num">1,100,000원</s></span></div>
+    </div>
+
+    <div class="item sig">
+      <div>
+        <h3 class="i-name">브랜드가 되는 8주 <span class="rec">가장 깊이 갑니다</span></h3>
+        <p class="i-for">이번엔 정말 끝을 보고 싶은 분께</p>
+        <p class="i-desc">강점을 찾는 데서 멈추지 않고, 브랜드 북과 세상에 내보낼 메시지까지 완성합니다. 끝난 뒤 세 달 동안 이어지는 피드백이 함께합니다.</p>
+        <ul class="i-inc"><li>90분 × 8회</li><li>버크만 진단 포함</li><li>브랜드 북 제작</li><li>종료 후 3개월 피드백</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">1,900,000<u>원</u></span><span class="was">따로 받으면 <s class="num">2,300,000원</s></span></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── -->
+  <section class="course rose">
+    <div class="c-head">
+      <span class="c-n">다섯 번째</span>
+      <h2 class="c-t">계속 이어가기</h2>
+      <p class="c-d">챌린지나 과정을 마친 분들의 자리입니다. 브랜드는 완성되는 게 아니라 자라니까요.</p>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">After B, Me 멤버십</h3>
+        <p class="i-for">혼자 돌아가고 싶지 않은 분께</p>
+        <p class="i-desc">졸업생만의 커뮤니티와 월 1회 그룹 코칭. 지난 모든 강의도 다시 볼 수 있어요.</p>
+        <ul class="i-inc"><li>커뮤니티</li><li>월 1회 그룹 코칭</li><li>강의 아카이브</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">29,000<u>원/월</u></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">1년 멤버십</h3>
+        <p class="i-for">한 해를 통째로 함께하고 싶은 분께</p>
+        <p class="i-desc">같은 멤버십을 1년으로. 두 달치는 받지 않습니다.</p>
+        <ul class="i-inc"><li>12개월</li><li>2개월 무료</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">290,000<u>원/년</u></span><span class="was">달마다 내면 <s class="num">348,000원</s></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">그룹 코칭 4회</h3>
+        <p class="i-for">1:1은 부담스럽지만 혼자는 어려운 분께</p>
+        <p class="i-desc">비슷한 고민을 가진 네다섯 명이 모여 네 번을 함께합니다. 서로가 서로의 거울이 돼요.</p>
+        <ul class="i-inc"><li>4회</li><li>4~6인 소그룹</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">400,000<u>원</u></span></div>
+    </div>
+
+    <div class="item">
+      <div>
+        <h3 class="i-name">퍼실리테이터 과정</h3>
+        <p class="i-for">이 여정을 다른 사람에게 건네고 싶은 분께</p>
+        <p class="i-desc">B, Me 챌린지를 직접 운영할 수 있는 자격과 교육 과정. 졸업생만 신청하실 수 있어요.</p>
+        <ul class="i-inc"><li>운영 자격</li><li>교재 · 진행 교육</li><li>졸업생 한정</li></ul>
+      </div>
+      <div class="i-price"><span class="p num">3,000,000<u>원</u></span></div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────── -->
+  <section class="course sky">
+    <div class="c-head">
+      <span class="c-n">여섯 번째</span>
+      <h2 class="c-t">팀과 함께</h2>
+      <p class="c-d">대표의 강점이 곧 회사의 얼굴인 곳을 위한 메뉴입니다. 인원과 기간에 맞춰 다시 구성해 드려요.</p>
+    </div>
+    <div class="team-rows">
+      <div class="trow"><p class="tn">팀 강점 진단<span class="td">구성원 각자의 버크만 진단과 개인 리포트, 그리고 팀 전체 해석 세션</span></p><span class="tp num">150,000<u>원/인</u></span></div>
+      <div class="trow"><p class="tn">브랜드 현황 진단<span class="td">지금 우리 브랜드가 어떻게 읽히고 있는지 30장 리포트와 보고 세션으로</span></p><span class="tp num">500,000<u>원</u></span></div>
+      <div class="trow"><p class="tn">기업 · 기관 특강<span class="td">강점 브랜딩 2시간 출강</span></p><span class="tp num">800,000<u>원/회</u></span></div>
+      <div class="trow"><p class="tn">팀 강점 워크숍<span class="td">반나절 동안 서로의 강점을 확인하고 팀의 언어를 맞춥니다</span></p><span class="tp num">1,500,000<u>원</u></span></div>
+      <div class="trow"><p class="tn">대표 1:1 브랜딩<span class="td">「브랜드가 되는 8주」와 같은 과정을 대표님 맞춤으로</span></p><span class="tp num">1,900,000<u>원</u></span></div>
+      <div class="trow"><p class="tn">사내 6주 브랜딩 프로그램<span class="td">10인 기준 · 진단부터 브랜드 북까지</span></p><span class="tp num">3,000,000<u>원</u></span></div>
+      <div class="trow"><p class="tn">브랜드 아이덴티티 구축<span class="td">4주 · 네이밍과 메시지 체계, 비주얼 가이드까지</span></p><span class="tp num">2,000,000<u>원</u></span></div>
+      <div class="trow"><p class="tn">랜딩페이지 제작<span class="td">기획 · 카피 · 구축</span></p><span class="tp num">1,500,000<u>원</u></span></div>
+      <div class="trow"><p class="tn">콘텐츠 · 채널 운영<span class="td">월 8~16건 제작과 계정 운영, 광고 집행까지 (최소 3개월)</span></p><span class="tp num">800,000<u>원/월~</u></span></div>
+    </div>
+  </section>
+
+  <div class="close-note">
+    <h2>어떤 걸 골라야 할지<br />모르겠다면요.</h2>
+    <p>괜찮아요. 그 마음이 가장 자연스러운 출발점입니다. 무료 진단부터 해보시고, 그래도 망설여지면 편하게 물어봐 주세요. 지금 상황에 맞는 하나만 골라 드릴게요.</p>
+    <a class="cta" href="#">무료 진단 먼저 해보기 <span>→</span></a>
+  </div>
+
+  <ul class="fineprint">
+    <li>모든 금액은 부가세 별도입니다.</li>
+    <li>버크만 진단 응시비는 컨설팅과 과정 금액에 포함되어 있습니다.</li>
+    <li>1:1 과정은 주 1회 진행이 기본이며, 일정은 상의해 조정할 수 있습니다.</li>
+    <li>챌린지와 클래스는 시작 7일 전까지 전액 환불해 드립니다.</li>
+    <li>팀 메뉴는 인원과 기간에 따라 별도로 안내드립니다.</li>
+  </ul>
+
+  <footer>
+    <div class="brandmark" style="font-size:16px"><span>B,</span> Me<i></i></div>
+    <span>강점 브랜딩 · 스텔라 · 2026</span>
+  </footer>
+
+</div>
