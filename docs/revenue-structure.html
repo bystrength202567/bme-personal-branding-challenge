@@ -1,0 +1,788 @@
+<title>스텔라 수익 사다리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --paper:#FFFCF7; --card:#FFFDFA; --sunk:#F7F2EA;
+  --ink:#28272B; --ink-2:#5C585F; --muted:#8B858D;
+  --rule:#E7E0D7; --rule-2:#D8CFC3;
+  --accent:#C25A55; --accent-2:#8E403C;
+  --band:#29282D; --band-ink:#F4EFE8; --band-dim:#A9A3A8; --band-rule:#46434A;
+  --t1:#F6D8D1; --t2:#F5E7BC; --t3:#E4DEF3; --t4:#DCE9DB; --t5:#D9E2F0;
+  --t1-i:#8E4B45; --t2-i:#87682A; --t3-i:#5B4E8C; --t4-i:#4A6E50; --t5-i:#455C87;
+  --pos:#4F7D55; --warn:#A97730;
+  --shadow:0 1px 0 rgba(56,45,35,.04);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#191818; --card:#211F22; --sunk:#232125;
+    --ink:#F0ECE5; --ink-2:#BCB5B6; --muted:#8C868C;
+    --rule:#332F34; --rule-2:#403B41;
+    --accent:#E28C83; --accent-2:#F0A9A1;
+    --band:#0F0E11; --band-ink:#F0ECE5; --band-dim:#9A949A; --band-rule:#37343A;
+    --t1:#4A2E2B; --t2:#463C22; --t3:#322C46; --t4:#26382A; --t5:#25303F;
+    --t1-i:#E9B0A8; --t2-i:#E0C782; --t3-i:#BCB0E6; --t4-i:#A6CBAB; --t5-i:#A9C0E4;
+    --pos:#83B589; --warn:#D6A659;
+    --shadow:0 1px 0 rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#191818; --card:#211F22; --sunk:#232125;
+  --ink:#F0ECE5; --ink-2:#BCB5B6; --muted:#8C868C;
+  --rule:#332F34; --rule-2:#403B41;
+  --accent:#E28C83; --accent-2:#F0A9A1;
+  --band:#0F0E11; --band-ink:#F0ECE5; --band-dim:#9A949A; --band-rule:#37343A;
+  --t1:#4A2E2B; --t2:#463C22; --t3:#322C46; --t4:#26382A; --t5:#25303F;
+  --t1-i:#E9B0A8; --t2-i:#E0C782; --t3-i:#BCB0E6; --t4-i:#A6CBAB; --t5-i:#A9C0E4;
+  --pos:#83B589; --warn:#D6A659;
+  --shadow:0 1px 0 rgba(0,0,0,.3);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:Manrope,"Noto Sans KR",system-ui,sans-serif;
+  font-size:15px; line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1060px; margin:0 auto; padding:0 clamp(20px,4vw,40px)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ── type ─────────────────────────────── */
+h1,h2,h3{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; letter-spacing:-.02em; text-wrap:balance; margin:0}
+h1{font-size:clamp(40px,6vw,68px); line-height:1.05}
+h2{font-size:clamp(28px,3.6vw,40px); line-height:1.15}
+h3{font-size:20px; line-height:1.35}
+.eyebrow{font-size:10.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent); margin:0}
+.lede{font-size:16px; line-height:1.85; color:var(--ink-2); max-width:60ch}
+p{margin:0}
+em{font-style:italic; color:var(--accent)}
+strong{font-weight:800}
+a{color:var(--accent)}
+
+/* ── masthead ─────────────────────────── */
+.mast{border-bottom:1px solid var(--rule); padding:clamp(48px,7vw,84px) 0 0}
+.mast-inner{display:grid; grid-template-columns:1.25fr .75fr; gap:48px; align-items:end; padding-bottom:40px}
+.brandmark{display:flex; align-items:center; gap:8px; font-weight:800; font-size:19px; letter-spacing:-.04em; margin-bottom:26px}
+.brandmark span{font-family:"DM Serif Display",serif; font-weight:400}
+.brandmark i{width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block}
+.mast h1{margin:14px 0 20px}
+.mast-meta{border-left:1px solid var(--rule); padding-left:28px; display:flex; flex-direction:column; gap:16px}
+.meta-row{display:flex; flex-direction:column; gap:2px}
+.meta-k{font-size:10.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+.meta-v{font-size:14px; font-weight:600}
+
+/* ── headline band ────────────────────── */
+.band{background:var(--band); color:var(--band-ink); margin:0}
+.band .wrap{padding-top:30px; padding-bottom:30px}
+.band-grid{display:grid; grid-template-columns:repeat(3,1fr) 1.5fr; gap:0}
+.band-cell{padding:4px 26px; border-right:1px solid var(--band-rule)}
+.band-cell:first-child{padding-left:0}
+.band-cell:last-child{border-right:0; padding-right:0}
+.band-v{font-family:"DM Serif Display",serif; font-size:clamp(30px,4vw,42px); line-height:1.1; display:block}
+.band-v small{font-size:15px; font-family:Manrope,sans-serif; font-weight:700; margin-left:3px}
+.band-k{font-size:11px; color:var(--band-dim); margin-top:5px; display:block}
+.band-note{font-size:12.5px; line-height:1.6; color:var(--band-dim); align-self:center}
+.band-note b{color:var(--band-ink); font-weight:700}
+
+/* ── sections ─────────────────────────── */
+section{padding:clamp(56px,7vw,92px) 0 0}
+.s-head{display:flex; justify-content:space-between; align-items:flex-end; gap:32px; margin-bottom:34px; padding-bottom:18px; border-bottom:2px solid var(--ink)}
+.s-head h2{margin-top:10px}
+.s-head > p:last-child{font-size:13px; color:var(--ink-2); max-width:34ch; text-align:right; line-height:1.65}
+
+/* ── ladder ───────────────────────────── */
+.tier{display:grid; grid-template-columns:172px 1fr; gap:28px; padding:28px 0; border-bottom:1px solid var(--rule)}
+.tier:last-of-type{border-bottom:0}
+.rail{position:relative; padding-left:18px}
+.rail::before{content:""; position:absolute; left:0; top:5px; bottom:0; width:4px; background:var(--tc)}
+.rail-n{font-family:"DM Serif Display",serif; font-size:15px; letter-spacing:.06em; color:var(--tci)}
+.rail-name{font-size:17px; font-weight:800; letter-spacing:-.02em; margin:2px 0 8px; line-height:1.3}
+.rail-range{font-size:12px; font-weight:700; color:var(--ink-2)}
+.rail-job{font-size:11.5px; line-height:1.55; color:var(--muted); margin-top:10px}
+.tier[data-t="1"]{--tc:var(--t1); --tci:var(--t1-i)}
+.tier[data-t="2"]{--tc:var(--t2); --tci:var(--t2-i)}
+.tier[data-t="3"]{--tc:var(--t3); --tci:var(--t3-i)}
+.tier[data-t="4"]{--tc:var(--t4); --tci:var(--t4-i)}
+.tier[data-t="5"]{--tc:var(--t5); --tci:var(--t5-i)}
+.tier[data-t="0"]{--tc:var(--rule-2); --tci:var(--muted)}
+
+.items{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.item{background:var(--card); padding:16px 18px 18px; display:flex; flex-direction:column; gap:7px}
+.item.hero{background:var(--tc)}
+.item.hero .i-name, .item.hero .i-price, .item.hero .i-desc, .item.hero .i-tag{color:var(--ink)}
+.item.hero .i-tag{color:var(--tci)}
+.i-tag{font-size:9.5px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:var(--muted)}
+.i-name{font-size:15px; font-weight:800; letter-spacing:-.02em; line-height:1.35}
+.i-price{font-family:"DM Serif Display",serif; font-size:25px; line-height:1; margin-top:auto; padding-top:6px}
+.i-price small{font-family:Manrope,sans-serif; font-size:12px; font-weight:700; letter-spacing:0; margin-left:2px; color:var(--ink-2)}
+.item.hero .i-price small{color:var(--ink)}
+.i-desc{font-size:12px; line-height:1.6; color:var(--ink-2)}
+.i-was{font-size:11px; font-weight:700; color:var(--muted)}
+.i-was s{color:var(--muted)}
+.i-was b{color:var(--accent); font-weight:800}
+.item.hero .i-was b{color:var(--tci)}
+
+/* ── tables ───────────────────────────── */
+.scroll{overflow-x:auto; border:1px solid var(--rule); background:var(--card)}
+table{border-collapse:collapse; width:100%; min-width:620px; font-size:13.5px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+thead th{font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--sunk); border-bottom:1px solid var(--rule-2); white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+.r{text-align:right}
+td.r,th.r{font-variant-numeric:tabular-nums}
+tfoot td{background:var(--sunk); font-weight:800; border-top:1px solid var(--rule-2); border-bottom:0}
+.tname{font-weight:700}
+.dot{display:inline-block; width:7px; height:7px; border-radius:2px; margin-right:8px; vertical-align:1px}
+.pill{display:inline-block; font-size:10.5px; font-weight:800; padding:2px 7px; border-radius:3px; letter-spacing:.02em; white-space:nowrap}
+.pill.good{background:color-mix(in srgb, var(--pos) 16%, transparent); color:var(--pos)}
+.pill.mid{background:color-mix(in srgb, var(--warn) 18%, transparent); color:var(--warn)}
+.pill.low{background:color-mix(in srgb, var(--accent) 15%, transparent); color:var(--accent)}
+.bar{height:6px; background:var(--sunk); border-radius:2px; overflow:hidden; margin-top:6px; min-width:80px}
+.bar i{display:block; height:100%; background:var(--fill,var(--accent))}
+
+/* ── scenarios ────────────────────────── */
+.scen{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.sc{background:var(--card); padding:22px 20px 24px; display:flex; flex-direction:column; gap:4px}
+.sc.mark{background:var(--sunk); box-shadow:inset 0 3px 0 var(--accent)}
+.sc-k{font-size:10.5px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:var(--muted)}
+.sc-t{font-size:15px; font-weight:800; margin-top:2px}
+.sc-v{font-family:"DM Serif Display",serif; font-size:38px; line-height:1.1; margin-top:12px}
+.sc-v small{font-family:Manrope,sans-serif; font-size:14px; font-weight:700; margin-left:3px}
+.sc-y{font-size:12px; color:var(--ink-2); font-weight:600}
+.sc-d{font-size:12px; line-height:1.65; color:var(--ink-2); margin-top:14px; padding-top:14px; border-top:1px solid var(--rule)}
+
+/* ── funnel ───────────────────────────── */
+.funnel{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.fstep{background:var(--card); display:grid; grid-template-columns:120px 1fr 200px; gap:20px; align-items:center; padding:14px 18px}
+.f-n{font-size:10.5px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; color:var(--muted)}
+.f-b{display:flex; align-items:center; gap:12px}
+.f-track{flex:1; height:26px; background:var(--sunk); position:relative; min-width:60px}
+.f-track i{display:block; height:100%; background:var(--fc)}
+.f-c{font-size:13px; font-weight:800; font-variant-numeric:tabular-nums; white-space:nowrap; min-width:74px}
+.f-note{font-size:12px; color:var(--ink-2); line-height:1.55}
+
+/* ── roadmap ──────────────────────────── */
+.road{display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.q{background:var(--card); padding:20px 18px 22px}
+.q-k{font-family:"DM Serif Display",serif; font-size:22px; color:var(--accent)}
+.q-t{font-size:14px; font-weight:800; margin:2px 0 12px; letter-spacing:-.01em}
+.q ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:9px}
+.q li{font-size:12.5px; line-height:1.55; color:var(--ink-2); padding-left:14px; position:relative}
+.q li::before{content:""; position:absolute; left:0; top:8px; width:5px; height:5px; background:var(--rule-2)}
+.q-goal{margin-top:16px; padding-top:12px; border-top:1px solid var(--rule); font-size:12px; font-weight:800}
+.q-goal span{color:var(--muted); font-weight:700; display:block; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; margin-bottom:3px}
+
+/* ── principles ───────────────────────── */
+.rules{display:grid; grid-template-columns:repeat(3,1fr); gap:26px}
+.rule-c{border-top:2px solid var(--ink); padding-top:16px}
+.rule-n{font-family:"DM Serif Display",serif; font-size:15px; color:var(--accent)}
+.rule-c h3{margin:6px 0 10px}
+.rule-c p{font-size:13px; line-height:1.75; color:var(--ink-2)}
+
+/* ── callout ──────────────────────────── */
+.callout{background:var(--sunk); border-left:4px solid var(--accent); padding:20px 24px; display:flex; flex-direction:column; gap:8px; margin-top:22px}
+.callout h3{font-family:Manrope,"Noto Sans KR",sans-serif; font-size:14px; font-weight:800; letter-spacing:-.01em}
+.callout p{font-size:13px; line-height:1.75; color:var(--ink-2)}
+.note{font-size:12px; color:var(--muted); line-height:1.7; margin-top:14px}
+
+footer{margin-top:clamp(64px,8vw,100px); border-top:1px solid var(--rule); padding:26px 0 46px}
+.foot{display:flex; justify-content:space-between; align-items:center; gap:20px; font-size:12px; color:var(--muted); flex-wrap:wrap}
+
+@media (max-width:900px){
+  .mast-inner{grid-template-columns:1fr; gap:30px}
+  .mast-meta{border-left:0; border-top:1px solid var(--rule); padding-left:0; padding-top:22px; display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+  .band-grid{grid-template-columns:repeat(3,1fr)}
+  .band-note{grid-column:1/-1; border-top:1px solid var(--band-rule); padding-top:16px; margin-top:16px}
+  .band-cell{padding:4px 14px 4px 0}
+  .scen,.road,.rules{grid-template-columns:1fr}
+  .road,.scen{gap:1px}
+  .tier{grid-template-columns:1fr; gap:18px}
+  .fstep{grid-template-columns:1fr; gap:8px; padding:16px 18px}
+  .f-note{padding-left:0}
+  .s-head{display:block}
+  .s-head > p:last-child{text-align:left; max-width:none; margin-top:14px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .item,.q,.sc{transition:background .18s ease}
+}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+</style>
+
+<header class="mast">
+  <div class="wrap mast-inner">
+    <div>
+      <div class="brandmark"><span>B,</span> Me<i></i></div>
+      <p class="eyebrow">Revenue Architecture · 스텔라</p>
+      <h1>하나의 여정을<br /><em>다섯 층의 수익</em>으로.</h1>
+      <p class="lede">B, Me의 6주 챌린지는 이미 완성된 콘텐츠 자산입니다. 이 문서는 그 자산을 무료 진단부터 월 구독 대행까지 <strong>다섯 단계의 가격 사다리</strong>로 다시 배치해, 한 명의 고객이 처음 만난 순간부터 3년 뒤까지 머무를 자리를 만듭니다.</p>
+    </div>
+    <div class="mast-meta">
+      <div class="meta-row"><span class="meta-k">기준 자산</span><span class="meta-v">6주 챌린지 · 버크만 · 브랜드 북</span></div>
+      <div class="meta-row"><span class="meta-k">운영 인원</span><span class="meta-v">스텔라 1인 + 외주 편집</span></div>
+      <div class="meta-row"><span class="meta-k">상품 수</span><span class="meta-v num">21종 / 5개 티어</span></div>
+      <div class="meta-row"><span class="meta-k">가격 범위</span><span class="meta-v num">0원 → 300만원</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="band">
+  <div class="wrap">
+    <div class="band-grid">
+      <div class="band-cell"><span class="band-v num">800<small>만원</small></span><span class="band-k">보수 시나리오 · 월</span></div>
+      <div class="band-cell"><span class="band-v num">2,180<small>만원</small></span><span class="band-k">기본 시나리오 · 월</span></div>
+      <div class="band-cell"><span class="band-v num">4,650<small>만원</small></span><span class="band-k">성장 시나리오 · 월</span></div>
+      <div class="band-cell band-note">기본 시나리오 기준 <b>연 2억 6,172만원</b>. 이 중 <b>1:1 컨설팅과 대행이 40%</b>를 만들고, 전자책·진단은 매출이 아니라 그 둘로 가는 <b>입구</b> 역할을 합니다.</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section id="ladder">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">01 — The Ladder</p>
+      <h2>가격 사다리</h2>
+    </div>
+    <p>티어는 장식이 아니라 순서입니다. 아래층이 위층을 팔고, 위층이 아래층의 신뢰를 만듭니다.</p>
+  </div>
+
+  <div class="tier" data-t="0">
+    <div class="rail">
+      <p class="rail-n">TIER 0</p>
+      <p class="rail-name">만나는 자리</p>
+      <p class="rail-range">무료</p>
+      <p class="rail-job">돈을 벌지 않는 층. 이름과 이메일을 얻는 것이 유일한 목적입니다.</p>
+    </div>
+    <div class="items">
+      <div class="item">
+        <span class="i-tag">Lead Magnet</span>
+        <p class="i-name">무료 브랜딩 진단</p>
+        <p class="i-desc">12문항 · 4가지 브랜드 유형 결과 카드. 결과는 이메일로 전달해 리드를 확보합니다.</p>
+        <p class="i-price">0<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Newsletter</span>
+        <p class="i-name">B, Me 레터</p>
+        <p class="i-desc">주 1회. 챌린지 미션 하나를 뉴스레터 한 편으로 풀어 씁니다. 콘텐츠 재활용 0원.</p>
+        <p class="i-price">0<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Social</span>
+        <p class="i-name">인스타 · 스레드</p>
+        <p class="i-desc">졸업생 브랜드 북을 사례 콘텐츠로. 남의 성장이 가장 강한 증거입니다.</p>
+        <p class="i-price">0<small>원</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" data-t="1">
+    <div class="rail">
+      <p class="rail-n">TIER 1</p>
+      <p class="rail-name">전자책</p>
+      <p class="rail-range num">9,900 ~ 33,000원</p>
+      <p class="rail-job">첫 결제의 문턱을 낮추는 층. 한 번 지갑을 연 사람이 다음도 엽니다.</p>
+    </div>
+    <div class="items">
+      <div class="item hero">
+        <span class="i-tag">Best Seller 후보</span>
+        <p class="i-name">B, Me 브랜딩 워크북</p>
+        <p class="i-desc">6주 미션 전체를 혼자 할 수 있게 만든 PDF 워크북 60p. 챌린지의 축약판이자 예고편.</p>
+        <p class="i-price num">19,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Diagnostic</span>
+        <p class="i-name">버크만으로 읽는 나</p>
+        <p class="i-desc">진단 결과지를 스스로 해석하는 법. 버크만 컨설팅 20만원으로 가는 가장 짧은 다리.</p>
+        <p class="i-price num">14,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Entry</span>
+        <p class="i-name">퍼스널 브랜딩 첫 30일</p>
+        <p class="i-desc">가장 싼 상품. 이익이 아니라 <em>고객 명단</em>을 사는 가격입니다.</p>
+        <p class="i-price num">9,900<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Bundle</span>
+        <p class="i-name">3권 합본</p>
+        <p class="i-desc">개별 합계 42,900원. 객단가를 1.7배로 올리는 가장 값싼 장치.</p>
+        <p class="i-was"><s class="num">42,900원</s> <b>23% 할인</b></p>
+        <p class="i-price num">33,000<small>원</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" data-t="2">
+    <div class="rail">
+      <p class="rail-n">TIER 2</p>
+      <p class="rail-name">진단 &amp; 강의</p>
+      <p class="rail-range num">49,000 ~ 80만원</p>
+      <p class="rail-job">1:다 구조. 스텔라의 시간을 나눠 쓰기 때문에 마진이 가장 좋은 층입니다.</p>
+    </div>
+    <div class="items">
+      <div class="item hero">
+        <span class="i-tag">간판 상품</span>
+        <p class="i-name">B, Me 6주 챌린지</p>
+        <p class="i-desc">그룹 정원 15명. 앱 · 1문1답 · 브랜드 북 · After B, Me 커뮤니티 전부 포함. 모든 상품이 여기로 모였다 흩어집니다.</p>
+        <p class="i-price num">290,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Report</span>
+        <p class="i-name">브랜딩 진단 리포트</p>
+        <p class="i-desc">자체 진단 40문항 + 15p PDF 리포트 + 15분 음성 해설. 사람이 만나지 않아도 팔립니다.</p>
+        <p class="i-price num">99,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">VOD</span>
+        <p class="i-name">6주 퍼스널 브랜딩 강의</p>
+        <p class="i-desc">챌린지를 녹화·재편집한 영상 24강. 한 번 만들고 계속 파는 유일한 자산.</p>
+        <p class="i-price num">149,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Live</span>
+        <p class="i-name">원데이 클래스</p>
+        <p class="i-desc">2시간 라이브, 정원 20명. 챌린지 모집 2주 전에 열어 대기 명단을 채웁니다.</p>
+        <p class="i-price num">49,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">B2B</span>
+        <p class="i-name">기업 · 기관 특강</p>
+        <p class="i-desc">2시간 출강. 인당 단가가 아니라 회당 단가로 받습니다. 담당자 한 명이 다음 해를 결정합니다.</p>
+        <p class="i-price num">800,000<small>원 / 회</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" data-t="3">
+    <div class="rail">
+      <p class="rail-n">TIER 3</p>
+      <p class="rail-name">1:1 컨설팅</p>
+      <p class="rail-range num">20만 ~ 190만원</p>
+      <p class="rail-job">수익의 기둥. 동시에 시간이 정직하게 소모되는 유일한 층 — 천장이 있습니다.</p>
+    </div>
+    <div class="items">
+      <div class="item">
+        <span class="i-tag">Single · 90min</span>
+        <p class="i-name">버크만 진단 + 디브리핑</p>
+        <p class="i-desc">진단 응시비 포함 1회. 진단지 원가가 있어 마진율은 가장 낮지만, 신뢰를 가장 빨리 만듭니다.</p>
+        <p class="i-price num">200,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Single · 90min</span>
+        <p class="i-name">퍼스널 브랜딩 컨설팅</p>
+        <p class="i-desc">1회 단품. 사실상 패키지의 <em>맛보기</em>이자 정가 기준선입니다. 절대 할인하지 않습니다.</p>
+        <p class="i-price num">300,000<small>원</small></p>
+      </div>
+      <div class="item hero">
+        <span class="i-tag">Package · 4회</span>
+        <p class="i-name">나를 세우는 4주</p>
+        <p class="i-desc">버크만 1회 + 브랜딩 3회(강점 → 포지셔닝 → 메시지). 정가 110만원 구성을 패키지로 묶습니다.</p>
+        <p class="i-was"><s class="num">1,100,000원</s> <b>10% 할인</b></p>
+        <p class="i-price num">990,000<small>원</small></p>
+      </div>
+      <div class="item hero">
+        <span class="i-tag">Package · 8회</span>
+        <p class="i-name">브랜드가 되는 8주</p>
+        <p class="i-desc">버크만 1회 + 브랜딩 7회 + <strong>브랜드 북 제작</strong> + 종료 후 3개월 메시지 피드백. 최상위 1:1 상품.</p>
+        <p class="i-was"><s class="num">2,300,000원</s> <b>17% 할인</b></p>
+        <p class="i-price num">1,900,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">B2B</span>
+        <p class="i-name">팀 브랜딩 진단</p>
+        <p class="i-desc">5인 이상 조직 단위. 개인 리포트 + 팀 종합 세션 2시간. 최소 5인부터.</p>
+        <p class="i-price num">150,000<small>원 / 인</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" data-t="4">
+    <div class="rail">
+      <p class="rail-n">TIER 4</p>
+      <p class="rail-name">마케팅 대행</p>
+      <p class="rail-range num">월 80만 ~ 300만원</p>
+      <p class="rail-job">유일하게 매달 자동으로 들어오는 층. 대신 외주 없이는 3건이 한계입니다.</p>
+    </div>
+    <div class="items">
+      <div class="item">
+        <span class="i-tag">Retainer · Light</span>
+        <p class="i-name">콘텐츠 라이트</p>
+        <p class="i-desc">월 8건 제작 + 계정 운영. 컨설팅 졸업 고객이 "이제 실행이 안 돼요" 할 때의 답.</p>
+        <p class="i-price num">800,000<small>원 / 월</small></p>
+      </div>
+      <div class="item hero">
+        <span class="i-tag">Retainer · Standard</span>
+        <p class="i-name">콘텐츠 스탠다드</p>
+        <p class="i-desc">월 16건 + 계정 운영 + 월간 리포트 + 월 1회 전략 미팅. 대행의 기본형으로 밀 상품.</p>
+        <p class="i-price num">1,500,000<small>원 / 월</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Retainer · Premium</span>
+        <p class="i-name">브랜드 그로스</p>
+        <p class="i-desc">스탠다드 + 광고 집행(광고비 별도) + 랜딩페이지 운영 + 퍼널 설계. 사실상 외주 CMO.</p>
+        <p class="i-price num">3,000,000<small>원 / 월</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Project</span>
+        <p class="i-name">브랜드 아이덴티티 구축</p>
+        <p class="i-desc">단발 프로젝트 4주. 네이밍 · 메시지 체계 · 비주얼 가이드. 대행 계약의 도입부로 씁니다.</p>
+        <p class="i-price num">2,000,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Project</span>
+        <p class="i-name">랜딩페이지 제작</p>
+        <p class="i-desc">기획 · 카피 · 페이지 구축. B, Me 앱이 곧 포트폴리오입니다.</p>
+        <p class="i-price num">1,500,000<small>원</small></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier" data-t="5">
+    <div class="rail">
+      <p class="rail-n">TIER 5</p>
+      <p class="rail-name">After B, Me</p>
+      <p class="rail-range num">월 29,000 ~ 300만원</p>
+      <p class="rail-job">졸업생을 다시 파는 층. 신규 획득 비용이 0인 유일한 매출입니다.</p>
+    </div>
+    <div class="items">
+      <div class="item hero">
+        <span class="i-tag">Membership</span>
+        <p class="i-name">After B, Me 멤버십</p>
+        <p class="i-desc">커뮤니티 + 월 1회 그룹 코칭 + 전체 아카이브. 이미 앱에 만들어 둔 화면을 그대로 씁니다.</p>
+        <p class="i-price num">29,000<small>원 / 월</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Annual</span>
+        <p class="i-name">연간 멤버십</p>
+        <p class="i-desc">2개월치 무료. 이탈률을 낮추고 현금을 앞당겨 받습니다.</p>
+        <p class="i-was"><s class="num">348,000원</s> <b>2개월 무료</b></p>
+        <p class="i-price num">290,000<small>원 / 년</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">Group Coaching</span>
+        <p class="i-name">그룹 코칭 4회 팩</p>
+        <p class="i-desc">1:1은 부담스럽고 챌린지는 끝난 사람들. 4~6인 소그룹으로 시간당 수익을 3배로.</p>
+        <p class="i-price num">400,000<small>원</small></p>
+      </div>
+      <div class="item">
+        <span class="i-tag">License</span>
+        <p class="i-name">퍼실리테이터 과정</p>
+        <p class="i-desc">졸업생이 B, Me 챌린지를 직접 운영하는 라이선스 + 교육. 스텔라의 시간을 복제하는 유일한 방법.</p>
+        <p class="i-price num">3,000,000<small>원</small></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="margin">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">02 — Unit Economics</p>
+      <h2>원가와 마진</h2>
+    </div>
+    <p>가격표만으로는 무엇을 밀지 결정할 수 없습니다. 실제로 손에 남는 돈과, 그 돈을 벌기 위해 쓴 시간을 함께 봅니다.</p>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr>
+          <th>상품</th>
+          <th class="r">판매가</th>
+          <th class="r">직접원가</th>
+          <th class="r">1건 소요</th>
+          <th class="r">시간당 수익</th>
+          <th>마진</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="tname"><span class="dot" style="background:var(--t1)"></span>전자책 (워크북)</td><td class="r num">19,000</td><td class="r num">1,500</td><td class="r num">0h</td><td class="r num">—</td><td><span class="pill good">92%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t2)"></span>브랜딩 진단 리포트</td><td class="r num">99,000</td><td class="r num">8,000</td><td class="r num">0.7h</td><td class="r num">130,000</td><td><span class="pill good">92%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t2)"></span>VOD 강의</td><td class="r num">149,000</td><td class="r num">12,000</td><td class="r num">0h</td><td class="r num">—</td><td><span class="pill good">92%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t2)"></span>6주 챌린지 (1인)</td><td class="r num">290,000</td><td class="r num">45,000</td><td class="r num">3.2h</td><td class="r num">77,000</td><td><span class="pill good">84%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t3)"></span>버크만 디브리핑</td><td class="r num">200,000</td><td class="r num">65,000</td><td class="r num">2.5h</td><td class="r num">54,000</td><td><span class="pill mid">68%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t3)"></span>브랜딩 컨설팅 1회</td><td class="r num">300,000</td><td class="r num">0</td><td class="r num">2.5h</td><td class="r num">120,000</td><td><span class="pill good">100%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t3)"></span>4회 과정</td><td class="r num">990,000</td><td class="r num">65,000</td><td class="r num">10h</td><td class="r num">93,000</td><td><span class="pill good">93%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t3)"></span>8회 과정</td><td class="r num">1,900,000</td><td class="r num">95,000</td><td class="r num">24h</td><td class="r num">75,000</td><td><span class="pill good">95%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t4)"></span>대행 스탠다드</td><td class="r num">1,500,000</td><td class="r num">600,000</td><td class="r num">12h</td><td class="r num">75,000</td><td><span class="pill low">60%</span></td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t5)"></span>멤버십 (1인 · 월)</td><td class="r num">29,000</td><td class="r num">2,500</td><td class="r num">0.1h</td><td class="r num">265,000</td><td><span class="pill good">91%</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <h3>여기서 나오는 결론 세 가지</h3>
+    <p><strong>① 버크만 20만원은 마진이 아니라 입구입니다.</strong> 진단지 원가 6.5만원 때문에 시간당 수익이 5.4만원으로 가장 낮습니다. 단독으로 팔아 남기는 상품이 아니라, <em>4회·8회 패키지의 첫 회차</em>로 넣어 190만원을 여는 열쇠로 쓰는 게 맞습니다.</p>
+    <p><strong>② 대행은 외주를 쓸 때만 성립합니다.</strong> 위 표의 시간당 75,000원은 외주 편집자에게 월 60만원을 주고 스텔라는 전략·리포트·미팅 12시간만 쓴다는 전제입니다. 직접 다 만들면 28시간이 들어 시간당 53,000원 — 컨설팅(120,000원)의 절반 이하로 떨어집니다. <em>외주 계약이 대행 영업보다 먼저입니다.</em></p>
+    <p><strong>③ 멤버십과 VOD가 유일하게 시간에서 자유롭습니다.</strong> 멤버십 1인의 시간당 수익 26.5만원은 전체 1위입니다. 매출 규모가 작아 보여도 여기가 스텔라의 노동을 해방시키는 층입니다.</p>
+  </div>
+</section>
+
+<section id="capacity">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">03 — Capacity</p>
+      <h2>시간이라는 천장</h2>
+    </div>
+    <p>1인 사업의 매출 목표는 희망이 아니라 <em>주 40시간</em>이라는 산수로 검증되어야 합니다.</p>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr><th>업무</th><th class="r">주당 시간</th><th class="r">월 처리량</th><th>주 40시간 중 비중</th><th>비고</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tname">1:1 컨설팅</td><td class="r num">12.5h</td><td class="r num">20회</td>
+          <td><div class="bar" style="--fill:var(--t3-i)"><i style="width:31%"></i></div></td>
+          <td>세션 90분 + 준비·리포트 60분 = 회당 2.5h. 단회 8 + 4회 과정 1건 + 8회 과정 1건. 주 15h까지 밀면 <strong>월 24회가 절대 상한</strong>입니다.</td>
+        </tr>
+        <tr>
+          <td class="tname">6주 챌린지 운영</td><td class="r num">8h</td><td class="r num">1기 (15명)</td>
+          <td><div class="bar" style="--fill:var(--t2-i)"><i style="width:20%"></i></div></td>
+          <td>동시 2기까지 가능. 3기부터는 조교 또는 퍼실리테이터 과정 수료생이 필요합니다.</td>
+        </tr>
+        <tr>
+          <td class="tname">마케팅 대행 3건</td><td class="r num">9h</td><td class="r num">라이트 1 + 스탠다드 2</td>
+          <td><div class="bar" style="--fill:var(--t4-i)"><i style="width:23%"></i></div></td>
+          <td>건당 3h는 <strong>외주 편집자를 쓸 때</strong>의 전략·리포트·미팅 시간입니다. 직접 제작하면 건당 7h → 3건에 21h로, 컨설팅 시간을 그대로 잡아먹습니다.</td>
+        </tr>
+        <tr>
+          <td class="tname">콘텐츠 · 마케팅</td><td class="r num">6h</td><td class="r num">주 3편 + 레터 1</td>
+          <td><div class="bar" style="--fill:var(--t1-i)"><i style="width:15%"></i></div></td>
+          <td>줄이면 티어 0이 마르고, 6개월 뒤 전 층이 함께 마릅니다. 가장 먼저 지키세요.</td>
+        </tr>
+        <tr>
+          <td class="tname">제작 · 운영 · 정산</td><td class="r num">4h</td><td class="r num">—</td>
+          <td><div class="bar" style="--fill:var(--muted)"><i style="width:10%"></i></div></td>
+          <td>전자책·VOD 신규 제작, 세금계산서, 고객 응대.</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr><td>합계</td><td class="r num">39.5h</td><td class="r">—</td><td>99% · 여유 0.5h</td><td>기본 시나리오는 스텔라의 주 40시간을 정확히 다 씁니다.</td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <p class="note">기본 시나리오(월 2,180만원)는 <strong>외주 편집자 1명을 쓴다는 전제로도</strong> 이미 주 40시간을 꽉 채웁니다. 성장 시나리오(월 4,650만원)는 <strong>스텔라 1인으로는 불가능</strong>합니다 — 콘텐츠 외주 편집자 1명(월 150만원)과 대행 디자이너 1명(건당 계약)을 먼저 확보한 뒤에만 유효한 숫자입니다. 매출을 2배로 늘리는 방법은 더 많이 일하는 것이 아니라, 티어 5(멤버십·라이선스)의 비중을 올리는 것입니다.</p>
+</section>
+
+<section id="scenario">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">04 — Projection</p>
+      <h2>세 개의 시나리오</h2>
+    </div>
+    <p>같은 상품 구성, 다른 판매량. 어떤 숫자를 목표로 잡을지 고르기 위한 표입니다.</p>
+  </div>
+
+  <div class="scen">
+    <div class="sc">
+      <span class="sc-k">Conservative</span>
+      <span class="sc-t">보수 — 지금 바로 가능한</span>
+      <span class="sc-v num">799<small>만원 / 월</small></span>
+      <span class="sc-y num">연 9,594만원</span>
+      <p class="sc-d">챌린지 8명, 컨설팅 5건, 대행 1건. 스텔라가 주 25시간만 써도 나오는 숫자입니다. 첫 6개월의 현실적 기준선.</p>
+    </div>
+    <div class="sc mark">
+      <span class="sc-k">Base · 목표</span>
+      <span class="sc-t">기본 — 1년 뒤의 자리</span>
+      <span class="sc-v num">2,181<small>만원 / 월</small></span>
+      <span class="sc-y num">연 2억 6,172만원</span>
+      <p class="sc-d">챌린지 15명, 컨설팅 10건, 패키지 2건, 대행 3건, 멤버십 60명. <strong>주 40시간을 정확히 채우는 1인 최대치</strong>입니다.</p>
+    </div>
+    <div class="sc">
+      <span class="sc-k">Growth</span>
+      <span class="sc-t">성장 — 팀이 있어야 하는</span>
+      <span class="sc-v num">4,649<small>만원 / 월</small></span>
+      <span class="sc-y num">연 5억 5,788만원</span>
+      <p class="sc-d">외주 편집 1명 + 디자이너 1명 전제. 인건비 월 300만원을 빼도 순증 2,100만원. 여기서부터는 스텔라가 <em>가르치는 사람에서 설계하는 사람</em>이 됩니다.</p>
+    </div>
+  </div>
+
+  <div class="scroll" style="margin-top:26px">
+    <table>
+      <thead>
+        <tr><th>티어 · 상품</th><th class="r">단가</th><th class="r">보수 · 수량</th><th class="r">보수 · 매출</th><th class="r">기본 · 수량</th><th class="r">기본 · 매출</th><th class="r">성장 · 수량</th><th class="r">성장 · 매출</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="tname"><span class="dot" style="background:var(--t1)"></span>전자책 (평균)</td><td class="r num">19,000</td><td class="r num">30</td><td class="r num">570,000</td><td class="r num">80</td><td class="r num">1,520,000</td><td class="r num">200</td><td class="r num">3,800,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t2)"></span>브랜딩 진단 리포트</td><td class="r num">99,000</td><td class="r num">10</td><td class="r num">990,000</td><td class="r num">25</td><td class="r num">2,475,000</td><td class="r num">50</td><td class="r num">4,950,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t2)"></span>VOD 강의</td><td class="r num">149,000</td><td class="r num">5</td><td class="r num">745,000</td><td class="r num">15</td><td class="r num">2,235,000</td><td class="r num">40</td><td class="r num">5,960,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t2)"></span>6주 챌린지</td><td class="r num">290,000</td><td class="r num">8</td><td class="r num">2,320,000</td><td class="r num">15</td><td class="r num">4,350,000</td><td class="r num">25</td><td class="r num">7,250,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t2)"></span>기업 특강</td><td class="r num">800,000</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td><td class="r num">800,000</td><td class="r num">3</td><td class="r num">2,400,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t3)"></span>단회 컨설팅 (평균)</td><td class="r num">250,000</td><td class="r num">4</td><td class="r num">1,000,000</td><td class="r num">8</td><td class="r num">2,000,000</td><td class="r num">12</td><td class="r num">3,000,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t3)"></span>4회 과정</td><td class="r num">990,000</td><td class="r num">1</td><td class="r num">990,000</td><td class="r num">1</td><td class="r num">990,000</td><td class="r num">2</td><td class="r num">1,980,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t3)"></span>8회 과정</td><td class="r num">1,900,000</td><td class="r num">0</td><td class="r num">0</td><td class="r num">1</td><td class="r num">1,900,000</td><td class="r num">2</td><td class="r num">3,800,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t4)"></span>마케팅 대행</td><td class="r num">—</td><td class="r num">1건</td><td class="r num">800,000</td><td class="r num">3건</td><td class="r num">3,800,000</td><td class="r num">6건</td><td class="r num">9,000,000</td></tr>
+        <tr><td class="tname"><span class="dot" style="background:var(--t5)"></span>멤버십</td><td class="r num">29,000</td><td class="r num">20</td><td class="r num">580,000</td><td class="r num">60</td><td class="r num">1,740,000</td><td class="r num">150</td><td class="r num">4,350,000</td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td>월 합계</td><td class="r">—</td><td class="r">—</td><td class="r num">7,995,000</td><td class="r">—</td><td class="r num">21,810,000</td><td class="r">—</td><td class="r num">46,490,000</td></tr>
+      </tfoot>
+    </table>
+  </div>
+</section>
+
+<section id="funnel">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">05 — Conversion</p>
+      <h2>한 명이 지나가는 길</h2>
+    </div>
+    <p>기본 시나리오를 만들려면 매달 위에서 몇 명이 들어와야 하는지 역산한 값입니다.</p>
+  </div>
+
+  <div class="funnel">
+    <div class="fstep">
+      <span class="f-n">Tier 0 · 무료</span>
+      <div class="f-b"><span class="f-c num">1,000명</span><span class="f-track" style="--fc:var(--rule-2)"><i style="width:100%"></i></span></div>
+      <p class="f-note">무료 진단 응시 + 뉴스레터 구독. 월 신규 리드 목표.</p>
+    </div>
+    <div class="fstep">
+      <span class="f-n">Tier 1 · 전자책</span>
+      <div class="f-b"><span class="f-c num">80명 <em>8%</em></span><span class="f-track" style="--fc:var(--t1-i)"><i style="width:34%"></i></span></div>
+      <p class="f-note">첫 결제. 이 8%가 이후 모든 매출의 모수가 됩니다.</p>
+    </div>
+    <div class="fstep">
+      <span class="f-n">Tier 2 · 챌린지 / 강의</span>
+      <div class="f-b"><span class="f-c num">40명 <em>19%</em></span><span class="f-track" style="--fc:var(--t2-i)"><i style="width:26%"></i></span></div>
+      <p class="f-note">전자책 구매자 + 무료 리드에서 함께 전환. 챌린지 15 · VOD 15 · 진단 25 중복 포함.</p>
+    </div>
+    <div class="fstep">
+      <span class="f-n">Tier 3 · 1:1 컨설팅</span>
+      <div class="f-b"><span class="f-c num">10명 <em>25%</em></span><span class="f-track" style="--fc:var(--t3-i)"><i style="width:17%"></i></span></div>
+      <p class="f-note">챌린지 졸업생의 25%가 1:1로. <strong>졸업 시점의 패키지 제안이 전환의 전부</strong>입니다.</p>
+    </div>
+    <div class="fstep">
+      <span class="f-n">Tier 4 · 대행</span>
+      <div class="f-b"><span class="f-c num">1건 <em>10%</em></span><span class="f-track" style="--fc:var(--t4-i)"><i style="width:9%"></i></span></div>
+      <p class="f-note">컨설팅 고객 중 "방향은 알겠는데 실행할 사람이 없는" 경우. 신규 영업이 아니라 후속 제안입니다.</p>
+    </div>
+    <div class="fstep">
+      <span class="f-n">Tier 5 · 멤버십</span>
+      <div class="f-b"><span class="f-c num">+6명 <em>40%</em></span><span class="f-track" style="--fc:var(--t5-i)"><i style="width:13%"></i></span></div>
+      <p class="f-note">챌린지 졸업생의 40%가 잔류. 누적되는 유일한 숫자 — 12개월이면 60~70명이 쌓입니다.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>이 구조의 급소</h3>
+    <p>모든 티어가 <strong>티어 0의 월 1,000 리드</strong> 하나에 매달려 있습니다. 리드가 500명으로 줄면 전 층이 절반이 됩니다. 반대로 컨설팅 한 건을 더 파는 것보다 리드를 200명 더 만드는 쪽이 언제나 매출에 더 크게 기여합니다. <em>주 6시간의 콘텐츠 시간은 매출 활동이지 홍보가 아닙니다.</em></p>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">06 — Rollout</p>
+      <h2>순서</h2>
+    </div>
+    <p>21개 상품을 동시에 열면 아무것도 안 팔립니다. 아래층부터 한 층씩 세웁니다.</p>
+  </div>
+
+  <div class="road">
+    <div class="q">
+      <p class="q-k">Q1</p>
+      <p class="q-t">입구 만들기</p>
+      <ul>
+        <li>무료 브랜딩 진단 12문항 공개</li>
+        <li>전자책 3종 + 합본 출시</li>
+        <li>뉴스레터 주 1회 시작</li>
+        <li>컨설팅 가격표 공식 공개 (20 / 30만원)</li>
+      </ul>
+      <p class="q-goal"><span>분기 목표</span>리드 1,000명 · 월 500만원</p>
+    </div>
+    <div class="q">
+      <p class="q-k">Q2</p>
+      <p class="q-t">간판 세우기</p>
+      <ul>
+        <li>6주 챌린지 유료 정식 개설 (29만원)</li>
+        <li>챌린지 전 회차 녹화 → VOD 편집</li>
+        <li>브랜딩 진단 리포트 99,000원 판매 개시</li>
+        <li>졸업 세션에 4회 패키지 제안 삽입</li>
+      </ul>
+      <p class="q-goal"><span>분기 목표</span>챌린지 2기 · 월 1,200만원</p>
+    </div>
+    <div class="q">
+      <p class="q-k">Q3</p>
+      <p class="q-t">기둥 굵히기</p>
+      <ul>
+        <li>4회 · 8회 패키지 본격 판매</li>
+        <li>대행 2건 확보 + 외주 편집자 계약</li>
+        <li>After B, Me 멤버십 오픈</li>
+        <li>VOD 상시 판매 전환</li>
+      </ul>
+      <p class="q-goal"><span>분기 목표</span>멤버십 40명 · 월 1,800만원</p>
+    </div>
+    <div class="q">
+      <p class="q-k">Q4</p>
+      <p class="q-t">시간에서 벗어나기</p>
+      <ul>
+        <li>기업 특강 · 팀 진단 B2B 영업</li>
+        <li>퍼실리테이터 과정 파일럿 3명</li>
+        <li>대행 프리미엄 1건 전환</li>
+        <li>다음 해 가격 10% 인상 공지</li>
+      </ul>
+      <p class="q-goal"><span>분기 목표</span>월 2,180만원 도달</p>
+    </div>
+  </div>
+</section>
+
+<section id="rules">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">07 — Pricing Policy</p>
+      <h2>지켜야 할 세 가지</h2>
+    </div>
+    <p>가격은 한 번 무너지면 되돌리는 데 2년이 걸립니다.</p>
+  </div>
+
+  <div class="rules">
+    <div class="rule-c">
+      <p class="rule-n">01</p>
+      <h3>단가는 내리지 않고,<br />구성으로 낮춘다</h3>
+      <p>"30만원인데 25만원에 해드릴게요"는 다음 고객에게도 25만원이 됩니다. 대신 4회 990,000원처럼 <strong>묶음 안에서</strong> 실질 단가를 낮추세요. 정가 300,000원은 언제나 살아 있어야 8회 1,900,000원이 싸 보입니다.</p>
+    </div>
+    <div class="rule-c">
+      <p class="rule-n">02</p>
+      <h3>가장 싼 상품이<br />가장 비싼 상품을 판다</h3>
+      <p>9,900원 전자책은 이익을 남기는 상품이 아니라 <strong>명단을 사는 비용</strong>입니다. 전자책에서 남는 돈을 걱정하지 말고, 그 안에 8회 과정으로 가는 문장을 넣었는지를 확인하세요.</p>
+    </div>
+    <div class="rule-c">
+      <p class="rule-n">03</p>
+      <h3>시간을 파는 상품에는<br />반드시 천장이 있다</h3>
+      <p>컨설팅 월 24회가 스텔라의 물리적 한계입니다. 그 천장에 닿는 순간 답은 더 일하는 게 아니라 <strong>멤버십·VOD·라이선스</strong>의 비중을 올리는 것입니다. 매출이 아니라 <em>시간당 수익</em>을 목표로 두세요.</p>
+    </div>
+  </div>
+</section>
+
+<section id="assumptions">
+  <div class="s-head">
+    <div>
+      <p class="eyebrow">08 — Assumptions</p>
+      <h2>이 문서가 가정한 것</h2>
+    </div>
+    <p>숫자는 전부 가정 위에 있습니다. 가정이 바뀌면 표를 다시 계산해야 합니다.</p>
+  </div>
+  <p class="note" style="margin-top:0">
+    · <strong>확정 입력값</strong>: 버크만 디브리핑 200,000원, 퍼스널 브랜딩 컨설팅 300,000원 — 스텔라가 직접 정한 두 가격입니다. 나머지 19개 상품의 가격은 이 두 값을 기준선으로 삼아 역산한 <strong>제안값</strong>입니다.<br />
+    · <strong>버크만 진단지 원가 65,000원</strong>은 국내 라이선스 응시비의 통상 범위를 잡은 추정치입니다. 실제 계약 단가에 맞춰 68% 마진율을 다시 계산하세요.<br />
+    · <strong>전환율</strong>(8% / 19% / 25% / 10% / 40%)은 1인 지식창업의 일반적 범위를 적용했습니다. 3개월 실측 후 반드시 실제 값으로 교체해야 합니다.<br />
+    · 모든 금액은 <strong>부가세 별도</strong>, 카드·플랫폼 수수료는 직접원가에 포함했습니다. 소득세·4대보험은 제외되어 있습니다.<br />
+    · 상품 구성은 저장소의 B, Me 앱에 이미 구현된 6주 커리큘럼(버크만 → 강점 → 이키가이 → 만트라 → 비전보드 → 브랜드 스토리 → 브랜드 북)과 After B, Me 커뮤니티 구조를 그대로 자산으로 전제했습니다.
+  </p>
+</section>
+
+<footer>
+  <div class="foot">
+    <div class="brandmark" style="margin:0"><span>B,</span> Me<i></i></div>
+    <span>Revenue Architecture · 스텔라 · 2026</span>
+  </div>
+</footer>
+
+</div>
