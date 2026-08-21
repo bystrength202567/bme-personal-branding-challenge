@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="B, Me 퍼스널 브랜딩 챌린지 카드뉴스를 만들고 1080×1080 PNG로 저장하는 도구" />
+    <title>B, Me — 카드뉴스 메이커</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="cardnews.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <a class="brand" href="../index.html"><span>B,</span> Me<i></i></a>
+      <span class="bar-title">카드뉴스 메이커</span>
+      <div class="bar-actions">
+        <button class="ghost" id="loadJson">JSON 불러오기</button>
+        <button class="ghost" id="saveJson">JSON 저장</button>
+        <button class="ghost" id="resetAll">기본값으로</button>
+        <button class="primary" id="exportOne">이 카드 PNG</button>
+        <button class="primary" id="exportAll">전체 PNG</button>
+      </div>
+    </header>
+
+    <main>
+      <aside class="cards">
+        <div class="panel-head"><span>카드 <b id="cardCount">0</b>장</span><button class="ghost small" id="addCard">+ 추가</button></div>
+        <div class="thumbs" id="thumbs"></div>
+      </aside>
+
+      <section class="stage">
+        <div class="canvas-wrap"><canvas id="preview" width="1080" height="1080"></canvas></div>
+        <p class="stage-note">1080 × 1080 · 인스타그램 정사각형</p>
+      </section>
+
+      <aside class="editor">
+        <div class="panel-head"><span>카드 편집</span><span class="page-tag" id="pageTag">01</span></div>
+        <div class="row"><label for="template">템플릿</label><select id="template"></select></div>
+        <div class="row"><label>배경</label><div class="swatches" id="swatches"></div></div>
+        <div id="fields"></div>
+        <div class="order">
+          <button class="ghost small" id="moveUp">↑ 앞으로</button>
+          <button class="ghost small" id="moveDown">↓ 뒤로</button>
+          <button class="ghost small" id="dupCard">복제</button>
+          <button class="ghost small danger" id="delCard">삭제</button>
+        </div>
+        <p class="hint">문장 안에 <code>*강조*</code> 를 넣으면 그 부분만 브랜드 컬러 이탤릭으로 표시됩니다. 줄바꿈은 입력한 그대로 반영돼요. 목록은 한 줄에 하나씩, <code>라벨 | 내용</code> 형식으로 적습니다.</p>
+      </aside>
+    </main>
+
+    <input type="file" id="fileInput" accept="application/json" hidden />
+    <script src="cardnews.js"></script>
+  </body>
+</html>
