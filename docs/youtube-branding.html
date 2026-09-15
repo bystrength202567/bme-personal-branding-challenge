@@ -1,0 +1,252 @@
+<title>왜 당신인가 채널 브랜딩</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --paper:#FFFCF7; --card:#FFFDFA; --sunk:#F5F0E8;
+  --ink:#28272B; --ink-2:#5B575E; --muted:#8A848C;
+  --rule:#E6DFD6; --rule-2:#D4CABD;
+  --accent:#C25A55; --accent-d:#9C443F;
+  --go:#4C7D54; --go-bg:#E7F0E7;
+  --no:#B0504B; --no-bg:#F8E6E2;
+  --safe:#C25A55;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#18171A; --card:#201F23; --sunk:#232126;
+    --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+    --rule:#322E34; --rule-2:#433E45;
+    --accent:#E28C83; --accent-d:#F0A79F;
+    --go:#84B78A; --go-bg:#1E2C20;
+    --no:#E08B84; --no-bg:#2E1F1E;
+    --safe:#E28C83;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#18171A; --card:#201F23; --sunk:#232126;
+  --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+  --rule:#322E34; --rule-2:#433E45;
+  --accent:#E28C83; --accent-d:#F0A79F;
+  --go:#84B78A; --go-bg:#1E2C20;
+  --no:#E08B84; --no-bg:#2E1F1E;
+  --safe:#E28C83;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:Manrope,"Noto Sans KR",system-ui,sans-serif; font-size:15px; line-height:1.75;
+  -webkit-font-smoothing:antialiased}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:940px; margin:0 auto; padding:0 clamp(20px,4vw,32px)}
+h1,h2{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; letter-spacing:-.025em; text-wrap:balance; margin:0}
+h1{font-size:clamp(34px,5.4vw,54px); line-height:1.07}
+h2{font-size:clamp(24px,3.2vw,32px); line-height:1.16}
+em{font-style:italic; color:var(--accent)}
+.eyebrow{font-size:10.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+
+.mast{border-bottom:2px solid var(--ink); padding:clamp(36px,5.5vw,62px) 0 22px}
+.brandmark{display:inline-flex; align-items:center; gap:7px; font-weight:800; font-size:16px; letter-spacing:-.04em}
+.brandmark span{font-family:"DM Serif Display",serif; font-weight:400}
+.brandmark i{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block}
+.mast h1{margin:16px 0 14px}
+.mast p.lede{font-size:15.5px; line-height:1.85; color:var(--ink-2); max-width:56ch}
+
+section{padding:clamp(40px,5.5vw,64px) 0 0}
+.s-head{padding-bottom:14px; border-bottom:2px solid var(--ink); margin-bottom:24px}
+.s-head h2{margin-top:8px}
+
+/* name compare */
+.names{display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule)}
+.nrow{background:var(--card); display:grid; grid-template-columns:200px 1fr 92px; gap:18px; padding:14px 18px; align-items:start}
+.n-v{font-size:19px; font-weight:800; letter-spacing:-.025em; line-height:1.3}
+.n-d{font-size:12.5px; line-height:1.7; color:var(--ink-2)}
+.n-d b{color:var(--ink); font-weight:800}
+.pill{font-size:10px; font-weight:800; padding:3px 8px; border-radius:2px; text-align:center; white-space:nowrap; letter-spacing:.04em}
+.pill.go{background:var(--go-bg); color:var(--go)}
+.pill.no{background:var(--no-bg); color:var(--no)}
+.pill.mid{background:var(--sunk); color:var(--muted)}
+
+/* banner mock */
+.bn-label{display:flex; align-items:baseline; gap:10px; margin:26px 0 9px; flex-wrap:wrap}
+.bn-n{font-family:"DM Serif Display",serif; font-size:15px; color:var(--accent)}
+.bn-t{font-size:15px; font-weight:800; letter-spacing:-.02em}
+.bn-m{font-size:11.5px; color:var(--muted)}
+.banner{position:relative; width:100%; aspect-ratio:2560/1440; border:1px solid var(--rule-2); overflow:hidden; display:grid; place-items:center; container-type:inline-size}
+.safe{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:60.4%; height:29.4%; border:1px dashed var(--safe); opacity:.5; pointer-events:none}
+.safe::after{content:"TV·모바일 공통 안전영역 1546 × 423"; position:absolute; left:0; bottom:-19px; font-size:8px; letter-spacing:.06em; color:var(--safe); opacity:.85; font-weight:700}
+.bin{width:60.4%; text-align:center; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%}
+
+/* A — 질문형 */
+.b-a{background:#28272B}
+.b-a .hd{font-family:"Noto Sans KR",sans-serif; font-weight:900; color:#FFFCF7; font-size:9.5cqw; line-height:1; letter-spacing:-.05em}
+.b-a .hd u{text-decoration:none; color:#E08B84}
+.b-a .sub{color:#B9B3B6; font-size:2.1cqw; font-weight:600; margin-top:2.4cqw; letter-spacing:-.01em}
+.b-a .foot{color:#7E787E; font-size:1.5cqw; font-weight:700; letter-spacing:.14em; margin-top:2.2cqw; text-transform:uppercase}
+
+/* B — 신뢰형 */
+.b-b{background:#FFFCF7}
+.b-b .hd{font-family:"Noto Sans KR",sans-serif; font-weight:900; color:#28272B; font-size:8.6cqw; line-height:1; letter-spacing:-.05em}
+.b-b .hd u{text-decoration:none; color:#C25A55}
+.b-b .rule{width:14%; height:2px; background:#C25A55; margin:2.6cqw 0}
+.b-b .sub{color:#4A464C; font-size:2cqw; font-weight:700; letter-spacing:-.01em}
+.b-b .foot{color:#8A848C; font-size:1.45cqw; font-weight:700; margin-top:1.5cqw; letter-spacing:.02em}
+
+/* C — 고객 상태형 */
+.b-c{background:#F9E7E4; position:relative}
+.b-c .sun{position:absolute; width:26%; aspect-ratio:1; border-radius:50%; background:#F7C750; right:-4%; top:-22%}
+.b-c .orb{position:absolute; border:1px solid #C98D87; border-radius:50%; width:44%; height:52%; right:2%; bottom:-6%; transform:rotate(-18deg); opacity:.55}
+.b-c .hd{font-family:"Noto Sans KR",sans-serif; font-weight:800; color:#28272B; font-size:4.6cqw; line-height:1.35; letter-spacing:-.04em}
+.b-c .hd b{font-weight:900; color:#9C443F}
+.b-c .foot{color:#7A5450; font-size:1.7cqw; font-weight:800; margin-top:2.6cqw; letter-spacing:.02em}
+
+.scroll{overflow-x:auto; border:1px solid var(--rule); background:var(--card); margin-top:22px}
+table{border-collapse:collapse; width:100%; min-width:560px; font-size:13.5px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+thead th{font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--sunk); white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; background:var(--sunk); padding:1px 5px; border-radius:2px}
+
+.callout{background:var(--sunk); border-left:4px solid var(--accent); padding:17px 21px 19px; display:flex; flex-direction:column; gap:8px; margin-top:20px}
+.callout h3{font-family:Manrope,"Noto Sans KR",sans-serif; font-size:14.5px; font-weight:800; margin:0; letter-spacing:-.01em}
+.callout p{font-size:13px; line-height:1.78; color:var(--ink-2)}
+.note{font-size:12.5px; color:var(--muted); line-height:1.75; margin-top:14px}
+footer{margin-top:clamp(48px,6vw,74px); border-top:1px solid var(--rule); padding:22px 0 42px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--muted)}
+@media (max-width:660px){ .nrow{grid-template-columns:1fr; gap:7px} }
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brandmark"><span>B,</span> Me<i></i></div>
+    <p class="eyebrow" style="margin-top:18px">YouTube · 채널명 &amp; 배너</p>
+    <h1>왜 당신인가.</h1>
+    <p class="lede">「선택받는 이유」의 결은 맞지만 한 박자 느립니다. 고객이 실제로 받는 질문을 그대로 채널명으로 올리는 쪽이 짧고, 기억되고, 배너에서 강합니다.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <div class="s-head"><p class="eyebrow">01</p><h2>WHY를 어떻게 쓸 것인가</h2></div>
+
+  <div class="callout">
+    <h3>WHY 방향은 맞습니다. 다만 영어 그대로는 쓰지 마세요.</h3>
+    <p><strong>이유 하나 — 남의 개념어입니다.</strong> "Start With Why"는 사이먼 시넥의 것이고, 국내 강사·컨설턴트 다수가 이미 쓰고 있습니다. 채널명에 올리면 <em>시넥을 인용하는 사람</em>이 되지, <em>자기 방법론을 가진 사람</em>이 되지 않습니다.</p>
+    <p><strong>이유 둘 — 정의가 살짝 어긋납니다.</strong> 시넥의 WHY는 <em>신념·목적</em>인데, 버크만이 보여주는 건 <em>기질·강점</em>입니다. "왜 이 일을 하는가"와 "당신이 어떤 사람인가"는 다른 질문입니다. 스텔라가 파는 건 후자이고, 그게 훨씬 구체적이고 검증 가능한 쪽입니다.</p>
+    <p><strong>이유 셋 — 표기가 세 갈래로 갈립니다.</strong> 검색에서 <code>why</code> / <code>왜</code> / <code>와이</code>로 흩어지고, 해시태그와 음성 전달에서도 매번 흔들립니다.</p>
+    <p><strong>그래서 WHY를 한국어로 옮겨 자기 것으로 만드세요.</strong> 「왜 당신인가」는 시넥의 WHY(신념)가 아니라 <strong>"왜 하필 당신을 선택해야 하는가"(차별점)</strong>를 묻는 말이고, 이게 강점 브랜딩과 정확히 맞습니다. 그리고 브랜드 철학과 한 줄로 이어집니다 — <em>왜 당신인가에 답할 수 있으면, 선택받습니다.</em></p>
+  </div>
+
+  <div class="names" style="margin-top:22px">
+    <div class="nrow">
+      <p class="n-v">왜 당신인가</p>
+      <p class="n-d"><b>추천.</b> 4글자. 고객이 실제로 듣는 질문 그대로이고, B2C·B2B에 같은 문장이 통합니다 — <em>"왜 당신인가" ↔ "왜 이 회사인가"</em>. 기업 워크숍 제안서 표지가 그대로 나옵니다. 단정적이지만 공격적이지 않아 브랜드 목소리와 충돌하지 않고, <b>배너·썸네일에서 가장 강합니다.</b></p>
+      <span class="pill go">채택</span>
+    </div>
+    <div class="nrow">
+      <p class="n-v">선택받는 이유</p>
+      <p class="n-d">브랜드 철학에서 나온 말이라 논리는 완벽하지만, <b>한 박자 느립니다.</b> '선택받는'이 수동태라 읽는 사람이 자기 일로 받기까지 시간이 걸립니다. <b>슬로건으로는 그대로 쓰세요</b> — "나를 알면, 선택받습니다."</p>
+      <span class="pill mid">슬로건</span>
+    </div>
+    <div class="nrow">
+      <p class="n-v">당신의 WHY</p>
+      <p class="n-d">짧고 시각적으로 강하지만 시넥의 개념어를 그대로 빌립니다. 게다가 "당신의 OO를 찾아드립니다"는 코칭 업계에서 가장 흔한 문형이라 <b>변별력이 낮습니다.</b></p>
+      <span class="pill no">기각</span>
+    </div>
+    <div class="nrow">
+      <p class="n-v">당신의 WHY를<br />찾아주는 강점브랜딩 전략가</p>
+      <p class="n-d">채널명으로는 <b>너무 깁니다.</b> 유튜브는 채널명이 잘리고, 구독 목록·댓글에서 앞 몇 글자만 보입니다. 다만 이건 좋은 <b>한 줄 소개</b>입니다 — 채널 설명 첫 줄과 배너 서브카피로 쓰세요.</p>
+      <span class="pill mid">소개문</span>
+    </div>
+    <div class="nrow">
+      <p class="n-v">실력은 있는데</p>
+      <p class="n-d">간판 한 문장의 앞부분. 공감은 가장 세지만 <b>말이 끝나지 않아</b> 채널명으로는 불안정하고, 검색어로도 잡히지 않습니다. 영상 제목·썸네일 문구로 쓰기 좋습니다.</p>
+      <span class="pill mid">썸네일</span>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>자리</th><th>표기</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td><strong>유튜브 채널명</strong></td><td><code>왜 당신인가 · 스텔라</code></td><td>앞 4글자가 잘려도 살아남습니다. 핸들 <code>@stellabranding</code></td></tr>
+        <tr><td><strong>채널 설명 첫 줄</strong></td><td>당신의 WHY를 찾아주는 강점 브랜딩 전략가</td><td>검색이 읽는 자리. 여기엔 WHY를 써도 됩니다</td></tr>
+        <tr><td><strong>슬로건</strong></td><td>나를 알면, 선택받습니다.</td><td>모든 채널 마지막 줄 고정</td></tr>
+        <tr><td><strong>호칭</strong></td><td><strong>스텔라</strong> — 그대로 두세요</td><td>스레드에서 이미 <em>"스텔라님"</em>으로 불리고 있습니다. 새 닉네임을 얹으면 호칭이 두 개가 됩니다</td></tr>
+        <tr><td><strong>직함</strong></td><td>강점 브랜딩 전략가 (B2C)<br />브랜드 전략가 · 버크만 Level 2 (B2B)</td><td>이름은 하나, 직함만 상황에 따라</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">02</p><h2>배너 시안 셋</h2></div>
+  <p class="note" style="margin-top:0">실제 비율(2560 × 1440)로 렌더링했습니다. 점선이 <strong>안전영역(1546 × 423)</strong> — TV·데스크톱·모바일 어디서나 보이는 유일한 구역이라, <strong>중요한 글자는 반드시 이 안에</strong> 들어가야 합니다. 바깥은 기기에 따라 잘립니다.</p>
+
+  <div class="bn-label"><span class="bn-n">A</span><span class="bn-t">질문형 — 추천</span><span class="bn-m">가장 강하고 가장 안전합니다</span></div>
+  <div class="banner b-a">
+    <div class="bin">
+      <p class="hd">왜 <u>당신</u>인가</p>
+      <p class="sub">18년차 글로벌 B2B 마케터가 찾아주는 당신의 강점</p>
+      <p class="foot">매주 목요일 업로드</p>
+    </div>
+    <div class="safe"></div>
+  </div>
+  <p class="note">먹지에 흰 글씨. 유튜브 다크 모드에서 배경과 자연스럽게 이어지고, 썸네일이 어떤 색이든 배너가 지지 않습니다. '당신'만 테라코타로 빼서 시선을 한 곳에 고정했습니다. <strong>서브카피에 숫자(18년차)와 고유명사가 들어가는 게 핵심</strong>입니다 — 코치는 많지만 18년차 글로벌 B2B 마케터는 드뭅니다.</p>
+
+  <div class="bn-label"><span class="bn-n">B</span><span class="bn-t">신뢰형</span><span class="bn-m">B2B·기업 강연 영업을 늘릴 계획이라면</span></div>
+  <div class="banner b-b">
+    <div class="bin">
+      <p class="hd">왜 <u>당신</u>인가</p>
+      <div class="rule"></div>
+      <p class="sub">ZEISS · BP Castrol · 효성 — 글로벌 B2B 브랜드 마케팅 18년</p>
+      <p class="foot">버크만 Level 2 국제공인 · 강점 브랜딩 전략가 스텔라</p>
+    </div>
+    <div class="safe"></div>
+  </div>
+  <p class="note">B, Me의 페이퍼 색을 그대로 씁니다. <strong>세 개의 고유명사가 배너에서 바로 읽히는 게 이 시안의 전부</strong>입니다 — 네이밍 논의에서 확인했듯 18년을 설명하는 건 직함이 아니라 ZEISS·Castrol·효성입니다. 기업 담당자가 채널에 들어왔을 때 3초 안에 신뢰를 만듭니다.</p>
+
+  <div class="bn-label"><span class="bn-n">C</span><span class="bn-t">공감형</span><span class="bn-m">B2C 유입을 우선한다면</span></div>
+  <div class="banner b-c">
+    <div class="sun"></div><div class="orb"></div>
+    <div class="bin">
+      <p class="hd">실력은 증명됐는데,<br /><b>나를 설명할 한 줄이 없다면.</b></p>
+      <p class="foot">강점 브랜딩 전략가 스텔라 · 왜 당신인가</p>
+    </div>
+    <div class="safe"></div>
+  </div>
+  <p class="note">앱의 히어로 모티프(로즈 바탕·노란 해·궤도선)를 그대로 가져와 B, Me와 시각적으로 이어집니다. 간판 한 문장을 그대로 올려 <strong>"내 얘기다" 하고 멈추게 하는 힘은 셋 중 가장 셉니다.</strong> 다만 글자가 길어 모바일에서 작아지고, 기업 고객에게는 다소 감성적으로 읽힐 수 있습니다.</p>
+
+  <div class="callout">
+    <h3>셋 중 고른다면 A입니다</h3>
+    <p>B는 B2B에 강하지만 <strong>B2C 구독자에게 이력서처럼 읽힙니다.</strong> C는 공감이 세지만 글자가 많아 모바일 안전영역에서 압박을 받고, 기업 담당자 앞에서 격이 내려갑니다. <strong>A는 짧아서 어디서나 읽히고, 서브카피 한 줄로 B의 신뢰 근거를 절반쯤 가져옵니다.</strong></p>
+    <p>그리고 배너는 <strong>한 번 만들고 오래 두는 물건</strong>입니다. 영국 이주 후에는 서브카피만 <em>"한국과 영국에서, 18년차 브랜드 마케터가 찾아주는 당신의 강점"</em>으로 바꾸면 그대로 씁니다 — A만 그 교체를 무리 없이 견딥니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">03</p><h2>제작 사양</h2></div>
+  <div class="scroll" style="margin-top:0">
+    <table>
+      <thead><tr><th>항목</th><th>값</th><th>주의</th></tr></thead>
+      <tbody>
+        <tr><td>배너 원본</td><td><strong class="num">2560 × 1440 px</strong>, 6MB 이하</td><td>PNG 또는 JPG</td></tr>
+        <tr><td><strong>안전영역</strong></td><td><strong class="num">1546 × 423 px</strong> (중앙)</td><td><strong>모든 글자를 이 안에.</strong> 바깥은 기기에 따라 잘립니다</td></tr>
+        <tr><td>프로필 사진</td><td><strong class="num">800 × 800 px</strong>, 원형으로 잘림</td><td>얼굴이 화면의 60% 이상. 포트폴리오의 프로필 컷을 그대로 쓰세요</td></tr>
+        <tr><td>썸네일</td><td><strong class="num">1280 × 720 px</strong></td><td>글자는 <strong>6~9자</strong>. 모바일에서 손톱만 하게 보입니다</td></tr>
+        <tr><td>워터마크</td><td><strong class="num">150 × 150 px</strong> 투명 PNG</td><td>구독 유도용. 「왜 당신인가」 또는 B, Me 마크</td></tr>
+        <tr><td>서체</td><td>Noto Sans KR Black (900)</td><td>무료·상업 이용 가능. 현재 B, Me 디자인과 동일 계열</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><strong>배너 우측 하단(안전영역 바깥)에 SNS 링크 아이콘</strong>을 넣을 수 있지만, 모바일에서는 안 보입니다. 링크는 배너가 아니라 <strong>채널 설명과 '링크' 탭</strong>에 거세요. 그리고 무료 진단 랜딩은 <strong>모든 영상의 고정 댓글과 더보기 첫 줄</strong>에 — 배너는 링크를 회수하는 자리가 아닙니다.</p>
+</section>
+
+<footer>
+  <div class="brandmark" style="font-size:15px"><span>B,</span> Me<i></i></div>
+  <span>YouTube Branding · 스텔라 · 2026. 09</span>
+</footer>
+
+</div>
