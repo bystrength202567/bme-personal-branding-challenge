@@ -1,0 +1,267 @@
+<title>솔파식 채널 운영</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --paper:#FFFCF7; --card:#FFFDFA; --sunk:#F5F0E8;
+  --ink:#28272B; --ink-2:#5B575E; --muted:#8A848C;
+  --rule:#E6DFD6; --rule-2:#D4CABD;
+  --accent:#C25A55; --accent-d:#9C443F;
+  --band:#26252A; --band-ink:#F3EEE7; --band-dim:#A7A1A7; --band-rule:#433F46;
+  --f1:#8E5FA8; --f2:#B5772B; --f3:#3F7A6A;
+  --good:#4C7D54; --good-bg:#E7F0E7;
+  --bad:#B0504B; --bad-bg:#F8E6E2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#18171A; --card:#201F23; --sunk:#232126;
+    --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+    --rule:#322E34; --rule-2:#433E45;
+    --accent:#E28C83; --accent-d:#F0A79F;
+    --band:#0E0D10; --band-ink:#F0ECE5; --band-dim:#999399; --band-rule:#353238;
+    --f1:#C4A0D8; --f2:#E0AB63; --f3:#7FBBA8;
+    --good:#84B78A; --good-bg:#1E2C20;
+    --bad:#E08B84; --bad-bg:#2E1F1E;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#18171A; --card:#201F23; --sunk:#232126;
+  --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+  --rule:#322E34; --rule-2:#433E45;
+  --accent:#E28C83; --accent-d:#F0A79F;
+  --band:#0E0D10; --band-ink:#F0ECE5; --band-dim:#999399; --band-rule:#353238;
+  --f1:#C4A0D8; --f2:#E0AB63; --f3:#7FBBA8;
+  --good:#84B78A; --good-bg:#1E2C20;
+  --bad:#E08B84; --bad-bg:#2E1F1E;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:Manrope,"Noto Sans KR",system-ui,sans-serif; font-size:15px; line-height:1.75;
+  -webkit-font-smoothing:antialiased}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:940px; margin:0 auto; padding:0 clamp(20px,4vw,32px)}
+h1,h2{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; letter-spacing:-.025em; text-wrap:balance; margin:0}
+h1{font-size:clamp(34px,5.4vw,56px); line-height:1.07}
+h2{font-size:clamp(25px,3.3vw,34px); line-height:1.16}
+em{font-style:italic; color:var(--accent)}
+.eyebrow{font-size:10.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+
+.mast{border-bottom:2px solid var(--ink); padding:clamp(36px,5.5vw,64px) 0 22px}
+.brandmark{display:inline-flex; align-items:center; gap:7px; font-weight:800; font-size:16px; letter-spacing:-.04em}
+.brandmark span{font-family:"DM Serif Display",serif; font-weight:400}
+.brandmark i{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block}
+.mast h1{margin:16px 0 15px}
+.mast p.lede{font-size:15.5px; line-height:1.85; color:var(--ink-2); max-width:58ch}
+
+.band{background:var(--band); color:var(--band-ink)}
+.band .wrap{padding:28px 0 30px}
+.band .k{font-size:10.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--band-dim)}
+.band .v{font-family:"DM Serif Display","Noto Sans KR",serif; font-size:clamp(23px,3.4vw,34px); line-height:1.28; margin-top:12px; letter-spacing:-.02em}
+.band .v em{color:#E28C83}
+.band .s{font-size:13.5px; color:var(--band-dim); margin-top:14px; line-height:1.8; max-width:60ch}
+
+section{padding:clamp(42px,5.5vw,68px) 0 0}
+.s-head{padding-bottom:14px; border-bottom:2px solid var(--ink); margin-bottom:24px}
+.s-head h2{margin-top:8px}
+
+.callout{background:var(--sunk); border-left:4px solid var(--accent); padding:17px 21px 19px; display:flex; flex-direction:column; gap:8px; margin-top:18px}
+.callout h3{font-family:Manrope,"Noto Sans KR",sans-serif; font-size:14.5px; font-weight:800; margin:0; letter-spacing:-.01em}
+.callout p{font-size:13px; line-height:1.78; color:var(--ink-2)}
+.callout strong{color:var(--ink); font-weight:800}
+
+.scroll{overflow-x:auto; border:1px solid var(--rule); background:var(--card); margin-top:16px}
+table{border-collapse:collapse; width:100%; min-width:600px; font-size:13.5px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+thead th{font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--sunk); white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+.pill{display:inline-block; font-size:10px; font-weight:800; padding:3px 8px; border-radius:2px; white-space:nowrap}
+.pill.y{background:var(--good-bg); color:var(--good)}
+.pill.n{background:var(--bad-bg); color:var(--bad)}
+
+.fmt{margin-top:22px; border:1px solid var(--rule); background:var(--card)}
+.fmt-h{padding:14px 18px; border-bottom:1px solid var(--rule); background:var(--sunk); border-top:3px solid var(--fc)}
+.fmt.f1{--fc:var(--f1)} .fmt.f2{--fc:var(--f2)} .fmt.f3{--fc:var(--f3)}
+.fmt-k{font-size:10px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:var(--fc)}
+.fmt-t{font-size:19px; font-weight:800; letter-spacing:-.025em; margin-top:3px}
+.fmt-s{font-size:12.5px; color:var(--muted); margin-top:3px}
+.fmt-b{padding:16px 18px 18px}
+.fmt-row{display:grid; grid-template-columns:96px 1fr; gap:12px; padding:5px 0; font-size:13px; line-height:1.72}
+.fmt-k2{font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding-top:4px}
+.fmt-v{color:var(--ink-2)}
+.fmt-v b{color:var(--ink); font-weight:800}
+.share{margin-top:12px; padding:11px 14px; background:var(--sunk); border-left:3px solid var(--fc); font-size:12.5px; line-height:1.7; color:var(--ink-2)}
+.share b{color:var(--fc); font-weight:800; display:block; font-size:10px; letter-spacing:.11em; text-transform:uppercase; margin-bottom:4px}
+
+.note{font-size:12.5px; color:var(--muted); line-height:1.75; margin-top:14px}
+.note b{color:var(--ink-2)}
+footer{margin-top:clamp(50px,6vw,78px); border-top:1px solid var(--rule); padding:22px 0 42px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--muted)}
+@media (max-width:620px){ .fmt-row{grid-template-columns:1fr; gap:2px} }
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brandmark"><span>B,</span> Me<i></i></div>
+    <p class="eyebrow" style="margin-top:18px">YouTube Operations · 솔파식</p>
+    <h1>무슨 말을 할까가 아니라,<br /><em>누가 왜 퍼갈까</em>.</h1>
+    <p class="lede">솔파PD(윤성원)는 ODG와 솔파, 두 채널을 모두 100만으로 올렸습니다. 공개 인터뷰에 드러난 그의 제작 원칙을 스텔라 채널에 대보면, 바꿔야 할 것이 하나로 모입니다.</p>
+  </div>
+</header>
+
+<div class="band">
+  <div class="wrap">
+    <p class="k">솔파PD의 원칙 · 공개 인터뷰 기준</p>
+    <p class="v">"<em>누가</em> 바이럴을 시키는지, <em>왜</em> 시키는지,<br /><em>어떻게</em> 시키는지를 먼저 고민한다."</p>
+    <p class="s">커뮤니티로 퍼가는 이용자나 기사로 쓰는 기자가 <strong>공유하기에 매력적인</strong> 콘텐츠를 설계합니다. 그리고 특정 문화권에 얽매인 형식을 지양해 — 한국식 예능 문법을 의도적으로 배제하고 — 글로벌 시청자가 보게 만듭니다.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="s-head"><p class="eyebrow">01</p><h2>이 기준으로 보면 문제는 하나입니다</h2></div>
+
+  <div class="callout">
+    <h3>공유 11</h3>
+    <p>스레드 고정 자기소개 글의 성적은 좋아요 <strong class="num">645</strong>, 댓글 <strong class="num">307</strong>, 리포스트 <strong class="num">128</strong>, 그리고 <strong>공유 <span class="num">11</span></strong>입니다. 솔파PD의 기준으로 읽으면 <strong>이 콘텐츠에는 "퍼갈 이유"가 설계되어 있지 않습니다.</strong> 읽고 공감하고 댓글은 달지만, <em>남에게 보낼 것</em>으로는 여기지 않습니다.</p>
+    <p>원인은 분명합니다. <strong>지금 만드는 건 "스텔라의 생각"이고, 공유되는 건 "남에게 보여줄 무언가"입니다.</strong> 인사이트는 혼자 읽고 끝나지만 <em>장면</em>은 퍼갑니다. ODG가 100만이 된 건 좋은 말을 해서가 아니라 <strong>아이와 어른이 대화하는 장면</strong>을 만들었기 때문입니다.</p>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>지금</th><th>솔파식</th></tr></thead>
+      <tbody>
+        <tr><td>매주 <b>다른 주제</b>를 말한다</td><td><b>같은 포맷</b>을 반복한다 — 포맷이 곧 브랜드가 된다</td></tr>
+        <tr><td>스텔라가 혼자 말한다</td><td><b>출연자가 변하는 장면</b>이 찍힌다</td></tr>
+        <tr><td>"도움이 됐다"를 노린다</td><td><b>"이거 봐봐"</b>를 노린다 — 공유는 거기서만 나온다</td></tr>
+        <tr><td>만든 다음 알린다</td><td><b>누가 퍼갈지 정하고 나서 만든다</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">02</p><h2>콘텐츠가 아니라 포맷을 만듭니다</h2></div>
+  <p class="note" style="margin-top:0">솔파는 <b>「아이와 어른의 대화」</b>, <b>「40대1 이상형 찾기」</b>처럼 <b>이름이 붙는 틀</b>로 승부합니다. "브랜딩 이야기를 한다"는 포맷이 아닙니다. 아래 셋은 전부 <b>누가 왜 퍼가는지를 먼저 정하고</b> 설계했습니다.</p>
+
+  <div class="fmt f1">
+    <div class="fmt-h">
+      <p class="fmt-k">Format 01 · 주력</p>
+      <p class="fmt-t">「한 줄 바꾸기」</p>
+      <p class="fmt-s">실제 사장님·전문직 한 명을 만나 자기소개 한 줄을 바꿔 드립니다 · 10~14분</p>
+    </div>
+    <div class="fmt-b">
+      <div class="fmt-row"><span class="fmt-k2">구조</span><span class="fmt-v">① 출연자가 지금 쓰는 소개 한 줄을 말한다 → ② 스텔라가 <b>딱 세 가지만 묻는다</b> → ③ 출연자가 말하다 <b>멈칫하는 순간</b>이 찍힌다 → ④ 한 줄이 바뀐다 → ⑤ 2주 뒤 변화를 짧게 붙인다</span></div>
+      <div class="fmt-row"><span class="fmt-k2">왜 이 포맷</span><span class="fmt-v"><b>변화가 화면에 찍히는 유일한 포맷</b>입니다. ODG의 원리와 같습니다 — 말이 아니라 사람이 바뀌는 장면이 공유를 만듭니다. 그리고 스텔라가 <b>실제로 잘하는 일을 그대로</b> 보여줍니다. 강의가 아니라 실연(實演)입니다.</span></div>
+      <div class="fmt-row"><span class="fmt-k2">소재 공급</span><span class="fmt-v">B, Me 수료생 47명 · 티나는 한의원 · 감각살림 · 컨설팅 고객. <b>섭외가 이미 해결돼 있습니다.</b></span></div>
+      <div class="fmt-row"><span class="fmt-k2">B2B·B2C</span><span class="fmt-v">출연자만 바꾸면 됩니다. 한의원 원장도, 1인 공방도, 대표도 같은 포맷입니다 — <b>하나로 특정하지 않아도 됩니다.</b></span></div>
+      <div class="share"><b>누가 왜 퍼가는가</b>출연자 본인이 퍼갑니다(자기가 나왔으니까). 그리고 <b>같은 고민을 가진 사람의 지인이</b> 퍼갑니다 — "너 이거 봐야 해". 공유 설계가 포맷 안에 내장돼 있습니다.</div>
+    </div>
+  </div>
+
+  <div class="fmt f2">
+    <div class="fmt-h">
+      <p class="fmt-k">Format 02 · 확산</p>
+      <p class="fmt-t">「계정만 보고 맞히기」</p>
+      <p class="fmt-s">인스타·블로그 화면만 보고 이 사람이 뭘 파는지 맞힙니다 · 6~8분</p>
+    </div>
+    <div class="fmt-b">
+      <div class="fmt-row"><span class="fmt-k2">구조</span><span class="fmt-v">① 계정 화면만 띄운다 → ② 스텔라가 소리 내어 추측한다 → ③ <b>실제 답과 맞춰 본다</b> → ④ 왜 어긋났는지 짚는다 → ⑤ 뭘 바꿔야 하는지 한 가지만</span></div>
+      <div class="fmt-row"><span class="fmt-k2">왜 이 포맷</span><span class="fmt-v"><b>18년 경력이 가장 잘 드러나는 포맷</b>입니다. 지식을 설명하는 게 아니라 <b>눈앞에서 판단하는 걸 보여주니까</b> 권위가 저절로 생깁니다. 유현준이 공간을 읽고 김상욱이 현상을 읽는 것과 같은 자리입니다.</span></div>
+      <div class="fmt-row"><span class="fmt-k2">제작비</span><span class="fmt-v">가장 쌉니다. 화면 녹화 + 음성이면 끝이라 <b>촬영 세팅이 필요 없고</b>, 영국에서도 그대로 만들 수 있습니다.</span></div>
+      <div class="share"><b>누가 왜 퍼가는가</b>맞히는 과정 자체가 재미라 <b>업계 사람들이 퍼갑니다.</b> "나도 당해봤다"는 공감과 "저렇게 보이는구나"라는 발견이 동시에 나옵니다. 그리고 <b>신청이 들어옵니다</b> — "제 계정도 봐주세요"가 댓글에 쌓이면 그게 곧 다음 회차이자 리드입니다.</div>
+    </div>
+  </div>
+
+  <div class="fmt f3">
+    <div class="fmt-h">
+      <p class="fmt-k">Format 03 · 서사 · 출국 후</p>
+      <p class="fmt-t">「여기선 어떻게 팔까」</p>
+      <p class="fmt-s">영국의 작은 가게·브랜드를 한국인 마케터의 눈으로 읽고, 사장을 만납니다 · 12~16분</p>
+    </div>
+    <div class="fmt-b">
+      <div class="fmt-row"><span class="fmt-k2">구조</span><span class="fmt-v">① 가게 앞에서 <b>들어가기 전에 추측</b>한다 → ② 들어가서 본다 → ③ 사장에게 묻는다 → ④ 한국이었다면 어땠을지 비교한다</span></div>
+      <div class="fmt-row"><span class="fmt-k2">왜 이 포맷</span><span class="fmt-v">솔파PD가 말한 <b>"한국식 문법 배제, 글로벌 지향"</b>이 그대로 적용되는 자리입니다. 그리고 <b>아무도 복제할 수 없습니다</b> — 18년 B2B 마케터가 영국에 사는 조합이 유일하니까요. 마흔의 성장기라는 서사도 여기서 가장 자연스럽게 나옵니다.</span></div>
+      <div class="fmt-row"><span class="fmt-k2">시작 시점</span><span class="fmt-v">출국 후. 다만 <b>출국 전에 "곧 영국에서 이걸 합니다" 예고편 1편</b>을 올려 두면 구독자가 기다립니다.</span></div>
+      <div class="share"><b>누가 왜 퍼가는가</b>해외 거주·이주 준비자, 그리고 <b>여행 커뮤니티</b>가 퍼갑니다. 세 포맷 중 유일하게 <b>업계 밖으로 나가는 포맷</b>이라 신규 유입의 문이 됩니다.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>세 포맷을 섞지 마세요 — 돌리세요</h3>
+    <p>매주 다른 걸 만들면 포맷이 안 쌓입니다. <strong>「한 줄 바꾸기」를 격주 주력으로, 나머지 둘을 사이에 끼우는 4주 주기</strong>로 돌리세요. 시청자가 <em>"이 채널은 이걸 하는 곳"</em>이라고 말할 수 있게 되려면 최소 <strong class="num">8편</strong>이 필요합니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">03</p><h2>운영 구조</h2></div>
+
+  <div class="scroll" style="margin-top:0">
+    <table>
+      <thead><tr><th>주차</th><th>포맷</th><th>스텔라 소요</th><th>외주</th></tr></thead>
+      <tbody>
+        <tr><td>1주</td><td><b>한 줄 바꾸기</b> — 섭외·촬영</td><td class="r num">180분</td><td>편집</td></tr>
+        <tr><td>2주</td><td>계정만 보고 맞히기 — 화면 녹화</td><td class="r num">90분</td><td>편집</td></tr>
+        <tr><td>3주</td><td><b>한 줄 바꾸기</b> — 섭외·촬영</td><td class="r num">180분</td><td>편집</td></tr>
+        <tr><td>4주</td><td>계정 맞히기 <em>또는</em> 숏츠 몰아찍기</td><td class="r num">90분</td><td>편집</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">월 <strong class="num">540분(9시간)</strong>. 주 15시간 예산 안에 들어갑니다. <strong>편집은 처음부터 전액 외주</strong>로 넘기세요 — 월 30~60만원 선이고, 영국에서도 같은 구조가 그대로 돌아가야 하므로 지금 만들어 두는 게 맞습니다.</p>
+
+  <div class="callout">
+    <h3>지금 하고 계신 주 1편 숙제를 버리지 마세요</h3>
+    <p>비즈니스 PT 수업에서 주 1편을 올리고 계신 게 <strong>이 전략의 가장 큰 자산</strong>입니다. 습관이 이미 있고 채널도 열려 있습니다. 바꿀 건 <strong>주제가 아니라 포맷</strong>뿐입니다 — 다음 편부터 「계정만 보고 맞히기」로 찍어 보세요. 제작비가 가장 싸서 테스트가 쉽습니다.</p>
+  </div>
+
+  <div class="callout">
+    <h3>10월은 포맷 실험만, 11월에 본격화</h3>
+    <p>감각살림 프로젝트가 10월 말까지라 <strong>10월에 새 포맷을 본격 가동하면 반드시 무너집니다.</strong> 10월에는 「계정 맞히기」 2편으로 <strong>반응만 확인</strong>하고, 11월부터 「한 줄 바꾸기」 섭외를 시작하세요. VOD 압축 촬영도 11월이므로 <strong>출연자 섭외를 그때 함께 돌리면</strong> 일정이 겹치지 않습니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">04</p><h2>볼 지표와 버릴 지표</h2></div>
+
+  <div class="scroll" style="margin-top:0">
+    <table>
+      <thead><tr><th>지표</th><th>판단</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td><strong>공유 수</strong></td><td><span class="pill y">1순위</span></td><td>솔파PD의 기준이자 지금 가장 약한 지표입니다. <b>조회수보다 먼저 봅니다.</b> 좋아요 대비 공유가 3% 밑이면 포맷이 아직 "퍼갈 것"이 아니라는 뜻입니다</td></tr>
+        <tr><td><strong>댓글의 성격</strong></td><td><span class="pill y">1순위</span></td><td>"좋은 말씀이네요"는 실패, <b>"제 계정도 봐주세요"는 성공</b>입니다. 신청이 들어오는지가 포맷 작동의 증거입니다</td></tr>
+        <tr><td><strong>평균 시청 지속률</strong></td><td><span class="pill y">2순위</span></td><td>포맷의 구조 문제를 잡아냅니다. 어디서 빠지는지가 다음 편의 편집을 바꿉니다</td></tr>
+        <tr><td>구독자 수</td><td><span class="pill n">후순위</span></td><td>8편까지는 거의 안 움직입니다. 여기에 반응하면 <b>3개월 안에 포맷을 버리게 됩니다</b></td></tr>
+        <tr><td>조회수</td><td><span class="pill n">후순위</span></td><td>초기 조회수는 구독자 수에 묶여 있어 <b>포맷의 좋고 나쁨을 알려주지 못합니다</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="note"><b>판정은 8편째에 합니다.</b> 그 전에 포맷을 바꾸면 아무것도 검증되지 않습니다. 8편 시점에 <b>공유 수와 "저도 해주세요" 댓글</b>이 늘지 않았다면 그때 바꾸세요 — 주제가 아니라 포맷을요.</p>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">05</p><h2>솔파식으로 바꿔 쓴 세 문장</h2></div>
+  <div class="scroll" style="margin-top:0">
+    <table>
+      <thead><tr><th>지금 쓰실 법한 제목</th><th>솔파식으로</th></tr></thead>
+      <tbody>
+        <tr><td>퍼스널 브랜딩의 3가지 원칙</td><td><b>"한의원 원장님 자기소개를 바꿔 드렸습니다"</b> — 장면이 보입니다</td></tr>
+        <tr><td>자기소개 잘하는 법</td><td><b>"이 계정, 뭘 파는지 맞혀 보겠습니다"</b> — 결과가 궁금해집니다</td></tr>
+        <tr><td>브랜딩이 중요한 이유</td><td><b>"18년 마케터가 처음 보는 가게에 들어가면"</b> — 사람이 움직입니다</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><b>차이는 하나입니다.</b> 왼쪽은 <em>스텔라가 아는 것</em>이고 오른쪽은 <em>시청자가 볼 것</em>입니다. 솔파PD가 묻는 "누가 왜 퍼가는가"에 답할 수 있는 건 오른쪽뿐입니다.</p>
+
+  <p class="note"><b>확인 수준</b> — 솔파PD(윤성원)의 원칙은 파이낸셜뉴스·YouTube 공식 블로그 등 공개 인터뷰에서 확인한 내용입니다. 포맷 제안과 지표 기준은 그 원칙을 스텔라 상황에 적용해 제가 설계한 것으로, 솔파PD가 말한 바가 아닙니다.</p>
+</section>
+
+<footer>
+  <div class="brandmark" style="font-size:15px"><span>B,</span> Me<i></i></div>
+  <span>YouTube Operations · 스텔라 · 2026</span>
+</footer>
+
+</div>
