@@ -1,0 +1,211 @@
+<title>스텔라 카테고리 트리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --paper:#FFFCF7; --card:#FFFDFA; --sunk:#F5F0E8;
+  --ink:#28272B; --ink-2:#5B575E; --muted:#8A848C;
+  --rule:#E6DFD6; --rule-2:#D4CABD;
+  --accent:#C25A55; --accent-d:#9C443F;
+  --band:#26252A; --band-ink:#F3EEE7; --band-dim:#A7A1A7;
+  --l1:#4C68A6; --l2:#B5772B; --l3:#C25A55;
+  --ok:#4C7D54; --ok-bg:#E7F0E7;
+  --no:#B0504B; --no-bg:#F8E6E2;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#18171A; --card:#201F23; --sunk:#232126;
+    --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+    --rule:#322E34; --rule-2:#433E45;
+    --accent:#E28C83; --accent-d:#F0A79F;
+    --band:#0E0D10; --band-ink:#F0ECE5; --band-dim:#999399;
+    --l1:#93AEE4; --l2:#E0AB63; --l3:#E28C83;
+    --ok:#84B78A; --ok-bg:#1E2C20;
+    --no:#E08B84; --no-bg:#2E1F1E;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#18171A; --card:#201F23; --sunk:#232126;
+  --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+  --rule:#322E34; --rule-2:#433E45;
+  --accent:#E28C83; --accent-d:#F0A79F;
+  --band:#0E0D10; --band-ink:#F0ECE5; --band-dim:#999399;
+  --l1:#93AEE4; --l2:#E0AB63; --l3:#E28C83;
+  --ok:#84B78A; --ok-bg:#1E2C20;
+  --no:#E08B84; --no-bg:#2E1F1E;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:Manrope,"Noto Sans KR",system-ui,sans-serif; font-size:15px; line-height:1.75;
+  -webkit-font-smoothing:antialiased}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:900px; margin:0 auto; padding:0 clamp(20px,4vw,32px)}
+h1,h2{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; letter-spacing:-.025em; text-wrap:balance; margin:0}
+h1{font-size:clamp(34px,5.4vw,56px); line-height:1.07}
+h2{font-size:clamp(25px,3.3vw,34px); line-height:1.16}
+em{font-style:italic; color:var(--accent)}
+.eyebrow{font-size:10.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+
+.mast{border-bottom:2px solid var(--ink); padding:clamp(36px,5.5vw,64px) 0 22px}
+.brandmark{display:inline-flex; align-items:center; gap:7px; font-weight:800; font-size:16px; letter-spacing:-.04em}
+.brandmark span{font-family:"DM Serif Display",serif; font-weight:400}
+.brandmark i{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block}
+.mast h1{margin:16px 0 15px}
+.mast p.lede{font-size:15.5px; line-height:1.85; color:var(--ink-2); max-width:56ch}
+
+section{padding:clamp(40px,5.5vw,64px) 0 0}
+.s-head{padding-bottom:14px; border-bottom:2px solid var(--ink); margin-bottom:22px}
+.s-head h2{margin-top:8px}
+
+/* tree */
+.tree{border:1px solid var(--rule); background:var(--card); padding:22px 24px 24px; margin-top:16px}
+.tree.hero{border:2px solid var(--accent)}
+.tr{display:grid; grid-template-columns:62px 1fr; gap:16px; padding:11px 0; position:relative}
+.tr + .tr{border-top:1px dashed var(--rule-2)}
+.tr-k{font-size:10px; font-weight:800; letter-spacing:.11em; text-transform:uppercase; color:var(--lc); padding-top:8px}
+.tr.n1{--lc:var(--l1)} .tr.n2{--lc:var(--l2)} .tr.n3{--lc:var(--l3)}
+.tr-v{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+.tr-ind{color:var(--rule-2); font-weight:700}
+.tr-name{font-size:clamp(19px,2.6vw,25px); font-weight:900; letter-spacing:-.035em; line-height:1.25; font-family:"Noto Sans KR",sans-serif}
+.tr.n3 .tr-name{color:var(--accent)}
+.tr-job{font-size:12.5px; color:var(--ink-2); line-height:1.65; margin-top:5px; grid-column:2}
+.tr-job b{color:var(--ink); font-weight:800}
+
+.scroll{overflow-x:auto; border:1px solid var(--rule); background:var(--card); margin-top:16px}
+table{border-collapse:collapse; width:100%; min-width:600px; font-size:13.5px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+thead th{font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--sunk); white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td b{font-weight:800; color:var(--ink)}
+.pill{display:inline-block; font-size:10px; font-weight:800; padding:3px 8px; border-radius:2px; white-space:nowrap}
+.pill.ok{background:var(--ok-bg); color:var(--ok)}
+.pill.no{background:var(--no-bg); color:var(--no)}
+
+.callout{background:var(--sunk); border-left:4px solid var(--accent); padding:17px 21px 19px; display:flex; flex-direction:column; gap:8px; margin-top:18px}
+.callout h3{font-family:Manrope,"Noto Sans KR",sans-serif; font-size:14.5px; font-weight:800; margin:0; letter-spacing:-.01em}
+.callout p{font-size:13px; line-height:1.78; color:var(--ink-2)}
+.callout strong{color:var(--ink); font-weight:800}
+
+.alt{border:1px solid var(--rule); background:var(--card); padding:15px 18px 17px; margin-top:12px}
+.alt-h{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:6px}
+.alt-n{font-size:15px; font-weight:900; letter-spacing:-.03em}
+.alt p{font-size:12.5px; line-height:1.72; color:var(--ink-2)}
+
+.note{font-size:12.5px; color:var(--muted); line-height:1.75; margin-top:14px}
+.note b{color:var(--ink-2)}
+footer{margin-top:clamp(48px,6vw,74px); border-top:1px solid var(--rule); padding:22px 0 42px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--muted)}
+@media (max-width:620px){ .tr{grid-template-columns:1fr; gap:4px} .tr-job{grid-column:1} }
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brandmark"><span>B,</span> Me<i></i></div>
+    <p class="eyebrow" style="margin-top:18px">Category · 스텔라의 자리</p>
+    <h1>세 층이 각각<br /><em>다른 일</em>을 합니다.</h1>
+    <p class="lede">「부동산 &gt; 재개발 &gt; 서울 예정·지정구역」이 작동하는 건 세 층이 검색·변별·전문성을 나눠 맡기 때문입니다. 같은 구조로 스텔라의 트리를 짭니다.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<section>
+  <div class="s-head"><p class="eyebrow">01</p><h2>원본 분해</h2></div>
+  <div class="tree">
+    <div class="tr n1">
+      <span class="tr-k">1층 · 시장</span>
+      <div class="tr-v"><span class="tr-name">부동산</span></div>
+      <p class="tr-job"><b>검색량을 가져옵니다.</b> 사람들이 실제로 찾는 큰 말. 여기서 변별하려 들면 집니다 — 이 층은 그냥 넓으면 됩니다</p>
+    </div>
+    <div class="tr n2">
+      <span class="tr-k">2층 · 방식</span>
+      <div class="tr-v"><span class="tr-ind">└</span><span class="tr-name">재개발</span></div>
+      <p class="tr-job"><b>변별을 만듭니다.</b> 아파트 매매가 아니라 재개발 — <b>아직 완성되지 않은 것을 사는 일</b>이라 시간·불확실성·단계라는 고유 문법이 생깁니다. 경쟁자가 갈라지는 층</p>
+    </div>
+    <div class="tr n3">
+      <span class="tr-k">3층 · 구간</span>
+      <div class="tr-v"><span class="tr-ind">　└</span><span class="tr-name">서울 예정·지정구역</span></div>
+      <p class="tr-job"><b>전문성을 증명합니다.</b> 여기까지 좁혀야 <b>"이건 저 사람한테 물어봐야지"</b>가 성립합니다. 그리고 소재가 마르지 않습니다 — 구역은 계속 생기니까요</p>
+    </div>
+  </div>
+  <p class="note"><b>3층이 주제가 아니라 '구간'이라는 점이 핵심입니다.</b> '출구전략'은 소분류가 아니라 매 호의 <b>각도</b>입니다. 카테고리는 범위를 정하고, 각도는 매번 바뀝니다. 이 둘을 섞으면 카테고리가 금방 바닥납니다.</p>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">02</p><h2>스텔라의 트리</h2></div>
+
+  <div class="tree hero">
+    <div class="tr n1">
+      <span class="tr-k">1층 · 시장</span>
+      <div class="tr-v"><span class="tr-name">브랜딩</span></div>
+      <p class="tr-job"><b>검색량.</b> '마케팅'은 너무 넓어 광고·퍼포먼스 업계와 섞이고, '커리어'는 상품과 멀어집니다. <b>브랜딩</b>이 스텔라가 파는 것과 검색어가 일치하는 유일한 층입니다</p>
+    </div>
+    <div class="tr n2">
+      <span class="tr-k">2층 · 대상</span>
+      <div class="tr-v"><span class="tr-ind">└</span><span class="tr-name">스몰 브랜딩</span></div>
+      <p class="tr-job"><b>변별.</b> 이미 본인이 쓰는 말이고, <b>B2B·B2C를 가르지 않습니다</b> — 개인도 1인 기업도 작은 가게도 전부 '스몰'입니다. 결정적으로 <b>'퍼스널 브랜딩'을 피합니다</b>(비스타가 구문 선점, 커밍쏜 10만)</p>
+    </div>
+    <div class="tr n3">
+      <span class="tr-k">3층 · 구간</span>
+      <div class="tr-v"><span class="tr-ind">　└</span><span class="tr-name">독립 전후 3년</span></div>
+      <p class="tr-job"><b>전문성.</b> 재개발의 '예정·지정구역'과 정확히 같은 자리입니다 — <b>아직 브랜드가 안 된 구간.</b> 나가기 1년 전부터 자리 잡기까지. 이 구간에만 있는 결정(첫 가격·간판·거절)이 소재가 됩니다</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>한 줄로 쓰면</h3>
+    <p><strong>"독립 전후 3년의 스몰 브랜딩"</strong> — 혹은 채널 소개 문장으로는 <strong>"회사를 나와 자기 이름으로 일하기 시작한 사람들의 브랜딩을 다룹니다."</strong></p>
+    <p>재개발한스푼이 <em>"아직 아파트가 아닌 것"</em>을 다루듯, 스텔라는 <em>"아직 브랜드가 아닌 것"</em>을 다룹니다. 완성된 브랜드는 노희영·전우성의 영역이고, <strong>되어 가는 중인 구간이 비어 있습니다.</strong></p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">03</p><h2>검토하고 버린 트리</h2></div>
+
+  <div class="alt">
+    <div class="alt-h"><span class="alt-n">브랜딩 &gt; 퍼스널 브랜딩 &gt; 전문직</span><span class="pill no">기각</span></div>
+    <p>가장 자연스러워 보이지만 2층이 이미 점유돼 있습니다 — <b>비스타(김인숙, 13년차)가 '강점브랜딩' 구문을, 커밍쏜(10만)이 '퇴사 후 브랜딩' 서사를</b> 쥐고 있습니다. 같은 층에 서면 검색할 때마다 경쟁자를 함께 노출시킵니다. 그리고 '퍼스널'이 들어가는 순간 <b>B2B 고객이 떨어져 나갑니다.</b></p>
+  </div>
+
+  <div class="alt">
+    <div class="alt-h"><span class="alt-n">1인 비즈니스 &gt; 가격 설계</span><span class="pill no">기각</span></div>
+    <p>'가격'은 가장 뾰족한 각도지만 <b>카테고리로 쓰면 너무 좁습니다.</b> 가격만 다루는 채널은 20편이면 바닥나고, 영국 이야기도 못 담습니다. <b>가격은 3층이 아니라 매 편의 각도</b>로 두세요 — 재개발한스푼의 '출구전략'이 그 자리입니다.</p>
+  </div>
+
+  <div class="alt">
+    <div class="alt-h"><span class="alt-n">마케팅 &gt; 스몰 브랜딩 &gt; 전문직</span><span class="pill no">기각</span></div>
+    <p>1층이 '마케팅'이면 광고·퍼포먼스·그로스 업계와 섞여 <b>18년 경력이 오히려 묻힙니다</b>(그 판엔 대행사가 수천 개입니다). 3층을 '전문직'으로 하면 직군이라 <b>단계가 없어 소재가 반복됩니다</b> — 의사·변호사·세무사를 한 바퀴 돌면 끝납니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">04</p><h2>이 트리가 결정하는 것들</h2></div>
+  <div class="scroll" style="margin-top:0">
+    <table>
+      <thead><tr><th>항목</th><th>트리에서 자동으로 따라오는 것</th></tr></thead>
+      <tbody>
+        <tr><td><b>검색어</b></td><td>스몰 브랜딩 · 1인 기업 브랜딩 · 개원 브랜딩 · 독립 준비 · 첫 가격 책정 · 작은 가게 브랜딩<br /><span style="color:var(--muted)">※ '퍼스널 브랜딩'은 본문에서만 쓰고 간판에는 올리지 않습니다</span></td></tr>
+        <tr><td><b>다루는 것</b></td><td>나가기 전 준비 · 첫 가격 · 간판과 소개 · 첫 고객 · 거절 기준 · 단가 인상 · 사람 쓰기 직전까지</td></tr>
+        <tr><td><b>안 다루는 것</b></td><td>대기업 브랜드 사례 분석 · 광고 집행 실무 · 팔로워 늘리기 · 이직·취업 노하우<br /><span style="color:var(--muted)">※ 안 다루는 걸 정하는 게 카테고리의 절반입니다</span></td></tr>
+        <tr><td><b>경쟁자</b></td><td>비스타·커밍쏜과 <b>층이 갈립니다.</b> 그들은 '퍼스널', 스텔라는 '스몰' — 겹치는 독자는 있어도 검색에서 정면으로 붙지 않습니다</td></tr>
+        <tr><td><b>상품 연결</b></td><td>0~1단계 → 전자책·챌린지 / 2단계 → 1:1 컨설팅 / 3단계 → 대행·인터널 브랜딩. <b>구간이 곧 사다리</b>라 억지가 없습니다</td></tr>
+        <tr><td><b>영국 이후</b></td><td>'스몰 브랜딩'은 지역어가 아니라 <b>그대로 유효합니다.</b> 영국의 작은 가게도 스몰 브랜딩이고, 스텔라 본인도 독립 3년차 구간에 있습니다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <h3>한 가지만 지키세요</h3>
+    <p><strong>3층(구간)을 주제로 바꾸지 마세요.</strong> "이번 달은 가격 편, 다음 달은 간판 편"처럼 <em>주제</em>로 카테고리를 잡으면 반년이면 바닥납니다. 구간으로 잡아야 <strong>같은 주제를 다른 단계에서 다시 다룰 수 있습니다</strong> — "0단계의 가격"과 "2단계의 가격"은 완전히 다른 이야기니까요. 재개발한스푼이 65호를 쓴 방식이 정확히 이것입니다.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="brandmark" style="font-size:15px"><span>B,</span> Me<i></i></div>
+  <span>Category · 스텔라 · 2026</span>
+</footer>
+
+</div>
