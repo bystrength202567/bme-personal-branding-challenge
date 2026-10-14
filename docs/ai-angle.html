@@ -1,0 +1,228 @@
+<title>AI 시대라는 각도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --paper:#FFFCF7; --card:#FFFDFA; --sunk:#F5F0E8;
+  --ink:#28272B; --ink-2:#5B575E; --muted:#8A848C;
+  --rule:#E6DFD6; --rule-2:#D4CABD;
+  --accent:#C25A55; --accent-d:#9C443F;
+  --band:#26252A; --band-ink:#F3EEE7; --band-dim:#A7A1A7;
+  --no:#B0504B; --no-bg:#F8E6E2;
+  --ok:#4C7D54; --ok-bg:#E7F0E7;
+  --ai:#4C68A6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#18171A; --card:#201F23; --sunk:#232126;
+    --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+    --rule:#322E34; --rule-2:#433E45;
+    --accent:#E28C83; --accent-d:#F0A79F;
+    --band:#0E0D10; --band-ink:#F0ECE5; --band-dim:#999399;
+    --no:#E08B84; --no-bg:#2E1F1E;
+    --ok:#84B78A; --ok-bg:#1E2C20;
+    --ai:#93AEE4;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#18171A; --card:#201F23; --sunk:#232126;
+  --ink:#F0ECE5; --ink-2:#BBB4B6; --muted:#8B858B;
+  --rule:#322E34; --rule-2:#433E45;
+  --accent:#E28C83; --accent-d:#F0A79F;
+  --band:#0E0D10; --band-ink:#F0ECE5; --band-dim:#999399;
+  --no:#E08B84; --no-bg:#2E1F1E;
+  --ok:#84B78A; --ok-bg:#1E2C20;
+  --ai:#93AEE4;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:Manrope,"Noto Sans KR",system-ui,sans-serif; font-size:15px; line-height:1.75;
+  -webkit-font-smoothing:antialiased}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:900px; margin:0 auto; padding:0 clamp(20px,4vw,32px)}
+h1,h2{font-family:"DM Serif Display","Noto Sans KR",serif; font-weight:400; letter-spacing:-.025em; text-wrap:balance; margin:0}
+h1{font-size:clamp(34px,5.4vw,56px); line-height:1.07}
+h2{font-size:clamp(25px,3.3vw,34px); line-height:1.16}
+em{font-style:italic; color:var(--accent)}
+.eyebrow{font-size:10.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--accent)}
+
+.mast{border-bottom:2px solid var(--ink); padding:clamp(36px,5.5vw,64px) 0 22px}
+.brandmark{display:inline-flex; align-items:center; gap:7px; font-weight:800; font-size:16px; letter-spacing:-.04em}
+.brandmark span{font-family:"DM Serif Display",serif; font-weight:400}
+.brandmark i{width:5px;height:5px;border-radius:50%;background:var(--accent);display:inline-block}
+.mast h1{margin:16px 0 15px}
+.mast p.lede{font-size:15.5px; line-height:1.85; color:var(--ink-2); max-width:57ch}
+
+.band{background:var(--band); color:var(--band-ink)}
+.band .wrap{padding:28px 0 30px}
+.band .k{font-size:10.5px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--band-dim)}
+.band .v{font-family:"DM Serif Display","Noto Sans KR",serif; font-size:clamp(23px,3.4vw,34px); line-height:1.28; margin-top:12px; letter-spacing:-.02em}
+.band .v em{color:#E28C83}
+.band .s{font-size:13.5px; color:var(--band-dim); margin-top:14px; line-height:1.8; max-width:60ch}
+
+section{padding:clamp(40px,5.5vw,64px) 0 0}
+.s-head{padding-bottom:14px; border-bottom:2px solid var(--ink); margin-bottom:22px}
+.s-head h2{margin-top:8px}
+
+.scroll{overflow-x:auto; border:1px solid var(--rule); background:var(--card); margin-top:16px}
+table{border-collapse:collapse; width:100%; min-width:600px; font-size:13.5px}
+th,td{padding:11px 14px; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+thead th{font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); background:var(--sunk); white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td b{font-weight:800; color:var(--ink)}
+.pill{display:inline-block; font-size:10px; font-weight:800; padding:3px 8px; border-radius:2px; white-space:nowrap}
+.pill.no{background:var(--no-bg); color:var(--no)}
+.pill.ok{background:var(--ok-bg); color:var(--ok)}
+
+.callout{background:var(--sunk); border-left:4px solid var(--accent); padding:17px 21px 19px; display:flex; flex-direction:column; gap:8px; margin-top:18px}
+.callout h3{font-family:Manrope,"Noto Sans KR",sans-serif; font-size:14.5px; font-weight:800; margin:0; letter-spacing:-.01em}
+.callout p{font-size:13px; line-height:1.78; color:var(--ink-2)}
+.callout strong{color:var(--ink); font-weight:800}
+
+.ddd{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule); margin-top:16px}
+.dd{background:var(--card); padding:17px 18px 19px}
+.dd.gone{background:var(--sunk)}
+.dd-k{font-size:10px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:var(--dc)}
+.dd{--dc:var(--ok)} .dd.gone{--dc:var(--no)}
+.dd-t{font-size:19px; font-weight:900; letter-spacing:-.03em; margin:4px 0 8px}
+.dd p{font-size:12.5px; line-height:1.72; color:var(--ink-2)}
+.dd-v{margin-top:10px; padding-top:9px; border-top:1px solid var(--rule); font-size:11.5px; font-weight:800; color:var(--dc)}
+
+.eps{border:1px solid var(--rule); background:var(--card); margin-top:16px}
+.ep{padding:13px 17px; border-bottom:1px solid var(--rule); display:grid; grid-template-columns:26px 1fr; gap:13px}
+.ep:last-child{border-bottom:0}
+.ep-n{font-size:11px; font-weight:800; color:var(--muted); font-variant-numeric:tabular-nums; padding-top:3px}
+.ep-t{font-size:15px; font-weight:800; letter-spacing:-.025em; line-height:1.42}
+.ep-s{font-size:12.5px; color:var(--ink-2); line-height:1.62; margin-top:3px}
+.ep-s b{color:var(--ink); font-weight:800}
+
+.note{font-size:12.5px; color:var(--muted); line-height:1.75; margin-top:14px}
+.note b{color:var(--ink-2)}
+footer{margin-top:clamp(48px,6vw,74px); border-top:1px solid var(--rule); padding:22px 0 42px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--muted)}
+@media (max-width:680px){ .ddd{grid-template-columns:1fr} }
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+</style>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brandmark"><span>B,</span> Me<i></i></div>
+    <p class="eyebrow" style="margin-top:18px">AI 시대 · 간판인가 각도인가</p>
+    <h1>간판으로는 위험하고,<br /><em>각도로는 강력</em>합니다.</h1>
+    <p class="lede">「AI 시대의 브랜딩」을 카테고리로 걸면 붐비는 레드오션에 들어가고 3년 뒤 낡습니다. 그런데 <strong>각도</strong>로 쓰면 이미 정한 "가격이 브랜딩을 정한다"를 훨씬 날카롭게 만듭니다.</p>
+  </div>
+</header>
+
+<div class="band">
+  <div class="wrap">
+    <p class="k">각도로 썼을 때의 한 문장</p>
+    <p class="v">"AI가 콘텐츠를 다 써주는데,<br />왜 아직 <em>안 팔릴까</em>."</p>
+    <p class="s">AI는 Deliver(실행)를 공짜로 만들었습니다. 그런데 <strong>Define(나는 누구인가)과 Design(왜 나여야 하는가)은 못 합니다.</strong> 실행이 싸질수록 정의와 설계의 값이 올라갑니다 — 그리고 그게 정확히 스텔라가 파는 것입니다.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+<section>
+  <div class="s-head"><p class="eyebrow">01</p><h2>간판으로 걸면 안 되는 이유 넷</h2></div>
+
+  <div class="scroll" style="margin-top:0">
+    <table>
+      <thead><tr><th>문제</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td><b>붐빕니다</b></td><td>「AI 시대의 OO」는 2024년 이후 거의 모든 강사·컨설턴트가 쓰는 접두어입니다. 변별력이 거의 없고, <b>비스타의 '강점브랜딩'과 같은 실수를 반복</b>하게 됩니다 — 검색할 때마다 경쟁자를 함께 노출시키는 자리</td></tr>
+        <tr><td><b>유통기한이 있습니다</b></td><td>"인터넷 시대의 브랜딩"은 2010년엔 뾰족했지만 지금은 의미가 없습니다. <b>3~5년 뒤 'AI 시대'는 그냥 '시대'가 됩니다.</b> 영국에서 석사를 마치고 돌아올 즈음엔 이미 낡아 있습니다</td></tr>
+        <tr><td><b>자산과 어긋납니다</b></td><td>스텔라의 자산은 <b>18년 B2B 현장</b>이지 AI 전문성이 아닙니다. 간판에 AI를 걸면 "AI 잘 아는 사람"으로 기대되는데, 그 기대를 감당할 근거가 없고 그 판에는 진짜 전문가가 훨씬 많습니다</td></tr>
+        <tr><td><b>격자가 안 됩니다</b></td><td>「독립 전후 3년」은 <b>구간</b>이라 같은 주제를 단계별로 다시 다룰 수 있습니다. 「AI 시대」는 <b>시대</b>라 격자가 안 되고, 20편이면 할 말이 떨어집니다 — 재개발한스푼이 '출구전략'을 소분류로 쓰지 않은 이유와 같습니다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <h3>그리고 타깃이 그 말을 검색하지 않습니다</h3>
+    <p>개원하는 의사가 검색하는 건 <em>"개원 마케팅"</em>, <em>"병원 블로그"</em>, <em>"환자 유입"</em>입니다. <strong>"AI 시대의 브랜딩"을 검색하는 사람은 대개 AI 자체에 관심 있는 사람</strong>이고, 190만원짜리 1:1 컨설팅의 구매자층과 겹치지 않습니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">02</p><h2>각도로 쓰면 강력한 이유</h2></div>
+
+  <p class="note" style="margin-top:0">AI는 <b>Deliver를 공짜로 만들었습니다.</b> 그래서 Define·Design의 값이 올라갔습니다 — 스텔라의 방법론이 정확히 이 구조입니다.</p>
+
+  <div class="ddd">
+    <div class="dd">
+      <p class="dd-k">AI가 못 함</p>
+      <p class="dd-t">Define</p>
+      <p>나는 누구이고 무엇을 잘하는가. AI는 <b>당신을 모릅니다</b> — 당신이 입력한 것만 압니다. 버크만 같은 진단이 하는 일이 여기입니다</p>
+      <p class="dd-v">값이 올라감 ↑</p>
+    </div>
+    <div class="dd">
+      <p class="dd-k">AI가 못 함</p>
+      <p class="dd-t">Design</p>
+      <p>왜 하필 나여야 하는가, <b>얼마를 받을 것인가.</b> AI는 시장 평균을 알려줄 뿐 당신의 가격을 못 정합니다. 판단은 복제되지 않습니다</p>
+      <p class="dd-v">값이 올라감 ↑</p>
+    </div>
+    <div class="dd gone">
+      <p class="dd-k">AI가 함</p>
+      <p class="dd-t">Deliver</p>
+      <p>글·이미지·영상·댓글. <b>이게 공짜가 됐습니다.</b> 블로그 100편을 하루에 쓸 수 있으니, 100편 썼다는 사실 자체의 값이 0이 됐습니다</p>
+      <p class="dd-v">값이 0으로 ↓</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <h3>이 각도가 기존 포지셔닝을 보강합니다</h3>
+    <p>이미 정한 각도는 <strong>"가격이 브랜딩을 정한다"</strong>입니다. AI를 얹으면 그 말에 <strong>시의성과 긴급함</strong>이 생깁니다 — <em>"전에도 중요했지만 지금은 그것밖에 안 남았다"</em>로 바뀌니까요.</p>
+    <p>그리고 <strong>18년 B2B 경력이 여기서 가장 잘 쓰입니다.</strong> B2B는 원래 콘텐츠 양으로 팔리지 않습니다 — 신뢰·구조·관계로 팝니다. <strong>AI 때문에 이제 모두가 B2B 문법을 배워야 하는 상황이 된 것</strong>이고, 그 문법을 18년간 쓴 사람이 스텔라입니다. 이건 지어낸 연결이 아니라 실제로 그렇습니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">03</p><h2>그래서 어디에 쓰나</h2></div>
+
+  <div class="scroll" style="margin-top:0">
+    <table>
+      <thead><tr><th>자리</th><th>쓸까</th><th>이유</th></tr></thead>
+      <tbody>
+        <tr><td><b>채널명·카테고리</b></td><td><span class="pill no">쓰지 않음</span></td><td>붐비고 낡고 격자가 안 됩니다</td></tr>
+        <tr><td><b>영상 제목</b></td><td><span class="pill ok">적극 사용</span></td><td>검색량이 실재하고 클릭을 끕니다. <b>제목은 유통기한이 짧아도 되는 자리</b>입니다</td></tr>
+        <tr><td><b>시리즈명</b></td><td><span class="pill ok">사용</span></td><td>「AI가 못 하는 일」 같은 <b>재생목록 하나</b>로. 카테고리가 아니라 코너입니다</td></tr>
+        <tr><td><b>B2B 제안서·강연</b></td><td><span class="pill ok">강력 추천</span></td><td>기업 교육 담당자가 가장 사기 쉬운 주제입니다. <b>특강 수주에 직접 기여</b>합니다</td></tr>
+        <tr><td><b>블로그 글</b></td><td><span class="pill ok">사용</span></td><td>이미 쓰고 계신 각도이고, 검색 유입에 유리합니다</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <h3>한 줄로 하면</h3>
+    <p><strong>간판은 「독립 전후 3년의 스몰 브랜딩」, AI는 그 안의 코너.</strong> 재개발한스푼이 '재개발'을 간판에 걸고 '출구전략'을 각 호의 각도로 쓰는 것과 정확히 같은 배치입니다.</p>
+  </div>
+</section>
+
+<section>
+  <div class="s-head"><p class="eyebrow">04</p><h2>「AI가 못 하는 일」 — 시리즈 6편</h2></div>
+  <p class="note" style="margin-top:0">기존 12편 계획에 <b>끼워 넣는</b> 코너입니다. 별도 채널이나 카테고리가 아니라 재생목록 하나입니다.</p>
+
+  <div class="eps">
+    <div class="ep"><span class="ep-n">01</span><div><p class="ep-t">AI로 블로그 100편을 썼는데 왜 문의가 0건일까</p><p class="ep-s">시리즈의 문을 여는 편. <b>실행이 공짜가 되면 실행의 값도 0이 된다</b>는 것 — 가장 많이 퍼질 편입니다</p></div></div>
+    <div class="ep"><span class="ep-n">02</span><div><p class="ep-t">AI는 당신의 가격을 못 정합니다</p><p class="ep-s">핵심 각도와 AI가 만나는 지점. AI는 <b>시장 평균</b>을 알려줄 뿐이고, 평균을 받으면 평균 고객이 옵니다</p></div></div>
+    <div class="ep"><span class="ep-n">03</span><div><p class="ep-t">AI가 쓴 자기소개가 전부 똑같이 들리는 이유</p><p class="ep-s">「한 줄 바꾸기」 포맷에 그대로 얹을 수 있습니다 — <b>AI가 쓴 한 줄 vs 바꾼 한 줄</b>을 나란히</p></div></div>
+    <div class="ep"><span class="ep-n">04</span><div><p class="ep-t">대기업이 AI를 쓰는 방식, 1인 사업자가 쓰는 방식</p><p class="ep-s">18년 경력이 직접 쓰이는 편. <b>대기업은 AI를 실행에 쓰고 판단에는 안 씁니다</b> — 그 구분을 1인 규모로 번역</p></div></div>
+    <div class="ep"><span class="ep-n">05</span><div><p class="ep-t">AI 시대에 전문직이 더 유리해진 이유</p><p class="ep-s">1순위 타깃(의료인·법률가) 직격. <b>자격과 책임은 복제가 안 됩니다</b> — 오히려 희소해졌다는 역발상</p></div></div>
+    <div class="ep"><span class="ep-n">06</span><div><p class="ep-t">AI한테 물어봐도 안 나오는 질문 세 개</p><p class="ep-s">시리즈를 닫고 <b>무료 진단으로 연결</b>하는 편. 세 질문이 곧 진단 문항의 예고가 됩니다</p></div></div>
+  </div>
+
+  <div class="callout">
+    <h3>주의 하나</h3>
+    <p>이 시리즈가 잘되면 <strong>"AI 채널"이 되려는 중력이 생깁니다.</strong> 조회수가 다른 편보다 잘 나올 가능성이 높거든요. <strong>전체 발행의 25%를 넘기지 마세요</strong> — 넘어가는 순간 간판이 바뀌고, 그러면 3년 뒤 낡은 채널이 됩니다. 커리어 소재에 30% 상한을 둔 것과 같은 이유입니다.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="brandmark" style="font-size:15px"><span>B,</span> Me<i></i></div>
+  <span>AI Angle · 스텔라 · 2026</span>
+</footer>
+
+</div>
