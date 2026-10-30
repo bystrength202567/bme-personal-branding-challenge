@@ -921,7 +921,9 @@ document.getElementById("memberChip").addEventListener("click", openMemberInfo);
 /* ---------- 공유하기 ---------- */
 const QR_URL = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
 function openShare() {
-  const url = location.origin + location.pathname;
+  const cfg = Backend.config;
+  const framed = window.self !== window.top; // claude.ai 아티팩트 화면 안
+  const url = cfg.siteUrl || (framed && cfg.artifactUrl) || location.origin + location.pathname;
   const ko = LANG === "ko";
   modalBody.innerHTML = `
     <h2 style="margin:0">🔗 ${ko ? "친구에게 공유하기" : "Share with friends"}</h2>
