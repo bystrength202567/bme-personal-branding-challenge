@@ -52,6 +52,27 @@ const STR = {
     fileName: (n) => `${n}-전생결과.png`,
     backEras: "← 시대 선택으로",
     enterBtn: "🚪 캐릭터로 입장하기",
+    enterPalace: (place) => `🏯 ${place} 입장하기`,
+    palaceTag: (place) => `🏯 ${place} 입장`,
+    signupTitle: "회원가입",
+    signupLead: "궁궐에 입장하려면 먼저 회원가입을 해 주세요.",
+    email: "이메일 주소",
+    emailPh: "예: hong@example.com",
+    country: "국적",
+    countryPick: "국적을 골라 주세요",
+    countryOther: "기타",
+    memberName: "이름",
+    consent: "회원 정보(이메일·국적·이름)를 입장과 이용에 쓰는 데 동의해요.",
+    storageNote: "지금은 회원 정보가 이 기기의 브라우저에만 저장되고 다른 곳으로 보내지지 않아요.",
+    signupBtn: "가입하고 입장하기",
+    emailBad: "이메일 주소를 다시 확인해 주세요.",
+    needCountry: "국적을 골라 주세요.",
+    needConsent: "동의에 체크해 주세요.",
+    member: "회원",
+    memberInfo: "내 회원 정보",
+    signout: "회원 정보 지우기",
+    signoutDone: "회원 정보를 지웠어요.",
+    welcome: (n) => `${n}님, 환영해요!`,
     next: { timeline: "연표 보러 가기 →", people: "인물 만나기 →", facts: "재미있는 사실 →", quiz: "퀴즈 도전! →" },
     qNum: (i, t) => `문제 ${i} / ${t}`,
     right: "⭕ 정답!", wrong: "❌ 아쉬워요!",
@@ -113,6 +134,27 @@ const STR = {
     fileName: (n) => `${n}-past-life.png`,
     backEras: "← All eras",
     enterBtn: "🚪 Enter as a character",
+    enterPalace: (place) => `🏯 Enter ${place}`,
+    palaceTag: (place) => `🏯 Enter ${place}`,
+    signupTitle: "Sign up",
+    signupLead: "Please sign up before entering the palaces.",
+    email: "Email address",
+    emailPh: "e.g. alex@example.com",
+    country: "Nationality",
+    countryPick: "Choose your nationality",
+    countryOther: "Other",
+    memberName: "Name",
+    consent: "I agree that my details (email, nationality, name) are used to let me enter and use the site.",
+    storageNote: "For now, your details are saved only in this device's browser and are not sent anywhere.",
+    signupBtn: "Sign up & enter",
+    emailBad: "Please check your email address.",
+    needCountry: "Please choose your nationality.",
+    needConsent: "Please check the consent box.",
+    member: "Member",
+    memberInfo: "My member info",
+    signout: "Delete my member info",
+    signoutDone: "Your member info was deleted.",
+    welcome: (n) => `Welcome, ${n}!`,
     next: { timeline: "See the timeline →", people: "Meet the people →", facts: "Fun facts →", quiz: "Take the quiz! →" },
     qNum: (i, t) => `Question ${i} / ${t}`,
     right: "⭕ Correct!", wrong: "❌ Not quite!",
@@ -213,7 +255,10 @@ function route() {
   const m = location.hash.match(/^#(era|enter|world)\/([\w-]+)(?:\/(\w+))?/) || [];
   const era = eras().find((e) => e.id === m[2]);
   const profile = loadProfile();
-  if (era && m[1] === "world") enterWorld(era);
+  updateMemberChip();
+  // 궁궐 입장(꾸미기·공간)은 회원가입을 한 사람만
+  if (era && (m[1] === "world" || m[1] === "enter") && !loadMember()) renderSignup(location.hash);
+  else if (era && m[1] === "world") enterWorld(era);
   else if (era && m[1] === "enter") renderCharacterSelect(era);
   else if (era) renderEra(era, TAB_IDS.includes(m[3]) ? m[3] : "intro");
   else if (location.hash === "#life" && profile?.birth) renderLifeAll(profile);
@@ -251,7 +296,7 @@ function renderHome() {
           <h3>${e.name}<small>${e.hanja}</small></h3>
           <div class="period">${e.period}</div>
           <p>${e.tagline}</p>
-          <span class="enter-tag">${t.enterable}</span>
+          <span class="enter-tag">${t.palaceTag(palaceInfo(e.id).place)}</span>
           ${stamps[e.id] ? `<span class="stamp" title="${t.passed}">🏮</span>` : ""}
         </button>`).join("")}
     </div>
@@ -482,7 +527,7 @@ function renderEra(era, tab) {
       <h1>${era.name}<small>${era.hanja}</small></h1>
       <div class="period">${era.period}</div>
       <p class="tagline">${era.tagline}</p>
-      <button class="btn enter-btn" data-go="enter/${era.id}">${t.enterBtn}</button>
+      <button class="btn enter-btn" data-go="enter/${era.id}">${t.enterPalace(palaceInfo(era.id).place)}</button>
     </section>
     <nav class="tabs" role="tablist">
       ${TAB_IDS.map((id, i) => `<button class="tab ${id === tab ? "active" : ""}" role="tab" aria-selected="${id === tab}" data-tab="${id}">${t.tabs[i]}</button>`).join("")}
@@ -605,13 +650,97 @@ function showLife(era, el, name, birth) {
     <div class="actions">
       <button class="btn ghost" id="again">${t.again}</button>
       <button class="btn ghost" id="share">${t.copy}</button>
-      <button class="btn" data-go="enter/${era.id}">${t.enterBtn}</button>
+      <button class="btn" data-go="enter/${era.id}">${t.enterPalace(palaceInfo(era.id).place)}</button>
       <button class="btn ghost" data-go="life">${t.allLives}</button>
     </div>`;
   el.querySelector("#again").addEventListener("click", () => renderLifeForm(era, el));
   el.querySelectorAll("[data-go]").forEach((b) => b.addEventListener("click", () => (location.hash = b.dataset.go)));
   el.querySelector("#share").addEventListener("click", (ev) => copyText(ev.target, t.shareOne(name, era.name, l, location.href.split("#")[0])));
 }
+
+/* ---------- 회원가입 ---------- */
+const MEMBER_KEY = "dalbit-history-member";
+const COUNTRY_CODES = ["KR", "US", "JP", "CN", "TW", "HK", "VN", "PH", "TH", "ID", "MY", "SG", "IN", "MN", "KZ", "UZ", "RU", "GB", "FR", "DE", "IT", "ES", "NL", "SE", "PL", "TR", "CA", "MX", "BR", "AR", "AU", "NZ", "EG", "NG", "ZA", "AE", "SA"];
+function loadMember() {
+  try { return JSON.parse(localStorage.getItem(MEMBER_KEY)) || null; } catch { return null; }
+}
+function countryName(code) {
+  if (code === "OTHER") return T().countryOther;
+  try { return new Intl.DisplayNames([LANG], { type: "region" }).of(code); } catch { return code; }
+}
+function renderSignup(next) {
+  const t = T();
+  const profile = loadProfile() || {};
+  const names = COUNTRY_CODES.map((c) => [c, countryName(c)]);
+  const [first, ...rest] = names;
+  rest.sort((a, b) => a[1].localeCompare(b[1], LANG));
+  delete app.dataset.era;
+  app.innerHTML = `
+    <button class="back" data-go="">${t.home}</button>
+    <section class="signup fade-in">
+      <p class="eyebrow">MEMBERSHIP</p>
+      <h1>🏯 ${t.signupTitle}</h1>
+      <p class="lead">${t.signupLead}</p>
+      <form class="fortune-form signup-form" id="signupForm" novalidate>
+        <label>${t.email}<input name="email" type="email" required maxlength="80" autocomplete="email" placeholder="${t.emailPh}" /></label>
+        <label>${t.country}<select name="country" required>
+          <option value="">${t.countryPick}</option>
+          ${[first, ...rest, ["OTHER", t.countryOther]].map(([c, n]) => `<option value="${c}">${esc(n)}</option>`).join("")}
+        </select></label>
+        <label>${t.memberName}<input name="name" required maxlength="20" autocomplete="name" placeholder="${t.namePh}" value="${esc(profile.name || "")}" /></label>
+        <label class="check"><input type="checkbox" name="consent" /> ${t.consent}</label>
+        <p class="note">🔒 ${t.storageNote}</p>
+        <p class="form-error" id="signupError" role="alert"></p>
+        <button class="btn" type="submit">${t.signupBtn}</button>
+      </form>
+    </section>`;
+  app.querySelector("[data-go]").addEventListener("click", () => (location.hash = ""));
+  app.querySelector("#signupForm").addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const f = ev.target;
+    const email = f.email.value.trim();
+    const name = f.name.value.trim();
+    const err = app.querySelector("#signupError");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return (err.textContent = t.emailBad);
+    if (!f.country.value) return (err.textContent = t.needCountry);
+    if (!name) return (err.textContent = t.memberName);
+    if (!f.consent.checked) return (err.textContent = t.needConsent);
+    try { localStorage.setItem(MEMBER_KEY, JSON.stringify({ email, country: f.country.value, name, joinedAt: new Date().toISOString() })); } catch {}
+    saveProfile({ name: profile.name || name });
+    updateMemberChip();
+    route();
+  });
+  window.scrollTo(0, 0);
+}
+function updateMemberChip() {
+  const chip = document.getElementById("memberChip");
+  const m = loadMember();
+  chip.hidden = !m;
+  if (m) chip.textContent = `👤 ${m.name}`;
+}
+function openMemberInfo() {
+  const t = T();
+  const m = loadMember();
+  if (!m) return;
+  modalBody.innerHTML = `
+    <h2 style="margin:0">👤 ${t.memberInfo}</h2>
+    <dl class="member-info">
+      <dt>${t.memberName}</dt><dd>${esc(m.name)}</dd>
+      <dt>${t.email}</dt><dd>${esc(m.email)}</dd>
+      <dt>${t.country}</dt><dd>${esc(countryName(m.country))}</dd>
+    </dl>
+    <p class="note">🔒 ${t.storageNote}</p>
+    <button class="btn ghost" id="signout">${t.signout}</button>`;
+  modalBody.querySelector("#signout").addEventListener("click", () => {
+    try { localStorage.removeItem(MEMBER_KEY); } catch {}
+    modal.close();
+    updateMemberChip();
+    location.hash = "";
+    route();
+  });
+  modal.showModal();
+}
+document.getElementById("memberChip").addEventListener("click", openMemberInfo);
 
 /* ---------- 도장판 ---------- */
 function openStampBoard() {
