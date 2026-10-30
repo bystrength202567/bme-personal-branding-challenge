@@ -19,6 +19,7 @@
         <div class="lang-toggle" role="group" aria-label="Language">
           <button data-lang="ko">KO</button><button data-lang="en">EN</button>
         </div>
+        <button class="stamp-chip" id="shareChip" aria-label="공유하기">🔗</button>
         <button class="stamp-chip" id="memberChip" hidden></button>
         <button class="stamp-chip" id="stampChip">🏮 <span id="stampLabel">도장</span> <b id="stampCount">0</b>/6</button>
       </div>
@@ -29,10 +30,13 @@
     <footer>
       <p id="footerText"></p>
       <small id="footerNote"></small>
+      <a class="footer-link" href="#privacy" id="privacyLink">개인정보 처리방침 · Privacy</a>
     </footer>
 
     <dialog id="modal"><button class="close" aria-label="닫기">×</button><div id="modalBody"></div></dialog>
 
+    <script src="config.js"></script>
+    <script src="backend.js"></script>
     <script src="data.js"></script>
     <script src="data.en.js"></script>
     <script src="world.js"></script>

@@ -215,6 +215,7 @@ function saveStamp(id) {
   stamps[id] = true;
   try { localStorage.setItem(STAMP_KEY, JSON.stringify(stamps)); } catch {}
   updateStampCount();
+  Backend.pushStamps(stamps).catch(() => {});
 }
 function updateStampCount() {
   document.getElementById("stampCount").textContent = Object.keys(loadStamps()).length;
@@ -257,11 +258,14 @@ function route() {
   const profile = loadProfile();
   updateMemberChip();
   // 궁궐 입장(꾸미기·공간)은 회원가입을 한 사람만
-  if (era && (m[1] === "world" || m[1] === "enter") && !loadMember()) renderSignup(location.hash);
+  const member = loadMember();
+  const needSignup = !member || (Backend.client && !member.verified); // 서버 모드에서는 이메일 인증까지 끝나야 해요
+  if (era && (m[1] === "world" || m[1] === "enter") && needSignup) renderSignup();
   else if (era && m[1] === "world") enterWorld(era);
   else if (era && m[1] === "enter") renderCharacterSelect(era);
   else if (era) renderEra(era, TAB_IDS.includes(m[3]) ? m[3] : "intro");
   else if (location.hash === "#life" && profile?.birth) renderLifeAll(profile);
+  else if (location.hash === "#privacy") renderPrivacy();
   else renderHome();
 }
 window.addEventListener("hashchange", route);
@@ -661,6 +665,58 @@ function showLife(era, el, name, birth) {
 /* ---------- 회원가입 ---------- */
 const MEMBER_KEY = "dalbit-history-member";
 const COUNTRY_CODES = ["KR", "US", "JP", "CN", "TW", "HK", "VN", "PH", "TH", "ID", "MY", "SG", "IN", "MN", "KZ", "UZ", "RU", "GB", "FR", "DE", "IT", "ES", "NL", "SE", "PL", "TR", "CA", "MX", "BR", "AR", "AU", "NZ", "EG", "NG", "ZA", "AE", "SA"];
+const MSTR = {
+  ko: {
+    age: "나이",
+    age14: "만 14세 이상",
+    ageUnder: "만 14세 미만",
+    guardianEmail: "보호자(부모님) 이메일",
+    guardianConsent: "보호자가 이 서비스의 개인정보 수집·이용에 동의했어요.",
+    needAge: "나이를 골라 주세요.",
+    needGuardian: "만 14세 미만은 보호자 이메일과 보호자 동의가 필요해요.",
+    policyLink: "개인정보 처리방침",
+    consent: "개인정보 처리방침을 읽었고, 회원 정보(이메일·국적·이름·나이 구분) 수집·이용에 동의해요.",
+    serverNote: "회원 정보는 안전한 회원 서버(Supabase)에 저장돼요. 가입하면 확인 메일이 가요.",
+    localNote: "지금은 체험 모드라 회원 정보가 이 기기의 브라우저에만 저장되고 다른 곳으로 보내지지 않아요.",
+    sending: "보내는 중…",
+    checkMailTitle: "📬 메일함을 확인해 주세요",
+    checkMail: (e) => `<b>${e}</b>(으)로 로그인 링크를 보냈어요. 메일의 링크를 누르면 가입이 끝나고 궁궐에 들어갈 수 있어요.`,
+    resend: "메일 다시 보내기",
+    sendFail: "메일을 보내지 못했어요. 잠시 뒤 다시 시도해 주세요.",
+    mode: "저장 위치",
+    modeServer: "회원 서버 (이메일 인증 완료)",
+    modeLocal: "이 기기 브라우저 (체험 모드)",
+    deleteAccount: "회원 탈퇴 (모든 정보 삭제)",
+    deleteConfirm: "정말 탈퇴할까요? 회원 정보와 도장 기록이 모두 지워져요.",
+    deleteFail: "탈퇴 처리에 실패했어요. 잠시 뒤 다시 시도해 주세요.",
+  },
+  en: {
+    age: "Age",
+    age14: "14 or older",
+    ageUnder: "Under 14",
+    guardianEmail: "Parent/guardian email",
+    guardianConsent: "My parent/guardian has agreed to the collection and use of personal information.",
+    needAge: "Please choose your age group.",
+    needGuardian: "Under-14 members need a guardian email and guardian consent.",
+    policyLink: "Privacy Policy",
+    consent: "I have read the Privacy Policy and agree to the collection and use of my details (email, nationality, name, age group).",
+    serverNote: "Your details are stored on a secure member server (Supabase). We'll send you a confirmation email.",
+    localNote: "This is demo mode: your details are saved only in this device's browser and are not sent anywhere.",
+    sending: "Sending…",
+    checkMailTitle: "📬 Check your inbox",
+    checkMail: (e) => `We sent a sign-in link to <b>${e}</b>. Click the link in the email to finish signing up and enter the palaces.`,
+    resend: "Resend email",
+    sendFail: "Couldn't send the email. Please try again shortly.",
+    mode: "Stored in",
+    modeServer: "Member server (email verified)",
+    modeLocal: "This device's browser (demo mode)",
+    deleteAccount: "Delete my account (all data)",
+    deleteConfirm: "Delete your account? Your member info and stamps will be removed.",
+    deleteFail: "Couldn't delete your account. Please try again shortly.",
+  },
+};
+const M = () => MSTR[LANG];
+
 function loadMember() {
   try { return JSON.parse(localStorage.getItem(MEMBER_KEY)) || null; } catch { return null; }
 }
@@ -668,8 +724,11 @@ function countryName(code) {
   if (code === "OTHER") return T().countryOther;
   try { return new Intl.DisplayNames([LANG], { type: "region" }).of(code); } catch { return code; }
 }
-function renderSignup(next) {
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function renderSignup() {
   const t = T();
+  const m = M();
   const profile = loadProfile() || {};
   const names = COUNTRY_CODES.map((c) => [c, countryName(c)]);
   const [first, ...rest] = names;
@@ -682,36 +741,138 @@ function renderSignup(next) {
       <h1>🏯 ${t.signupTitle}</h1>
       <p class="lead">${t.signupLead}</p>
       <form class="fortune-form signup-form" id="signupForm" novalidate>
-        <label>${t.email}<input name="email" type="email" required maxlength="80" autocomplete="email" placeholder="${t.emailPh}" /></label>
+        <label>${t.email}<input name="email" type="email" required maxlength="80" autocomplete="email" placeholder="${t.emailPh}" value="${esc(Backend.user?.email || "")}" ${Backend.user ? "readonly" : ""} /></label>
         <label>${t.country}<select name="country" required>
           <option value="">${t.countryPick}</option>
           ${[first, ...rest, ["OTHER", t.countryOther]].map(([c, n]) => `<option value="${c}">${esc(n)}</option>`).join("")}
         </select></label>
         <label>${t.memberName}<input name="name" required maxlength="20" autocomplete="name" placeholder="${t.namePh}" value="${esc(profile.name || "")}" /></label>
-        <label class="check"><input type="checkbox" name="consent" /> ${t.consent}</label>
-        <p class="note">🔒 ${t.storageNote}</p>
+        <fieldset class="age-field"><legend>${m.age}</legend>
+          <label class="check"><input type="radio" name="age" value="14plus" /> ${m.age14}</label>
+          <label class="check"><input type="radio" name="age" value="under14" /> ${m.ageUnder}</label>
+        </fieldset>
+        <div class="guardian" id="guardianBox" hidden>
+          <label>${m.guardianEmail}<input name="guardian" type="email" maxlength="80" placeholder="${t.emailPh}" /></label>
+          <label class="check"><input type="checkbox" name="guardianConsent" /> ${m.guardianConsent}</label>
+        </div>
+        <label class="check"><input type="checkbox" name="consent" /> <span>${m.consent} <a href="#privacy" target="_blank" rel="noopener">${m.policyLink} ↗</a></span></label>
+        <p class="note">🔒 ${Backend.enabled ? m.serverNote : m.localNote}</p>
         <p class="form-error" id="signupError" role="alert"></p>
         <button class="btn" type="submit">${t.signupBtn}</button>
       </form>
     </section>`;
+  const form = app.querySelector("#signupForm");
   app.querySelector("[data-go]").addEventListener("click", () => (location.hash = ""));
-  app.querySelector("#signupForm").addEventListener("submit", (ev) => {
+  form.querySelectorAll("[name=age]").forEach((r) => r.addEventListener("change", () => (app.querySelector("#guardianBox").hidden = form.age.value !== "under14")));
+  form.addEventListener("submit", async (ev) => {
     ev.preventDefault();
     const f = ev.target;
     const email = f.email.value.trim();
     const name = f.name.value.trim();
+    const ageGroup = f.age.value;
+    const guardianEmail = f.guardian.value.trim();
     const err = app.querySelector("#signupError");
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return (err.textContent = t.emailBad);
+    if (!EMAIL_RE.test(email)) return (err.textContent = t.emailBad);
     if (!f.country.value) return (err.textContent = t.needCountry);
     if (!name) return (err.textContent = t.memberName);
+    if (!ageGroup) return (err.textContent = m.needAge);
+    if (ageGroup === "under14" && (!EMAIL_RE.test(guardianEmail) || !f.guardianConsent.checked)) return (err.textContent = m.needGuardian);
     if (!f.consent.checked) return (err.textContent = t.needConsent);
-    try { localStorage.setItem(MEMBER_KEY, JSON.stringify({ email, country: f.country.value, name, joinedAt: new Date().toISOString() })); } catch {}
+    const info = { email, name, country: f.country.value, ageGroup, guardianEmail: ageGroup === "under14" ? guardianEmail : null, consentedAt: new Date().toISOString() };
     saveProfile({ name: profile.name || name });
-    updateMemberChip();
-    route();
+    if (Backend.user) {
+      // 이미 메일 링크로 로그인한 상태(다른 기기에서 링크를 연 경우): 바로 저장해요
+      if (await Backend.saveProfile(info)) {
+        updateMemberChip();
+        return route();
+      }
+      return (err.textContent = m.sendFail);
+    }
+    if (!Backend.client) {
+      // 체험 모드: 이 브라우저에만 저장
+      writeJSON(MEMBER_KEY, { ...info, joinedAt: info.consentedAt, verified: false });
+      updateMemberChip();
+      return route();
+    }
+    const btn = f.querySelector("button[type=submit]");
+    btn.disabled = true;
+    btn.textContent = m.sending;
+    try {
+      await Backend.signUp(info);
+      renderCheckMail(info);
+    } catch {
+      err.textContent = m.sendFail;
+      btn.disabled = false;
+      btn.textContent = t.signupBtn;
+    }
   });
   window.scrollTo(0, 0);
 }
+
+function renderCheckMail(info) {
+  const m = M();
+  app.innerHTML = `
+    <section class="signup fade-in">
+      <h1>${m.checkMailTitle}</h1>
+      <p class="lead">${m.checkMail(esc(info.email))}</p>
+      <button class="btn ghost" id="resend">${m.resend}</button>
+    </section>`;
+  app.querySelector("#resend").addEventListener("click", async (e) => {
+    e.target.disabled = true;
+    try { await Backend.signUp(info); } catch { e.target.textContent = m.sendFail; }
+    setTimeout(() => (e.target.disabled = false), 30000);
+  });
+}
+
+/* ---------- 개인정보 처리방침 ---------- */
+function renderPrivacy() {
+  const cfg = Backend.config;
+  const op = esc(cfg.operatorName || (LANG === "ko" ? "(운영자 이름을 config.js에 적어 주세요)" : "(set operatorName in config.js)"));
+  const contact = esc(cfg.contactEmail || (LANG === "ko" ? "(문의 이메일을 config.js에 적어 주세요)" : "(set contactEmail in config.js)"));
+  const ko = `
+    <h1>개인정보 처리방침</h1>
+    <p class="lead">${op}(이하 '운영자')는 「개인정보 보호법」에 따라 '달빛 한국사 여행' 이용자의 개인정보를 다음과 같이 처리합니다.</p>
+    <h2>1. 수집하는 항목</h2>
+    <ul><li>필수: 이메일 주소, 국적, 이름(닉네임 가능), 나이 구분(만 14세 이상/미만)</li><li>만 14세 미만: 보호자 이메일, 보호자 동의 여부</li><li>이용 기록: 퀴즈 도장 획득 기록, 꾸민 캐릭터 정보</li><li>함께 접속할 때: 궁궐 안에서의 이름·캐릭터·위치·동작 (저장하지 않고 실시간으로만 다른 접속자에게 보여 줌)</li></ul>
+    <h2>2. 이용 목적</h2>
+    <ul><li>회원 확인과 궁궐 입장</li><li>학습 기록(도장) 저장과 다른 기기에서 이어 하기</li><li>같은 궁궐에 접속한 사람들에게 내 캐릭터를 보여 주기</li></ul>
+    <h2>3. 보관 기간</h2>
+    <p>회원 탈퇴를 하면 회원 정보와 기록을 지체 없이 지웁니다.</p>
+    <h2>4. 처리 위탁과 국외 이전</h2>
+    <ul><li>Supabase Inc.: 회원 정보·기록 저장과 로그인 메일 발송 (저장 지역은 운영자가 선택한 서버 지역)</li><li>Vercel Inc.: 웹사이트 호스팅</li></ul>
+    <p>위 업체는 해외에 서버가 있을 수 있으며, 서비스 제공을 위해 필요한 범위에서만 정보가 이전됩니다. 이 외에 제3자에게 제공하지 않습니다.</p>
+    <h2>5. 만 14세 미만 아동</h2>
+    <p>만 14세 미만 아동은 법정대리인(보호자)의 동의를 받아 가입할 수 있으며, 보호자는 아동 정보의 열람·정정·삭제를 요청할 수 있습니다.</p>
+    <h2>6. 이용자의 권리</h2>
+    <p>언제든 상단의 회원 표시를 눌러 내 정보를 보고, 회원 탈퇴로 모든 정보를 지울 수 있습니다. 그 밖의 요청은 아래로 연락해 주세요.</p>
+    <h2>7. 개인정보 보호책임자와 문의</h2>
+    <p>${op} · ${contact}</p>
+    <p class="note">시행일: 2026년 10월 30일</p>`;
+  const en = `
+    <h1>Privacy Policy</h1>
+    <p class="lead">${op} ("Operator") handles the personal information of 'Moonlit Korean History' users as follows, in line with Korea's Personal Information Protection Act.</p>
+    <h2>1. What we collect</h2>
+    <ul><li>Required: email, nationality, name (a nickname is fine), age group (14+ / under 14)</li><li>Under 14: guardian email and guardian consent</li><li>Activity: quiz stamps and your character design</li><li>When playing together: your name, character, position and actions inside a palace (shown live to other visitors, not stored)</li></ul>
+    <h2>2. Why</h2>
+    <ul><li>To verify members and let them enter the palaces</li><li>To save learning records (stamps) across devices</li><li>To show your character to others in the same palace</li></ul>
+    <h2>3. Retention</h2>
+    <p>Your member data and records are deleted without delay when you delete your account.</p>
+    <h2>4. Processors and international transfer</h2>
+    <ul><li>Supabase Inc.: storing member data and sending sign-in emails (in the server region chosen by the Operator)</li><li>Vercel Inc.: website hosting</li></ul>
+    <p>These providers may operate servers abroad; data is transferred only as needed to provide the service. We do not share data with any other third party.</p>
+    <h2>5. Children under 14</h2>
+    <p>Children under 14 may join with consent from a parent or legal guardian, who may request access, correction or deletion of the child's data.</p>
+    <h2>6. Your rights</h2>
+    <p>Tap the member chip at the top anytime to view your details, or delete your account to erase everything. For other requests, contact us below.</p>
+    <h2>7. Privacy officer & contact</h2>
+    <p>${op} · ${contact}</p>
+    <p class="note">Effective: October 30, 2026</p>`;
+  delete app.dataset.era;
+  app.innerHTML = `<button class="back" data-go="">${T().home}</button><article class="policy fade-in">${LANG === "en" ? en : ko}</article>`;
+  app.querySelector("[data-go]").addEventListener("click", () => (location.hash = ""));
+  window.scrollTo(0, 0);
+}
+
 function updateMemberChip() {
   const chip = document.getElementById("memberChip");
   const m = loadMember();
@@ -720,27 +881,67 @@ function updateMemberChip() {
 }
 function openMemberInfo() {
   const t = T();
+  const mm = M();
   const m = loadMember();
   if (!m) return;
+  const server = !!(Backend.user && m.verified);
   modalBody.innerHTML = `
     <h2 style="margin:0">👤 ${t.memberInfo}</h2>
     <dl class="member-info">
       <dt>${t.memberName}</dt><dd>${esc(m.name)}</dd>
       <dt>${t.email}</dt><dd>${esc(m.email)}</dd>
       <dt>${t.country}</dt><dd>${esc(countryName(m.country))}</dd>
+      <dt>${mm.age}</dt><dd>${m.ageGroup === "under14" ? mm.ageUnder : mm.age14}</dd>
+      <dt>${mm.mode}</dt><dd>${server ? mm.modeServer : mm.modeLocal}</dd>
     </dl>
-    <p class="note">🔒 ${t.storageNote}</p>
-    <button class="btn ghost" id="signout">${t.signout}</button>`;
-  modalBody.querySelector("#signout").addEventListener("click", () => {
-    try { localStorage.removeItem(MEMBER_KEY); } catch {}
+    <p class="note"><a href="#privacy">${mm.policyLink}</a></p>
+    <button class="btn ghost" id="signout">${server ? mm.deleteAccount : t.signout}</button>`;
+  modalBody.querySelector("[href='#privacy']").addEventListener("click", () => modal.close());
+  modalBody.querySelector("#signout").addEventListener("click", async (e) => {
+    if (server && !confirm(mm.deleteConfirm)) return;
+    try {
+      if (server) await Backend.deleteAccount();
+    } catch {
+      e.target.textContent = mm.deleteFail;
+      return;
+    }
+    [MEMBER_KEY, STAMP_KEY].forEach((k) => {
+      try { localStorage.removeItem(k); } catch {}
+    });
     modal.close();
     updateMemberChip();
+    updateStampCount();
     location.hash = "";
     route();
   });
   modal.showModal();
 }
 document.getElementById("memberChip").addEventListener("click", openMemberInfo);
+
+/* ---------- 공유하기 ---------- */
+const QR_URL = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+function openShare() {
+  const url = location.origin + location.pathname;
+  const ko = LANG === "ko";
+  modalBody.innerHTML = `
+    <h2 style="margin:0">🔗 ${ko ? "친구에게 공유하기" : "Share with friends"}</h2>
+    <p class="note" style="margin-top:6px">${ko ? "QR코드를 찍거나 링크를 보내 주세요." : "Scan the QR code or send the link."}</p>
+    <div class="qr" id="qrBox"></div>
+    <div class="share-link"><input readonly value="${esc(url)}" id="shareUrl" /><button class="btn" id="copyShare">${ko ? "복사" : "Copy"}</button></div>
+    ${navigator.share ? `<button class="btn ghost" id="nativeShare">${ko ? "📤 다른 앱으로 공유" : "📤 Share via apps"}</button>` : ""}`;
+  modal.showModal();
+  const draw = () => new QRCode(document.getElementById("qrBox"), { text: url, width: 200, height: 200, colorDark: "#12153a", colorLight: "#ffffff" });
+  if (window.QRCode) draw();
+  else {
+    const s = document.createElement("script");
+    s.src = QR_URL;
+    s.onload = draw;
+    document.head.appendChild(s);
+  }
+  modalBody.querySelector("#copyShare").addEventListener("click", (e) => copyText(e.target, url));
+  modalBody.querySelector("#nativeShare")?.addEventListener("click", () => navigator.share({ title: T().title, url }).catch(() => {}));
+}
+document.getElementById("shareChip").addEventListener("click", openShare);
 
 /* ---------- 도장판 ---------- */
 function openStampBoard() {
@@ -763,4 +964,15 @@ document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("clic
 
 applyStaticText();
 updateStampCount();
-route();
+// 서버 모드라면 로그인 상태를 먼저 확인한 뒤 화면을 그려요 (이메일 링크로 돌아온 경우 가입 마무리)
+Backend.init().finally(() => {
+  updateStampCount();
+  updateMemberChip();
+  if (/access_token|error_description/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search);
+  if (Backend.nextHash && location.hash !== Backend.nextHash) location.hash = Backend.nextHash;
+  else route();
+});
+window.addEventListener("member-changed", () => {
+  updateMemberChip();
+  updateStampCount();
+});
