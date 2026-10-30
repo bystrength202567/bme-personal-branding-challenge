@@ -23,14 +23,14 @@ const WSTR = {
     examiner: "시험관",
     stone: (i) => `이야기 비석 ${i}`,
     gate: "시간의 문",
-    wave: "인사", bow: "절하기", cheer: "만세", talk: "말 걸기",
+    wave: "인사하기", shake: "악수하기", cheer: "만세하기", talk: "말 걸기",
     iAm: (n) => `나는 ${n}이오.`,
     quizIntro: (era) => `${era}에 대해 얼마나 알고 있소? 4문제 중 3문제를 맞히면 도장을 찍어 주겠소.`,
     quizStart: "📝 시험 보기",
     keep: "계속 둘러보기",
     leaveQ: "현재로 돌아갈까요?",
     leave: "나가기",
-    bowBack: (n) => `${n} 님이 맞절을 해요 🙇`,
+    shakeBack: (n) => `${n} 님과 악수를 나눴어요 🤝`,
     waveBack: (n) => `${n} 님이 손을 흔들어요 👋`,
     complete: "🎉 모든 위인과 비석을 만났어요! 이제 시험관에게 가 보세요.",
     progress: "탐험",
@@ -52,14 +52,14 @@ const WSTR = {
     examiner: "Examiner",
     stone: (i) => `Story Stone ${i}`,
     gate: "Gate of Time",
-    wave: "Wave", bow: "Bow", cheer: "Cheer", talk: "Talk",
+    wave: "Wave", shake: "Handshake", cheer: "Cheer", talk: "Talk",
     iAm: (n) => `I am ${n}.`,
     quizIntro: (era) => `How much do you know about ${era}? Get 3 of 4 right and I'll give you my stamp.`,
     quizStart: "📝 Take the test",
     keep: "Keep exploring",
     leaveQ: "Return to the present?",
     leave: "Leave",
-    bowBack: (n) => `${n} bows back 🙇`,
+    shakeBack: (n) => `You shook hands with ${n} 🤝`,
     waveBack: (n) => `${n} waves back 👋`,
     complete: "🎉 You've met everyone and read every stone! Now visit the Examiner.",
     progress: "Explored",
@@ -229,7 +229,7 @@ const World = {
       </div>
       <nav class="w-actions">
         <button data-gesture="wave"><span>👋</span>${w.wave}</button>
-        <button data-gesture="bow"><span>🙇</span>${w.bow}</button>
+        <button data-gesture="shake"><span>🤝</span>${w.shake}</button>
         <button data-gesture="cheer"><span>🙌</span>${w.cheer}</button>
         <button id="wTalk" disabled><span>💬</span>${w.talk}</button>
       </nav>`;
@@ -475,8 +475,9 @@ const World = {
         const near = npcs.find((n) => n.av.group.position.distanceTo(player.group.position) < 4.5);
         if (near && type !== "cheer") {
           facePoint(near.av.group, player.group.position);
-          setTimeout(() => (near.av.anim = { type, t: 0 }), 450);
-          toast(type === "bow" ? w.bowBack(near.name) : w.waveBack(near.name));
+          if (type === "shake") facePoint(player.group, near.av.group.position);
+          setTimeout(() => (near.av.anim = { type, t: 0 }), type === "shake" ? 150 : 450);
+          toast(type === "shake" ? w.shakeBack(near.name) : w.waveBack(near.name));
         }
       })
     );
@@ -836,7 +837,7 @@ function makeAvatar({ robe, sash, hat, scale = 1 }) {
 function animateAvatar(av, dt, time, moving) {
   const t = time + av.phase;
   av.inner.position.y = moving ? Math.abs(Math.sin(t * 10)) * 0.08 : Math.sin(t * 2) * 0.012;
-  let armL = -0.28, armR = 0.28, swingL = 0, swingR = 0, bow = 0;
+  let armL = -0.28, armR = 0.28, swingL = 0, swingR = 0, lean = 0;
   if (moving) {
     swingL = Math.sin(t * 10) * 0.6;
     swingR = -swingL;
@@ -847,10 +848,13 @@ function animateAvatar(av, dt, time, moving) {
     if (av.anim.type === "wave") {
       armR = 2.5 + Math.sin(p * 14) * 0.35;
       if (p > 1.6) av.anim = null;
-    } else if (av.anim.type === "bow") {
-      bow = Math.sin(Math.min(p / 1.6, 1) * Math.PI) * 0.75;
-      swingL = swingR = -bow * 0.5;
-      if (p > 1.6) av.anim = null;
+    } else if (av.anim.type === "shake") {
+      // 오른손을 앞으로 내밀고 위아래로 흔들기
+      const reach = Math.sin(Math.min(p / 1.8, 1) * Math.PI);
+      swingR = -1.3 * Math.min(reach * 1.6, 1) + Math.sin(p * 18) * 0.16 * reach;
+      armR = 0.12;
+      lean = 0.12 * reach;
+      if (p > 1.8) av.anim = null;
     } else if (av.anim.type === "cheer") {
       const up = Math.abs(Math.sin(p * 5));
       armL = -2.6 * up - 0.3;
@@ -863,7 +867,7 @@ function animateAvatar(av, dt, time, moving) {
   av.armR.rotation.z = armR;
   av.armL.rotation.x = swingL;
   av.armR.rotation.x = swingR;
-  av.inner.rotation.x = bow;
+  av.inner.rotation.x = lean;
 }
 
 function facePoint(obj, point) {
