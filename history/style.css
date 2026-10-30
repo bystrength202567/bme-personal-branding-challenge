@@ -317,3 +317,63 @@ body.in-world main { max-width: none; padding: 0; }
   .w-hint { top: 120px; }
   .w-dialog { bottom: 92px; }
 }
+
+/* 경복궁 캐릭터 꾸미기 */
+.dresser { text-align: center; padding: 6px 0 20px; }
+.dresser h1 { font-size: clamp(22px, 4.6vw, 32px); margin: 0 0 18px; }
+.dresser-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 20px; text-align: left; margin-bottom: 18px; }
+.dresser-preview { background: radial-gradient(circle at 50% 40%, #2a3070, #12153a 70%); border: 1px solid var(--line); border-radius: 20px; padding: 12px; text-align: center; }
+.dresser-preview canvas { width: 100%; max-width: 320px; aspect-ratio: 320 / 380; height: auto; touch-action: none; cursor: grab; }
+.dresser-preview .hint { margin: 0; }
+.role-desc { font-size: 14px; color: var(--ink); margin: 8px 4px 2px; min-height: 42px; }
+.dresser-controls { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; }
+.dresser-controls h3 { font-size: 14px; color: var(--muted); margin: 16px 0 8px; font-family: "Noto Sans KR", sans-serif; }
+.dresser-controls .nick-field input { width: 100%; }
+.dresser-controls .nick-field { display: grid; width: 100%; }
+.role-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.role { display: grid; justify-items: center; gap: 2px; padding: 10px 4px; border-radius: 12px; border: 1px solid var(--line); background: #ffffff0a; font-size: 13px; font-weight: 700; }
+.role span { font-size: 22px; }
+.role.on { border-color: var(--gold); background: #f3d27a22; box-shadow: 0 0 0 1px var(--gold); }
+.swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.swatch { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #ffffff33; background: var(--s); }
+.swatch.on { border-color: var(--gold); box-shadow: 0 0 0 3px #f3d27a55; transform: scale(1.08); }
+.check { display: flex; gap: 8px; align-items: center; margin-top: 16px; font-size: 14px; }
+.check input { width: 18px; height: 18px; accent-color: var(--gold); }
+
+/* 궁궐 HUD */
+.w-btn { color: var(--ink); cursor: pointer; }
+.w-btn:hover { border-color: var(--gold); }
+.w-time small { color: var(--muted); font-size: 11px; margin-left: 4px; }
+.w-label.place { background: #2a1e14d9; border-color: #d9a62e88; color: #f3d27a; font-family: "Gowun Batang", serif; font-size: 13px; }
+.w-sub { font-family: "Gowun Batang", serif; color: var(--muted); margin-top: -6px !important; }
+.w-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.w-map button { padding: 12px 6px; border-radius: 12px; border: 1px solid var(--line); background: #ffffff0d; font-size: 13px; font-weight: 700; }
+.w-map button:hover { border-color: var(--gold); }
+
+@media (max-width: 760px) {
+  .dresser-grid { grid-template-columns: 1fr; }
+  .dresser-preview canvas { max-width: 240px; }
+  .w-map { grid-template-columns: repeat(2, 1fr); }
+  .w-right { gap: 6px; }
+  .w-pill { font-size: 12px; padding: 7px 10px; }
+}
+
+@media (max-width: 760px) {
+  .w-top { flex-direction: column; align-items: stretch; gap: 8px; }
+  .w-right { justify-content: flex-start; }
+  .w-room { white-space: nowrap; padding: 8px 12px; }
+  .w-room b { font-size: 15px; }
+  .w-icon { width: 40px; height: 40px; flex: none; }
+  .w-crowd { display: none; }
+  .w-hint { top: 112px; }
+  .w-toast { top: 112px; }
+}
+@media (max-width: 480px) {
+  .logo { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .topbar { gap: 8px; }
+  .top-right { flex: none; }
+  #stampLabel { display: none; }
+}
+@media (max-width: 480px) {
+  .w-time small { display: none; }
+}

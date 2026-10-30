@@ -52,6 +52,8 @@ const STR = {
     fileName: (n) => `${n}-전생결과.png`,
     backEras: "← 시대 선택으로",
     enterBtn: "🚪 캐릭터로 입장하기",
+    enterPalace: "🏯 경복궁 입장하기",
+    palaceTag: "🏯 경복궁 입장 가능",
     next: { timeline: "연표 보러 가기 →", people: "인물 만나기 →", facts: "재미있는 사실 →", quiz: "퀴즈 도전! →" },
     qNum: (i, t) => `문제 ${i} / ${t}`,
     right: "⭕ 정답!", wrong: "❌ 아쉬워요!",
@@ -113,6 +115,8 @@ const STR = {
     fileName: (n) => `${n}-past-life.png`,
     backEras: "← All eras",
     enterBtn: "🚪 Enter as a character",
+    enterPalace: "🏯 Enter Gyeongbokgung",
+    palaceTag: "🏯 Enter Gyeongbokgung Palace",
     next: { timeline: "See the timeline →", people: "Meet the people →", facts: "Fun facts →", quiz: "Take the quiz! →" },
     qNum: (i, t) => `Question ${i} / ${t}`,
     right: "⭕ Correct!", wrong: "❌ Not quite!",
@@ -251,7 +255,7 @@ function renderHome() {
           <h3>${e.name}<small>${e.hanja}</small></h3>
           <div class="period">${e.period}</div>
           <p>${e.tagline}</p>
-          <span class="enter-tag">${t.enterable}</span>
+          <span class="enter-tag">${e.id === "joseon" ? t.palaceTag : t.enterable}</span>
           ${stamps[e.id] ? `<span class="stamp" title="${t.passed}">🏮</span>` : ""}
         </button>`).join("")}
     </div>
@@ -482,7 +486,7 @@ function renderEra(era, tab) {
       <h1>${era.name}<small>${era.hanja}</small></h1>
       <div class="period">${era.period}</div>
       <p class="tagline">${era.tagline}</p>
-      <button class="btn enter-btn" data-go="enter/${era.id}">${t.enterBtn}</button>
+      <button class="btn enter-btn" data-go="enter/${era.id}">${era.id === "joseon" ? t.enterPalace : t.enterBtn}</button>
     </section>
     <nav class="tabs" role="tablist">
       ${TAB_IDS.map((id, i) => `<button class="tab ${id === tab ? "active" : ""}" role="tab" aria-selected="${id === tab}" data-tab="${id}">${t.tabs[i]}</button>`).join("")}
