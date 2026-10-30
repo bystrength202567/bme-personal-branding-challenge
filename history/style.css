@@ -173,6 +173,33 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px 60px; }
 .life-stats b { display: block; font-size: 17px; color: var(--ink); }
 .actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
 
+/* 홈 전생 섹션 & 전체 결과 */
+.life-home {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center;
+  padding: 28px; margin-top: 8px; border-radius: 22px;
+  background: linear-gradient(135deg, #f3d27a26, #8a5bb826); border: 1px solid #f3d27a55;
+}
+.life-home h2 { margin: 0 0 8px; font-size: 26px; }
+.life-home p { color: var(--muted); margin: 0; }
+.life-home .eyebrow { color: var(--gold); margin-bottom: 6px; }
+.life-home .fortune-form { max-width: none; }
+.life-list { display: grid; gap: 10px; }
+.life-row {
+  display: flex; align-items: center; gap: 14px; text-align: left; width: 100%;
+  padding: 14px 16px; border-radius: 16px; border: 1px solid var(--line);
+  background: var(--card); transition: transform .2s, border-color .2s;
+}
+.life-row:hover { transform: translateX(4px); border-color: var(--c); }
+.life-row.main { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.life-row-emoji { font-size: 34px; flex: none; }
+.life-row-text { flex: 1; display: grid; gap: 1px; min-width: 0; }
+.life-row-text small { color: var(--c); font-weight: 700; font-size: 12px; }
+.life-row-text b { font-family: "Gowun Batang", serif; font-size: 18px; }
+.life-row-text span { color: var(--muted); font-size: 13px; }
+.life-row-score { flex: none; font: 700 22px "Gowun Batang", serif; color: var(--gold); }
+.life-row-score small { font-size: 12px; margin-left: 2px; }
+.hint { text-align: center; color: var(--muted); font-size: 13px; }
+
 .next-era { display: flex; justify-content: space-between; gap: 10px; margin-top: 24px; }
 .next-era button { flex: 1; padding: 14px; border-radius: 14px; border: 1px solid var(--line); background: #ffffff08; font-size: 14px; }
 .next-era button:hover { border-color: var(--gold); }
@@ -192,7 +219,8 @@ dialog::backdrop { background: #000a; }
 
 @media (max-width: 760px) {
   .era-grid, .how { grid-template-columns: 1fr 1fr; }
-  .people { grid-template-columns: 1fr; }
+  .people, .life-home { grid-template-columns: 1fr; }
+  .life-home { padding: 20px; }
   .panel { padding: 18px; }
 }
 @media (max-width: 480px) {
