@@ -680,9 +680,14 @@ const MSTR = {
     localNote: "지금은 체험 모드라 회원 정보가 이 기기의 브라우저에만 저장되고 다른 곳으로 보내지지 않아요.",
     sending: "보내는 중…",
     checkMailTitle: "📬 메일함을 확인해 주세요",
-    checkMail: (e) => `<b>${e}</b>(으)로 로그인 링크를 보냈어요. 메일의 링크를 누르면 가입이 끝나고 궁궐에 들어갈 수 있어요.`,
+    checkMail: (e) => `<b>${e}</b>(으)로 확인 메일을 보냈어요. 메일에 적힌 인증 코드를 아래에 넣거나, 메일의 링크를 누르면 가입이 끝나요.`,
+    code: "인증 코드",
+    codePh: "메일에 적힌 숫자",
+    verify: "확인하고 입장하기",
+    codeBad: "코드가 맞지 않거나 시간이 지났어요. 메일을 다시 받아 주세요.",
     resend: "메일 다시 보내기",
     sendFail: "메일을 보내지 못했어요. 잠시 뒤 다시 시도해 주세요.",
+    serverDown: "지금 회원 서버에 연결할 수 없어요. 잠시 뒤 다시 시도해 주세요.",
     mode: "저장 위치",
     modeServer: "회원 서버 (이메일 인증 완료)",
     modeLocal: "이 기기 브라우저 (체험 모드)",
@@ -704,9 +709,14 @@ const MSTR = {
     localNote: "This is demo mode: your details are saved only in this device's browser and are not sent anywhere.",
     sending: "Sending…",
     checkMailTitle: "📬 Check your inbox",
-    checkMail: (e) => `We sent a sign-in link to <b>${e}</b>. Click the link in the email to finish signing up and enter the palaces.`,
+    checkMail: (e) => `We sent a confirmation email to <b>${e}</b>. Enter the code from the email below, or click the link in it, to finish signing up.`,
+    code: "Verification code",
+    codePh: "Digits from the email",
+    verify: "Verify & enter",
+    codeBad: "The code is wrong or expired. Please request a new email.",
     resend: "Resend email",
     sendFail: "Couldn't send the email. Please try again shortly.",
+    serverDown: "We can't reach the member server right now. Please try again shortly.",
     mode: "Stored in",
     modeServer: "Member server (email verified)",
     modeLocal: "This device's browser (demo mode)",
@@ -788,6 +798,8 @@ function renderSignup() {
       }
       return (err.textContent = m.sendFail);
     }
+    // 서버를 쓰도록 설정했는데 연결이 안 되면 브라우저에 몰래 저장하지 않고 알려요
+    if (Backend.enabled && !Backend.client) return (err.textContent = m.serverDown);
     if (!Backend.client) {
       // 체험 모드: 이 브라우저에만 저장
       writeJSON(MEMBER_KEY, { ...info, joinedAt: info.consentedAt, verified: false });
@@ -815,8 +827,31 @@ function renderCheckMail(info) {
     <section class="signup fade-in">
       <h1>${m.checkMailTitle}</h1>
       <p class="lead">${m.checkMail(esc(info.email))}</p>
+      <form class="fortune-form signup-form" id="codeForm" novalidate>
+        <label>${m.code}<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="${m.codePh}" /></label>
+        <p class="form-error" id="codeError" role="alert"></p>
+        <button class="btn" type="submit">${m.verify}</button>
+      </form>
       <button class="btn ghost" id="resend">${m.resend}</button>
     </section>`;
+  app.querySelector("#codeForm").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const code = ev.target.code.value.replace(/\D/g, "");
+    const err = app.querySelector("#codeError");
+    if (code.length < 6) return (err.textContent = m.codeBad);
+    const btn = ev.target.querySelector("button");
+    btn.disabled = true;
+    try {
+      await Backend.verifyCode(info.email, code);
+      updateMemberChip();
+      updateStampCount();
+      if (Backend.nextHash && location.hash !== Backend.nextHash) location.hash = Backend.nextHash;
+      else route();
+    } catch {
+      err.textContent = m.codeBad;
+      btn.disabled = false;
+    }
+  });
   app.querySelector("#resend").addEventListener("click", async (e) => {
     e.target.disabled = true;
     try { await Backend.signUp(info); } catch { e.target.textContent = m.sendFail; }

@@ -20,6 +20,8 @@
    - **Site URL**: 1번의 서비스 주소 (예: `https://내프로젝트.vercel.app/history/`)
    - **Redirect URLs**에도 같은 주소를 추가해요. (가입 메일의 링크가 이 주소로 돌아와요.)
 4. **Authentication → Providers → Email** 이 켜져 있는지 확인해요.
+   - **Authentication → Emails → Templates**의 **Confirm signup**과 **Magic Link** 템플릿 본문에 `{{ .Token }}`을 넣어 주세요 (예: `인증 코드: {{ .Token }}`).
+     claude.ai 아티팩트 화면에서는 메일 링크가 페이지로 돌아올 수 없어서, 메일의 인증 코드를 화면에 입력해 가입을 마쳐요.
 5. (실제 운영 권장) **Authentication → Emails → SMTP Settings**에서 메일 발송 서비스를 연결해요.
    Supabase 기본 메일은 시간당 보낼 수 있는 양이 아주 적어서, 사람이 많이 가입하면 메일이 늦거나 안 갈 수 있어요.
 

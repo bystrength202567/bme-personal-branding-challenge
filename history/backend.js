@@ -75,6 +75,13 @@ const Backend = {
     if (error) throw error;
   },
 
+  // 메일에 적힌 인증 코드로 가입·로그인을 마쳐요 (claude.ai 아티팩트 화면처럼 메일 링크가 돌아올 수 없는 곳에서도 동작)
+  async verifyCode(email, token) {
+    const { data, error } = await this.client.auth.verifyOtp({ email, token, type: "email" });
+    if (error) throw error;
+    await this.onSession(data.session);
+  },
+
   async pullStamps() {
     if (!this.client || !this.user) return;
     const { data } = await this.client.from("progress").select("stamps").eq("user_id", this.user.id).maybeSingle();
