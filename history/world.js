@@ -1,9 +1,6 @@
 // 시대별 3D 입장 공간: 공용 엔진(이동·충돌·대화·동작) + 시대별 공간. 조선은 palace.js의 경복궁을 사용해요.
 const THREE_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
-const CHAR_KEY = "dalbit-history-chars";
-const ROBES = ["#efe6cf", "#c0584f", "#4f73b3", "#5fa39a", "#d4a63a", "#8a5bb8", "#d9d9e0", "#7a5a40"];
-const ERA_HAT = { gojoseon: "band", threekingdoms: "helmet", silla: "topknot", goryeo: "topknot", joseon: "gat", "korean-empire": "western" };
-const ROYAL = ["👑", "🤴", "👸"];
+const ACTIONS = [["stroll", "🚶"], ["read", "📖"], ["eat", "🍚"], ["sleep", "😴"], ["rest", "🍵"], ["greet", "🙇"]];
 
 const WSTR = {
   ko: {
@@ -23,15 +20,30 @@ const WSTR = {
     examiner: "시험관",
     stone: (i) => `이야기 비석 ${i}`,
     gate: "시간의 문",
-    wave: "인사하기", shake: "악수하기", cheer: "만세하기", talk: "말 걸기",
+    talk: "말 걸기",
+    actions: { stroll: "산책하기", read: "책읽기", eat: "식사하기", sleep: "잠자기", rest: "휴식하기", greet: "인사하기" },
+    actionToast: {
+      stroll: "🚶 뒷짐을 지고 궁궐 뜰을 천천히 거닐어요 (한 번 더 누르면 멈춰요)",
+      read: "📖 방석에 앉아 책을 펼쳤어요. 임금도 날마다 학문을 닦았어요",
+      eat: "🍚 상을 받고 식사를 해요",
+      sleep: "😴 이부자리를 펴고 잠자리에 들어요",
+      rest: "🍵 방석에 앉아 부채질하며 쉬어요",
+      greet: "🙇 공손히 인사해요",
+    },
+    actionTip: {
+      joseon: {
+        read: "조선의 임금은 신하들과 '경연'을 열어 함께 경전을 공부했어요.",
+        eat: "임금의 밥상은 '수라상'이라고 불렀어요.",
+        sleep: "임금이 잠드는 곳은 침전, 경복궁에서는 강녕전이에요.",
+      },
+    },
+    greetBack: (n) => `${n} 님도 공손히 인사해요 🙇`,
     iAm: (n) => `나는 ${n}이오.`,
     quizIntro: (era) => `${era}에 대해 얼마나 알고 있소? 4문제 중 3문제를 맞히면 도장을 찍어 주겠소.`,
     quizStart: "📝 시험 보기",
     keep: "계속 둘러보기",
     leaveQ: "현재로 돌아갈까요?",
     leave: "나가기",
-    shakeBack: (n) => `${n} 님과 악수를 나눴어요 🤝`,
-    waveBack: (n) => `${n} 님이 손을 흔들어요 👋`,
     complete: "🎉 모든 곳을 둘러봤어요! 이제 시험관에게 가 보세요.",
     progress: "탐험",
     map: "🗺️ 지도",
@@ -54,15 +66,30 @@ const WSTR = {
     examiner: "Examiner",
     stone: (i) => `Story Stone ${i}`,
     gate: "Gate of Time",
-    wave: "Wave", shake: "Handshake", cheer: "Cheer", talk: "Talk",
+    talk: "Talk",
+    actions: { stroll: "Stroll", read: "Read", eat: "Dine", sleep: "Sleep", rest: "Rest", greet: "Greet" },
+    actionToast: {
+      stroll: "🚶 Strolling slowly through the palace grounds, hands behind your back (tap again to stop)",
+      read: "📖 You sit on a cushion and open a book. Kings studied every day",
+      eat: "🍚 A meal table is served",
+      sleep: "😴 You lay out the bedding and go to sleep",
+      rest: "🍵 You sit on a cushion and rest, fanning yourself",
+      greet: "🙇 You bow politely",
+    },
+    actionTip: {
+      joseon: {
+        read: "Joseon kings held 'gyeongyeon' study sessions with their scholars.",
+        eat: "The king's meal table was called 'surasang'.",
+        sleep: "The king slept in Gangnyeongjeon, his private quarters.",
+      },
+    },
+    greetBack: (n) => `${n} bows back 🙇`,
     iAm: (n) => `I am ${n}.`,
     quizIntro: (era) => `How much do you know about ${era}? Get 3 of 4 right and I'll give you my stamp.`,
     quizStart: "📝 Take the test",
     keep: "Keep exploring",
     leaveQ: "Return to the present?",
     leave: "Leave",
-    shakeBack: (n) => `You shook hands with ${n} 🤝`,
-    waveBack: (n) => `${n} waves back 👋`,
     complete: "🎉 You've explored everything! Now visit the Examiner.",
     progress: "Explored",
     map: "🗺️ Map",
@@ -80,63 +107,13 @@ function randomNick() {
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
   return `${pick(a)} ${pick(b)}`;
 }
-function loadChars() {
-  try { return JSON.parse(localStorage.getItem(CHAR_KEY)) || {}; } catch { return {}; }
-}
 function roomNumber(era, nick) {
   return 1 + (hash(`${era.id}|${nick}`) % 99);
 }
 
-/* ---------- 캐릭터 선택 ---------- */
+/* ---------- 캐릭터 선택: 모든 시대가 궁궐 꾸미기 화면을 써요 ---------- */
 function renderCharacterSelect(era) {
-  if (era.id === "joseon") return renderPalaceDresser(era);
-  const w = W();
-  const profile = loadProfile() || {};
-  const nick = profile.nick || randomNick();
-  const past = profile.birth ? lifeIndex(era, profile.name, profile.birth) : -1;
-  let chosen = loadChars()[era.id] ?? (past >= 0 ? past : 0);
-  const place = sceneText(era.id).place;
-  delete app.dataset.era;
-  app.style.setProperty("--c", era.color);
-  app.innerHTML = `
-    <button class="back" data-go="era/${era.id}">← ${era.emoji} ${era.name}</button>
-    <section class="char-select fade-in">
-      <p class="eyebrow">${era.name} · ${era.period}</p>
-      <h1>${w.pickTitle(place)}</h1>
-      <label class="nick-field">${w.nick}<span><input id="nick" maxlength="12" value="${esc(nick)}" /><button type="button" id="dice" aria-label="random">🎲</button></span></label>
-      <div class="char-grid">
-        ${era.lives.map(([emoji, role], i) => `
-          <button class="char${i === chosen ? " on" : ""}" data-i="${i}" style="--robe:${ROBES[i]}">
-            <span class="char-avatar"><i>${emoji}</i></span>
-            <b>${role}</b>
-            ${i === past ? `<small>${w.pastLife}</small>` : ""}
-          </button>`).join("")}
-      </div>
-      <div class="room-line">🏯 ${place} · ${w.room} <b id="roomNo">${roomNumber(era, nick)}</b></div>
-      <button class="btn big" id="enterWorld">${w.enter}</button>
-    </section>`;
-  const nickInput = app.querySelector("#nick");
-  const updateRoom = () => (app.querySelector("#roomNo").textContent = roomNumber(era, nickInput.value.trim() || nick));
-  nickInput.addEventListener("input", updateRoom);
-  app.querySelector("#dice").addEventListener("click", () => {
-    nickInput.value = randomNick();
-    updateRoom();
-  });
-  app.querySelectorAll(".char").forEach((b) =>
-    b.addEventListener("click", () => {
-      chosen = Number(b.dataset.i);
-      app.querySelectorAll(".char").forEach((x) => x.classList.toggle("on", x === b));
-    })
-  );
-  app.querySelector("[data-go]").addEventListener("click", (e) => (location.hash = e.currentTarget.dataset.go));
-  app.querySelector("#enterWorld").addEventListener("click", () => {
-    saveProfile({ nick: nickInput.value.trim() || nick });
-    const chars = loadChars();
-    chars[era.id] = chosen;
-    try { localStorage.setItem(CHAR_KEY, JSON.stringify(chars)); } catch {}
-    location.hash = `world/${era.id}`;
-  });
-  window.scrollTo(0, 0);
+  renderPalaceDresser(era);
 }
 
 /* ---------- three.js 불러오기 ---------- */
@@ -160,12 +137,11 @@ function loadThree() {
 function enterWorld(era) {
   const w = W();
   const profile = loadProfile() || {};
-  const ready = era.id === "joseon" ? loadPalaceAvatar() : profile.nick && loadChars()[era.id] !== undefined;
-  if (!ready) {
+  if (!loadPalaceAvatar(era.id)) {
     location.replace(`#enter/${era.id}`);
     return;
   }
-  const place = era.id === "joseon" ? P().place : sceneText(era.id).place;
+  const place = palaceInfo(era.id).place;
   document.body.classList.add("in-world");
   delete app.dataset.era;
   app.innerHTML = `
@@ -199,7 +175,7 @@ const World = {
   },
 
   start(era, root) {
-    const level = era.id === "joseon" ? createPalaceLevel(era) : createEraLevel(era);
+    const level = createPalaceLevel(era);
     runEngine(era, root, level, this);
   },
 };
@@ -245,11 +221,9 @@ function runEngine(era, root, level, holder) {
       <div class="w-dialog-body" id="wDlgBody"></div>
     </div>
     <nav class="w-actions">
-      <button data-gesture="wave"><span>👋</span>${w.wave}</button>
-      <button data-gesture="shake"><span>🤝</span>${w.shake}</button>
-      <button data-gesture="cheer"><span>🙌</span>${w.cheer}</button>
-      <button id="wTalk" disabled><span>💬</span>${w.talk}</button>
-    </nav>`;
+      ${ACTIONS.map(([id, icon]) => `<button data-action="${id}"><span>${icon}</span>${w.actions[id]}</button>`).join("")}
+    </nav>
+    <button class="w-talk" id="wTalk" hidden>💬 <b></b></button>`;
   root.prepend(renderer.domElement);
   const labelsEl = root.querySelector("#wLabels");
   const dialog = root.querySelector("#wDialog");
@@ -278,6 +252,7 @@ function runEngine(era, root, level, holder) {
   const wanderers = [];
   const npcAvatars = [];
   let player = null;
+  let playerLabel = null;
   let moveTarget = null;
   let pending = null;
 
@@ -291,6 +266,7 @@ function runEngine(era, root, level, holder) {
   };
   const walkTo = (item) => {
     if (!dialog.hidden) return;
+    stopPose();
     pending = item;
     moveTarget = item.obj.position.clone();
   };
@@ -329,8 +305,9 @@ function runEngine(era, root, level, holder) {
     // 지붕처럼 카메라가 들어가면 안 되는 공간 (바닥면 + 꼭대기 높이)
     addCamBlock: (x1, x2, z1, z2, top) => camBlocks.push([x1, x2, z1, z2, top]),
     floorAt,
-    setPlayer(av, x, z, ry) {
+    setPlayer(av, x, z, ry, label) {
       player = av;
+      playerLabel = label;
       av.group.position.set(x, floorAt(x, z), z);
       av.group.rotation.y = ry;
       scene.add(av.group);
@@ -423,6 +400,7 @@ function runEngine(era, root, level, holder) {
         player.group.position.set(p.x, floorAt(p.x, p.z), p.z);
         player.group.rotation.y = Math.PI;
         cam.yaw = 0;
+        stopPose();
         camera.position.set(p.x, 6, p.z + 9);
         closeDialog();
         toast(`📍 ${p.name}`);
@@ -431,24 +409,46 @@ function runEngine(era, root, level, holder) {
   });
 
   /* --- 동작 --- */
+  // 임금의 일과: 산책·책읽기·식사·잠·휴식(자세를 유지) / 인사(한 번)
   let nearest = null;
-  root.querySelectorAll("[data-gesture]").forEach((b) =>
+  let strollHome = null;
+  const actionBtns = root.querySelectorAll("[data-action]");
+  const markAction = () => actionBtns.forEach((b) => b.classList.toggle("on", b.dataset.action === player.pose));
+  const stopPose = () => {
+    if (!player || !player.pose) return;
+    setPose(player, null);
+    markAction();
+  };
+  actionBtns.forEach((b) =>
     b.addEventListener("click", () => {
-      const type = b.dataset.gesture;
-      player.anim = { type, t: 0 };
-      const near = interactables.find((n) => n.av && n.av.group.position.distanceTo(player.group.position) < 4.5);
-      if (near && type !== "cheer") {
-        facePoint(near.av.group, player.group.position);
-        if (type === "shake") facePoint(player.group, near.av.group.position);
-        setTimeout(() => (near.av.anim = { type, t: 0 }), type === "shake" ? 150 : 450);
-        toast(type === "shake" ? w.shakeBack(near.name) : w.waveBack(near.name));
+      const type = b.dataset.action;
+      moveTarget = pending = null;
+      if (type === "greet") {
+        setPose(player, null);
+        player.anim = { type: "bow", t: 0 };
+        const near = interactables.find((n) => n.av && n.av.group.position.distanceTo(player.group.position) < 4.5);
+        if (near) {
+          facePoint(near.av.group, player.group.position);
+          facePoint(player.group, near.av.group.position);
+          setTimeout(() => (near.av.anim = { type: "bow", t: 0 }), 500);
+          toast(w.greetBack(near.name));
+        } else toast(w.actionToast.greet);
+      } else if (player.pose === type) {
+        setPose(player, null);
+      } else {
+        setPose(player, type);
+        strollHome = player.group.position.clone();
+        const tip = w.actionTip[era.id]?.[type];
+        toast(tip ? `${w.actionToast[type]} · ${tip}` : w.actionToast[type]);
       }
+      markAction();
+      playerLabel?.classList.toggle("sleeping", player.pose === "sleep");
     })
   );
   talkBtn.addEventListener("click", () => nearest && openDialog(nearest));
 
   /* --- 조작: 클릭 이동 · 드래그 회전 · 휠/핀치 확대 · 키보드 --- */
-  const cam = { yaw: 0, pitch: level.camPitch || 0.42, dist: level.camDist || 8 };
+  const cam = { yaw: level.camYaw || 0, pitch: level.camPitch || 0.42, dist: level.camDist || 8 };
   const keys = new Set();
   const pointers = new Map();
   let dragMoved = false;
@@ -503,6 +503,7 @@ function runEngine(era, root, level, holder) {
     groundPlane.constant = -player.group.position.y;
     const point = raycaster.ray.intersectPlane(groundPlane, new THREE.Vector3());
     if (point) {
+      stopPose();
       pending = null;
       moveTarget = point.setY(0);
       marker.position.set(point.x, floorAt(point.x, point.z) + 0.05, point.z);
@@ -548,7 +549,7 @@ function runEngine(era, root, level, holder) {
   const clock = new THREE.Clock();
   const tmp = new THREE.Vector3();
   const camTarget = new THREE.Vector3();
-  const speed = level.speed || 4.5;
+  const baseSpeed = level.speed || 4.5;
   const bound = level.bound || 30;
   const tick = () => {
     c.raf = requestAnimationFrame(tick);
@@ -562,6 +563,19 @@ function runEngine(era, root, level, holder) {
     if (keys.has("a") || keys.has("arrowleft")) ix -= 1;
     if (keys.has("d") || keys.has("arrowright")) ix += 1;
     let moving = false;
+    if ((ix || iz) && player.pose) stopPose();
+    // 산책: 출발한 자리 둘레를 천천히 거닐어요
+    if (player.pose === "stroll" && !moveTarget && strollHome) {
+      for (let k = 0; k < 10; k++) {
+        const a = rand() * Math.PI * 2, r = 2 + rand() * 6;
+        const tx = strollHome.x + Math.cos(a) * r, tz = strollHome.z + Math.sin(a) * r;
+        if (!blocked(tx, tz)) {
+          moveTarget = new THREE.Vector3(tx, 0, tz);
+          break;
+        }
+      }
+    }
+    const speed = player.pose === "stroll" ? 1.8 : baseSpeed;
     if (ix || iz) {
       moveTarget = null;
       pending = null;
@@ -582,6 +596,7 @@ function runEngine(era, root, level, holder) {
         player.group.rotation.y = Math.atan2(tmp.x, tmp.z);
         moving = true;
         if (Math.abs(pos.x + pos.z - before) < 1e-4) moveTarget = pending = null; // 벽에 막힘
+        if (player.pose === "stroll") moving = "stroll";
       } else {
         moveTarget = null;
         if (pending) openDialog(pending);
@@ -630,8 +645,12 @@ function runEngine(era, root, level, holder) {
         nearest = it;
       }
     });
-    talkBtn.disabled = !nearest;
-    talkBtn.classList.toggle("ready", !!nearest);
+    const showTalk = nearest && dialog.hidden ? nearest : null;
+    if (showTalk !== talkBtn.item) {
+      talkBtn.item = showTalk;
+      talkBtn.hidden = !showTalk;
+      if (showTalk) talkBtn.querySelector("b").textContent = `${w.talk} · ${showTalk.name.split(" ")[0]}`;
+    }
 
     // 카메라: 캐릭터 뒤에서 따라가기
     camTarget.set(pos.x, pos.y + 1.4, pos.z);
@@ -668,112 +687,6 @@ function runEngine(era, root, level, holder) {
   tick();
 }
 
-/* ---------- 시대 공간 (조선 외) ---------- */
-function createEraLevel(era) {
-  const w = W();
-  const scene3 = SCENES[era.id];
-  const text = sceneText(era.id);
-  const profile = loadProfile() || {};
-  return {
-    place: text.place,
-    roomText: `${w.room} ${roomNumber(era, profile.nick)}`,
-    crowdText: w.villagers(4),
-    greet: text.greet,
-    build(api) {
-      const { scene, add, mat, glow, rand, addLabel, addInteract } = api;
-      const sky = new THREE.Color(scene3.ground[0]).lerp(new THREE.Color("#0b0d2a"), 0.75);
-      scene.background = sky;
-      scene.fog = new THREE.Fog(sky, 22, 60);
-      scene.add(new THREE.HemisphereLight(0x9aa6ff, 0x3a2a1a, 0.75));
-      const moonLight = new THREE.DirectionalLight(0xdfe4ff, 0.55);
-      moonLight.position.set(20, 30, -25);
-      scene.add(moonLight);
-
-      const ground = add(new THREE.CircleGeometry(70, 48), mat(scene3.ground[1]), 0, 0, 0);
-      ground.rotation.x = -Math.PI / 2;
-      const plaza = add(new THREE.CircleGeometry(13, 48), mat(new THREE.Color(scene3.ground[1]).offsetHSL(0, -0.05, 0.08)), 0, 0.01, 0);
-      plaza.rotation.x = -Math.PI / 2;
-      for (let z = 3; z < 21; z += 1.4) add(new THREE.BoxGeometry(1.6, 0.06, 0.9), mat("#8d8577"), 0, 0.03, z);
-
-      add(new THREE.SphereGeometry(5, 24, 24), glow("#fff4cf"), 35, 45, -80);
-      scene.add(makeStars(rand, 500, 0.6));
-
-      for (let i = 0; i < 46; i++) {
-        const a = rand() * Math.PI * 2, r = 17 + rand() * 18;
-        const x = Math.sin(a) * r, z = Math.cos(a) * r;
-        if (Math.abs(x) < 3 && z > 0) continue;
-        addTree(api, x, z, 0.8 + rand() * 0.8, rand() > 0.5 ? "#2f5a3a" : "#3d6b45");
-      }
-
-      const flames = [];
-      [[-3, 6], [3, 6], [-8, -2], [8, -2], [-5, -9], [5, -9]].forEach(([x, z]) => {
-        add(new THREE.CylinderGeometry(0.06, 0.06, 1.8, 6), mat("#3b2a20"), x, 0.9, z);
-        flames.push(add(new THREE.BoxGeometry(0.42, 0.55, 0.42), glow("#ffcf7a"), x, 2, z));
-      });
-      const warm = new THREE.PointLight(0xffb866, 1.1, 26);
-      warm.position.set(0, 4, 0);
-      scene.add(warm);
-      buildLandmark(era.id, { add, mat, glow, scene, flames });
-      api.onTick((dt, time) => {
-        flames.forEach((f, i) => f.scale.setScalar(1 + Math.sin(time * 9 + i * 2) * 0.06));
-        warm.intensity = 1.05 + Math.sin(time * 7) * 0.08;
-      });
-
-      // 시간의 문 (출구)
-      const gate = new THREE.Group();
-      gate.position.set(0, 0, 21);
-      [-1.8, 1.8].forEach((x) => add(new THREE.CylinderGeometry(0.22, 0.25, 3.6, 10), mat("#8e2f25"), x, 1.8, 0, gate));
-      add(new THREE.BoxGeometry(4.6, 0.3, 0.4), mat("#2e5a4c"), 0, 3.5, 0, gate);
-      const gateRoof = add(new THREE.ConeGeometry(3.3, 1, 4), mat("#2c2f3a"), 0, 4.1, 0, gate);
-      gateRoof.rotation.y = Math.PI / 4;
-      gateRoof.scale.z = 0.35;
-      scene.add(gate);
-      addInteract(gate, { kind: "exit", name: w.gate, emoji: "🚪", reach: 1.5, labelHtml: `🚪 ${w.gate}`, labelHeight: 5 }, 2.2, 4);
-
-      const hat = ERA_HAT[era.id];
-      const player = makeAvatar({ robe: ROBES[loadChars()[era.id] ?? 0], sash: era.color, hat });
-      api.setPlayer(player, 0, 11, Math.PI);
-      addLabel(player.group, `<i>${w.me}</i>${esc(profile.nick || "")}`, "me");
-
-      era.people.forEach(([name, desc], i) => {
-        const n = era.people.length;
-        const a = ((35 + (290 * i) / Math.max(n - 1, 1)) * Math.PI) / 180;
-        const emoji = scene3.npcs[i];
-        const av = makeAvatar({ robe: ROBES[(i * 3 + 1) % ROBES.length], sash: "#f3d27a", hat: ROYAL.includes(emoji) ? "crown" : hat });
-        av.group.position.set(Math.sin(a) * 7.5, 0, Math.cos(a) * 7.5);
-        av.group.lookAt(0, 0, 0);
-        scene.add(av.group);
-        api.addNpcAvatar(av);
-        addInteract(av.group, { kind: "npc", name, desc, emoji, av, labelHtml: `${emoji} ${name}` });
-      });
-
-      era.facts.forEach((fact, i) => {
-        const a = ((60 + (240 * i) / Math.max(era.facts.length - 1, 1)) * Math.PI) / 180;
-        const g = new THREE.Group();
-        g.position.set(Math.sin(a) * 11.5, 0, Math.cos(a) * 11.5);
-        add(new THREE.BoxGeometry(1.1, 0.25, 0.7), mat("#5d5a55"), 0, 0.12, 0, g);
-        add(new THREE.BoxGeometry(0.8, 1.5, 0.25), mat("#9b968c"), 0, 1, 0, g);
-        g.lookAt(0, 0, 0);
-        scene.add(g);
-        addInteract(g, { kind: "sign", name: w.stone(i + 1), desc: fact, emoji: scene3.stone, labelHtml: `${scene3.stone} ${w.stone(i + 1)}`, labelCls: "stone", labelHeight: 2.1 }, 0.8, 1.8);
-      });
-
-      const examiner = makeAvatar({ robe: "#2b2e45", sash: "#f3d27a", hat: "crown" });
-      examiner.group.position.set(3.2, 0, 8.5);
-      examiner.group.lookAt(0, 0, 11);
-      scene.add(examiner.group);
-      api.addNpcAvatar(examiner);
-      addInteract(examiner.group, { kind: "quiz", name: w.examiner, emoji: "📝", av: examiner, labelHtml: `📝 ${w.examiner}`, labelCls: "quiz" });
-
-      for (let i = 0; i < 4; i++) {
-        const av = makeAvatar({ robe: ROBES[(i * 5 + 2) % ROBES.length], sash: "#d6cfc0", hat: i % 2 ? hat : "topknot", scale: 0.85 });
-        api.addWanderer(av, [-11, 11, -11, 11]);
-        addLabel(av.group, w.villager, "villager", 2.1);
-      }
-    },
-  };
-}
-
 function addTree(api, x, z, s, color = "#2f5a3a", pine = true) {
   const { add, mat } = api;
   add(new THREE.CylinderGeometry(0.15 * s, 0.22 * s, 1.2 * s, 6), mat("#5a3e2b"), x, 0.6 * s, z);
@@ -790,84 +703,6 @@ function makeStars(rand, count, size) {
   }
   geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
   return new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xffffff, size, fog: false, transparent: true }));
-}
-
-/* ---------- 시대별 랜드마크 ---------- */
-function buildLandmark(id, { add, mat, glow, scene, flames }) {
-  const hall = (roofColor) => {
-    add(new THREE.BoxGeometry(12, 0.5, 6), mat("#6b5644"), 0, 0.25, -14);
-    for (let i = 0; i < 4; i++) {
-      [-2.4, 2.4].forEach((z) => add(new THREE.CylinderGeometry(0.25, 0.28, 3.6, 10), mat("#8e2f25"), -4.8 + i * 3.2, 2.3, -14 + z));
-    }
-    add(new THREE.BoxGeometry(11, 0.5, 5.6), mat("#2e5a4c"), 0, 4.2, -14);
-    const roof = add(new THREE.ConeGeometry(8.4, 2.6, 4), mat(roofColor), 0, 5.7, -14);
-    roof.rotation.y = Math.PI / 4;
-    roof.scale.set(1, 1, 0.55);
-    add(new THREE.BoxGeometry(9, 2.4, 0.3), glow("#3a2210"), 0, 2.2, -16.2);
-  };
-  if (id === "gojoseon") {
-    // 고인돌 + 모닥불
-    [-0.9, 0.9].forEach((x) => add(new THREE.BoxGeometry(0.5, 1.6, 1.2), mat("#8a857c"), x, 0.8, -4));
-    add(new THREE.BoxGeometry(3.2, 0.45, 2.4), mat("#9a958b"), 0, 1.8, -4);
-    flames.push(add(new THREE.ConeGeometry(0.6, 1.3, 8), glow("#ff9a3c"), 0, 0.65, 2));
-    const fire = new THREE.PointLight(0xff8a3c, 1.4, 14);
-    fire.position.set(0, 1.5, 2);
-    scene.add(fire);
-    for (let i = 0; i < 4; i++) {
-      const hut = add(new THREE.ConeGeometry(1.6, 2.6, 8), mat("#7a6143"), -10 + i * 6.5, 1.3, -15 - (i % 2) * 2);
-      hut.rotation.y = i;
-    }
-  } else if (id === "threekingdoms") {
-    hall("#3a3d46");
-    add(new THREE.BoxGeometry(1.4, 4.4, 1.2), mat("#6f6a62"), 0, 2.2, -4); // 광개토대왕릉비
-    [["#c0584f", -6], ["#4f73b3", 0], ["#d4a63a", 6]].forEach(([color, x]) => {
-      add(new THREE.CylinderGeometry(0.06, 0.06, 4.5, 6), mat("#3b2a20"), x, 2.25, -9);
-      const flag = add(new THREE.PlaneGeometry(1.4, 0.9), mat(color, { side: THREE.DoubleSide }), x + 0.72, 3.9, -9);
-      flames.push(flag);
-    });
-  } else if (id === "silla") {
-    hall("#3b3a33");
-    // 첨성대
-    const pts = [[1.6, 0], [1.55, 1], [1.3, 2.4], [1.05, 3.6], [0.95, 4.6], [1, 5.2]].map(([x, y]) => new THREE.Vector2(x, y));
-    add(new THREE.LatheGeometry(pts, 24), mat("#cdb88f"), 0, 0, -4);
-    add(new THREE.BoxGeometry(2.3, 0.3, 2.3), mat("#b8a27a"), 0, 5.35, -4);
-    add(new THREE.BoxGeometry(0.6, 0.6, 0.2), glow("#1a1208"), 0, 2.6, -2.9);
-  } else if (id === "goryeo") {
-    hall("#2f4a48");
-    // 고려청자 매병
-    const pts = [[0.5, 0], [0.9, 0.4], [1.3, 1.4], [1.45, 2.3], [1.2, 2.9], [0.5, 3.2], [0.35, 3.5], [0.5, 3.6]].map(([x, y]) => new THREE.Vector2(x, y));
-    add(new THREE.CylinderGeometry(1.2, 1.4, 0.6, 16), mat("#5b4636"), 0, 0.3, -4);
-    add(new THREE.LatheGeometry(pts, 28), mat("#8fc4ad"), 0, 0.6, -4);
-    // 벽란도 배
-    const boat = add(new THREE.BoxGeometry(5, 0.8, 1.6), mat("#6b4a30"), 13, 0.4, -6);
-    boat.rotation.y = 0.4;
-    add(new THREE.CylinderGeometry(0.08, 0.08, 4, 6), mat("#3b2a20"), 13, 2.6, -6);
-    add(new THREE.PlaneGeometry(2, 2.4), mat("#e8e0cc", { side: THREE.DoubleSide }), 13, 2.8, -5.9);
-  } else if (id === "joseon") {
-    hall("#2b2f3d");
-    // 앙부일구(해시계)
-    add(new THREE.BoxGeometry(2, 1, 2), mat("#8a857c"), 0, 0.5, -4);
-    const bowl = add(new THREE.SphereGeometry(1.2, 24, 12, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), mat("#9a7b3c", { side: THREE.DoubleSide }), 0, 2.2, -4);
-    bowl.scale.y = 0.8;
-    add(new THREE.CylinderGeometry(0.03, 0.03, 1.4, 6), mat("#3b2a20"), 0, 2.2, -4).rotation.x = 0.6;
-  } else {
-    // 석조전 + 가로등 + 전차
-    add(new THREE.BoxGeometry(14, 0.6, 6), mat("#cfcac0"), 0, 0.3, -15);
-    add(new THREE.BoxGeometry(13, 4.6, 4.5), mat("#e6e1d6"), 0, 2.9, -15.5);
-    for (let i = 0; i < 6; i++) add(new THREE.CylinderGeometry(0.3, 0.3, 4.6, 12), mat("#f4f0e6"), -5 + i * 2, 2.9, -12.8);
-    const ped = add(new THREE.CylinderGeometry(1.6, 1.6, 9, 3), mat("#d8d2c4"), 0, 5.7, -12.9);
-    ped.rotation.z = Math.PI / 2;
-    ped.rotation.x = Math.PI;
-    ped.scale.set(0.8, 1, 0.5);
-    for (let i = 0; i < 5; i++) add(new THREE.BoxGeometry(0.9, 1.4, 0.1), glow("#ffd98a"), -5.5 + i * 2.75, 3.4, -13.2);
-    const tram = new THREE.Group();
-    tram.position.set(-11, 0, -3);
-    tram.rotation.y = 0.5;
-    add(new THREE.BoxGeometry(5, 2.2, 2), mat("#a33a2e"), 0, 1.5, 0, tram);
-    add(new THREE.BoxGeometry(5.1, 0.7, 2.05), glow("#ffe2a0"), 0, 1.9, 0, tram);
-    add(new THREE.BoxGeometry(5.2, 0.2, 2.2), mat("#efe6cf"), 0, 2.7, 0, tram);
-    scene.add(tram);
-  }
 }
 
 /* ---------- 아바타 ---------- */
@@ -1015,23 +850,135 @@ function makeAvatar({ robe, sash, hat, scale = 1, skin = "#f1c7a1", body = "robe
     cap();
     put(new THREE.SphereGeometry(0.17, 12, 10), hair, 0, -0.12, -0.44, head);
     put(new THREE.CylinderGeometry(0.02, 0.02, 0.6, 6), gold, 0, -0.12, -0.46, head).rotation.z = Math.PI / 2;
+  } else if (hat === "feather") {
+    // 고구려 조우관: 작은 관에 새 깃털 두 개
+    cap();
+    put(new THREE.CylinderGeometry(0.2, 0.26, 0.24, 14), m("#8a3b2a"), 0, 0.46, -0.02, head);
+    [-1, 1].forEach((s) => {
+      const f = put(new THREE.BoxGeometry(0.06, 0.55, 0.02), m("#efe6cf"), s * 0.14, 0.78, -0.02, head);
+      f.rotation.z = -s * 0.25;
+    });
+  } else if (hat === "goldcrown") {
+    // 신라 금관: 둥근 띠 + 出자 모양 세움장식 + 달개
+    cap();
+    put(new THREE.CylinderGeometry(0.44, 0.44, 0.12, 24, 1, true), gold, 0, 0.24, 0, head);
+    [0, 1, 2].forEach((i) => {
+      const a = ((i - 1) * Math.PI) / 3;
+      const g2 = put(new THREE.BoxGeometry(0.06, 0.5, 0.02), gold, Math.sin(a) * 0.43, 0.52, Math.cos(a) * 0.43, head);
+      g2.rotation.y = a;
+      [0.4, 0.58, 0.74].forEach((y) => put(new THREE.BoxGeometry(0.2, 0.03, 0.02), gold, Math.sin(a) * 0.43, y, Math.cos(a) * 0.43, head).rotation.y = a);
+    });
+    [-0.3, 0.3].forEach((x) => put(new THREE.SphereGeometry(0.04, 8, 8), m("#3f7a55"), x, 0.12, 0.3, head));
+  } else if (hat === "bokdu") {
+    // 고려 복두: 네모난 관 + 양옆으로 길게 뻗은 곧은 날개
+    put(new THREE.SphereGeometry(0.44, 22, 12, 0, Math.PI * 2, 0, Math.PI / 2), black, 0, 0.08, -0.02, head);
+    put(new THREE.BoxGeometry(0.5, 0.3, 0.46), black, 0, 0.44, -0.04, head);
+    [-1, 1].forEach((s) => put(new THREE.BoxGeometry(0.7, 0.04, 0.05), black, s * 0.6, 0.4, -0.22, head));
   } else if (hat === "naegwan") {
     cap();
     put(new THREE.CylinderGeometry(0.27, 0.32, 0.3, 18), black, 0, 0.42, -0.04, head);
   }
   g.scale.setScalar(scale);
   g.traverse((o) => o.isMesh && o !== shadow && (o.castShadow = true));
-  return { group: g, inner, head, armL, armR, anim: null, phase: Math.random() * 6 };
+  return { group: g, inner, head, armL, armR, anim: null, pose: null, props: {}, body, robe, deco, phase: Math.random() * 6 };
+}
+
+/* ---------- 자세와 소품 ---------- */
+// 산책(뒷짐) · 책읽기(앉아서 책) · 식사(소반) · 잠(이부자리에 누움) · 휴식(방석에 앉아 부채질)
+function setPose(av, pose) {
+  av.pose = pose;
+  av.anim = null;
+  const need = { read: ["cushion", "book"], eat: ["cushion", "table"], sleep: ["bed"], rest: ["cushion", "fan"] }[pose] || [];
+  need.forEach((n) => av.props[n] || (av.props[n] = makeProp(av, n)));
+  Object.entries(av.props).forEach(([n, obj]) => (obj.visible = need.includes(n)));
+}
+function makeProp(av, name) {
+  const m = (c) => new THREE.MeshLambertMaterial({ color: c });
+  const g = new THREE.Group();
+  const put = (geo, mat, x, y, z) => {
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, y, z);
+    mesh.castShadow = true;
+    g.add(mesh);
+    return mesh;
+  };
+  if (name === "cushion") {
+    put(new THREE.BoxGeometry(1, 0.14, 1), m("#9c2f22"), 0, 0.07, 0);
+    put(new THREE.BoxGeometry(0.82, 0.02, 0.82), m("#d9a62e"), 0, 0.15, 0);
+    av.group.add(g);
+  } else if (name === "table") {
+    // 소반과 그릇
+    put(new THREE.CylinderGeometry(0.42, 0.42, 0.05, 20), m("#7a4a2a"), 0, 0.42, 0.85);
+    [[-0.25, 0.65], [0.25, 0.65], [-0.25, 1.05], [0.25, 1.05]].forEach(([x, z]) => put(new THREE.CylinderGeometry(0.03, 0.03, 0.4, 6), m("#5a3e2b"), x, 0.2, z));
+    [[-0.15, 0.78, "#efe6cf"], [0.15, 0.78, "#efe6cf"], [0, 1.0, "#c9a24a"], [-0.22, 0.98, "#3f7a55"], [0.22, 0.98, "#b3262d"]].forEach(([x, z, c]) => put(new THREE.SphereGeometry(0.09, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), m(c), x, 0.45, z).rotation.x = Math.PI);
+    av.group.add(g);
+  } else if (name === "bed") {
+    // 요 · 이불 · 베개
+    put(new THREE.BoxGeometry(1.1, 0.1, 2.3), m("#efe6cf"), 0, 0.05, 0);
+    put(new THREE.BoxGeometry(1.1, 0.14, 1.45), m(av.deco || "#b3262d"), 0, 0.8, 0.35);
+    put(new THREE.BoxGeometry(0.9, 0.03, 1.25), m("#d9a62e"), 0, 0.88, 0.35);
+    const pillow = put(new THREE.CylinderGeometry(0.16, 0.16, 0.6, 12), m("#2f5d8a"), 0, 0.22, -0.9);
+    pillow.rotation.z = Math.PI / 2;
+    av.group.add(g);
+  } else if (name === "book") {
+    put(new THREE.BoxGeometry(0.42, 0.03, 0.3), m("#23305e"), 0, 0, 0);
+    put(new THREE.BoxGeometry(0.4, 0.035, 0.28), m("#f1e7cf"), 0, 0.02, 0);
+    g.position.set(0, 0.95, 0.45);
+    g.rotation.x = -0.5;
+    av.inner.add(g);
+  } else if (name === "fan") {
+    // 합죽선
+    const fan = put(new THREE.CircleGeometry(0.32, 16, 0, Math.PI), new THREE.MeshLambertMaterial({ color: 0xf1e7cf, side: THREE.DoubleSide }), 0, 0, 0);
+    fan.rotation.z = Math.PI / 2;
+    g.position.set(0, -0.5, 0.12);
+    av.armR.add(g);
+  }
+  return g;
 }
 
 // 걷기·숨쉬기·인사·악수·만세 동작
 function animateAvatar(av, dt, time, moving) {
   const t = time + av.phase;
   av.inner.position.y = moving ? Math.abs(Math.sin(t * 10)) * 0.08 : Math.sin(t * 2) * 0.012;
-  let armL = -0.28, armR = 0.28, swingL = 0, swingR = 0, lean = 0;
-  if (moving) {
+  let armL = -0.28, armR = 0.28, swingL = 0, swingR = 0, lean = 0, headX = 0, y = 0, z = 0;
+  const pose = av.pose;
+  if (moving && pose !== "stroll") {
     swingL = Math.sin(t * 10) * 0.6;
     swingR = -swingL;
+  }
+  if (pose === "stroll") {
+    // 뒷짐을 지고 느긋하게
+    swingL = swingR = 0.7;
+    armL = 0.15;
+    armR = -0.15;
+    av.inner.position.y = moving ? Math.abs(Math.sin(t * 5)) * 0.04 : 0;
+  } else if (pose === "read" || pose === "eat" || pose === "rest") {
+    y = av.body === "dress" ? -0.25 : -0.32; // 방석에 앉기
+    if (pose === "read") {
+      swingL = swingR = -0.9;
+      armL = -0.5;
+      armR = 0.5;
+      headX = 0.35 + Math.sin(t * 0.7) * 0.04;
+    } else if (pose === "eat") {
+      const bite = Math.max(0, Math.sin(t * 2.4));
+      swingR = -0.6 - bite * 1.2;
+      armR = 0.3 + bite * 0.3;
+      swingL = -0.4;
+      headX = 0.25 - bite * 0.15;
+    } else {
+      swingR = -0.7;
+      armR = 0.6 + Math.sin(t * 6) * 0.35; // 부채질
+      armL = -0.1;
+      swingL = -0.3;
+      headX = -0.1;
+    }
+  } else if (pose === "sleep") {
+    lean = -Math.PI / 2;
+    y = 0.32;
+    z = 1.05;
+    armL = -0.1;
+    armR = 0.1;
+    headX = 0;
   }
   if (av.anim) {
     av.anim.t += dt;
@@ -1046,6 +993,14 @@ function animateAvatar(av, dt, time, moving) {
       armR = 0.12;
       lean = 0.12 * reach;
       if (p > 1.8) av.anim = null;
+    } else if (av.anim.type === "bow") {
+      // 공손한 인사: 두 손을 모으고 허리를 굽혀요
+      const k = Math.sin(Math.min(av.anim.t / 1.6, 1) * Math.PI);
+      lean = k * 0.6;
+      swingL = swingR = -0.6 * k;
+      armL = -0.45 * k - 0.1;
+      armR = 0.45 * k + 0.1;
+      if (av.anim.t > 1.6) av.anim = null;
     } else if (av.anim.type === "cheer") {
       const up = Math.abs(Math.sin(p * 5));
       armL = -2.6 * up - 0.3;
@@ -1059,6 +1014,11 @@ function animateAvatar(av, dt, time, moving) {
   av.armL.rotation.x = swingL;
   av.armR.rotation.x = swingR;
   av.inner.rotation.x = lean;
+  av.head.rotation.x = headX;
+  if (pose === "sleep" || y) {
+    av.inner.position.y = y + (pose === "sleep" ? Math.sin(t * 1.5) * 0.015 : Math.sin(t * 2) * 0.01);
+    av.inner.position.z = z;
+  } else av.inner.position.z = 0;
 }
 
 function facePoint(obj, point) {
