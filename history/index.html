@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="고조선부터 대한제국까지, 시대를 골라 떠나는 달빛 한국사 시간여행" />
+    <title>달빛 한국사 여행</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true"><div class="stars"></div><div class="stars stars-2"></div></div>
+
+    <header class="topbar">
+      <a class="logo" href="#"><span class="logo-moon"></span>달빛 한국사 여행</a>
+      <button class="stamp-chip" id="stampChip" aria-label="역사 도장판 보기">🏮 도장 <b id="stampCount">0</b>/6</button>
+    </header>
+
+    <main id="app"></main>
+
+    <footer>
+      <p>고조선에서 대한제국까지, 달빛을 따라 걷는 우리 역사.</p>
+      <small>연도와 내용은 교과서·《삼국사기》·《삼국유사》 등 일반적인 통설을 따랐어요. 전생 풀이는 재미로만 봐 주세요 🌙</small>
+    </footer>
+
+    <dialog id="modal"><button class="close" aria-label="닫기">×</button><div id="modalBody"></div></dialog>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
