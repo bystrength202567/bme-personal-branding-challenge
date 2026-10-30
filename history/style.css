@@ -404,3 +404,29 @@ body.in-world main { max-width: none; padding: 0; }
   .w-actions button span { font-size: 20px; }
   .w-talk { bottom: 92px; }
 }
+
+/* 나이 확인 · 보호자 동의 */
+.age-field { border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px 12px; margin: 0; display: flex; gap: 18px; flex-wrap: wrap; }
+.age-field legend { font-size: 14px; color: var(--muted); padding: 0 6px; }
+.guardian { display: grid; gap: 12px; padding: 14px; border-radius: 12px; background: #f3d27a14; border: 1px dashed #f3d27a66; }
+.guardian[hidden] { display: none; }
+.signup-form a, .note a, .footer-link { color: var(--gold); }
+.footer-link { display: inline-block; margin-top: 10px; font-size: 12px; }
+
+/* 개인정보 처리방침 */
+.policy { max-width: 720px; margin: 0 auto; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 26px; line-height: 1.8; }
+.policy h1 { margin: 0 0 10px; font-size: 30px; }
+.policy h2 { font-size: 18px; margin: 22px 0 6px; color: var(--gold); }
+.policy ul { padding-left: 20px; margin: 0; }
+.policy .lead { color: var(--muted); }
+
+/* 공유 */
+.qr { display: grid; place-items: center; margin: 16px auto; padding: 12px; background: #fff; border-radius: 14px; width: fit-content; }
+.share-link { display: flex; gap: 8px; margin-bottom: 10px; }
+.share-link input { flex: 1; min-width: 0; padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: #0d1030; color: var(--ink); font-size: 14px; }
+.share-link .btn { margin: 0; }
+#shareChip { padding: 6px 11px; }
+.w-label.peer { background: #f3d27a; color: #1d1d2b; border: 0; }
+.w-label.peer.sleeping::after { content: " 💤"; }
+.w-online { color: #b8f0c8; }
+@media (max-width: 480px) { .w-online { font-size: 11px; } }

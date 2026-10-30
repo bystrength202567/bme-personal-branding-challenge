@@ -325,6 +325,12 @@ function runEngine(era, root, level, holder) {
       wanderers.push({ av, box, speed, target: new THREE.Vector3(), wait: rand() * 3 });
     },
     onTick: (fn) => tickers.push(fn),
+    onCleanup: (fn) => c.cleanup.push(fn),
+    removeLabel(el) {
+      const i = labels.findIndex((l) => l.el === el);
+      if (i >= 0) labels.splice(i, 1);
+      el.remove();
+    },
   };
   level.build(api);
 

@@ -324,7 +324,7 @@ function createPalaceLevel(era) {
   const a = loadPalaceAvatar(era.id);
   return {
     place: info.place,
-    roomText: `${W().room} ${roomNumber(era, a.name)}`,
+    roomText: `${W().room} 1`, // 모두가 같은 방(마루 1)에 모여요
     crowdText: P().crowd(def.wanderers.length),
     greet: info.greet,
     speed: 7,
@@ -343,8 +343,9 @@ function createPalaceLevel(era) {
     build(api) {
       const kit = makeKit(api, def);
       def.build(api, kit);
-      placePeople(api, kit, era, def, info, a);
+      const player = placePeople(api, kit, era, def, info, a);
       kit.finish();
+      startTogether(api, era, a, player);
     },
   };
 }
@@ -388,6 +389,100 @@ function placePeople(api, kit, era, def, info, a) {
     addLabel(av.group, roleName(era.id, role), "villager", 2.4);
   });
   info.signs.forEach((s) => kit.sign(s));
+  return player;
+}
+
+/* ---------- 함께 접속: 같은 궁궐에 들어온 사람들 ---------- */
+const HAT_OK = ["topknot", "band", "gat", "crown", "helmet", "western", "ikseon", "samo", "jeonrip", "gache", "princess", "bun", "naegwan", "feather", "goldcrown", "bokdu", "bald"];
+const POSE_OK = ["stroll", "read", "eat", "sleep", "rest"];
+// 다른 사람이 보낸 값은 믿지 않고 허용된 값만 써요
+function safeLook(l = {}) {
+  const color = (c, d) => (/^#[0-9a-f]{6}$/i.test(c) ? c : d);
+  return {
+    body: l.body === "dress" ? "dress" : "robe",
+    hat: HAT_OK.includes(l.hat) ? l.hat : "topknot",
+    patch: ["round", "square"].includes(l.patch) ? l.patch : undefined,
+    weapon: l.weapon === "sword" ? "sword" : undefined,
+    robe: color(l.robe, "#efe6cf"),
+    deco: color(l.deco, "#b3262d"),
+    skin: color(l.skin, "#f1c7a1"),
+    acc: !!l.acc,
+  };
+}
+function startTogether(api, era, a, player) {
+  const ko = LANG === "ko";
+  const pill = document.createElement("span");
+  pill.className = "w-pill w-online";
+  api.root.querySelector("#wRight").prepend(pill);
+  const showCount = (n) => (pill.textContent = ko ? `🟢 접속 ${n}명` : `🟢 ${n} online`);
+  showCount(1);
+  const remotes = new Map();
+  const removeRemote = (id) => {
+    const r = remotes.get(id);
+    if (!r) return;
+    api.scene.remove(r.av.group);
+    api.removeLabel(r.label);
+    remotes.delete(id);
+  };
+  const conn = Backend.joinRoom(`${era.id}-1`, (msg) => {
+    if (!msg || typeof msg.id !== "string") return;
+    if (msg.type === "leave") return removeRemote(msg.id);
+    if (msg.type !== "state") return;
+    let r = remotes.get(msg.id);
+    const role = ROLE_IDS.includes(msg.role) ? msg.role : "civil";
+    const name = String(msg.name || "").slice(0, 20);
+    if (!r) {
+      const av = makeAvatar(safeLook(msg.look));
+      av.group.position.set(Number(msg.x) || 0, 0, Number(msg.z) || 0);
+      api.scene.add(av.group);
+      const label = api.addLabel(av.group, `${esc(name)} · ${esc(roleName(era.id, role))}`, "peer", 2.7);
+      r = { av, label, target: new THREE.Vector3(), ry: 0, seq: msg.seq, seen: 0 };
+      remotes.set(msg.id, r);
+      api.toast(ko ? `👋 ${name} 님이 들어왔어요` : `👋 ${name} joined`);
+    }
+    r.target.set(clamp(Number(msg.x) || 0, -200, 200), 0, clamp(Number(msg.z) || 0, -200, 200));
+    r.ry = Number(msg.ry) || 0;
+    r.seen = performance.now();
+    const pose = POSE_OK.includes(msg.pose) ? msg.pose : null;
+    if (pose !== r.av.pose) setPose(r.av, pose);
+    r.label.classList.toggle("sleeping", pose === "sleep");
+    if (msg.seq !== r.seq) {
+      r.seq = msg.seq;
+      if (msg.anim === "bow" || msg.anim === "cheer") {
+        r.av.anim = { type: msg.anim, t: 0 };
+        if (msg.anim === "bow" && r.av.group.position.distanceTo(player.group.position) < 5) api.toast(ko ? `🙇 ${name} 님이 인사해요` : `🙇 ${name} bows to you`);
+      }
+    }
+  }, showCount);
+  if (!conn) return;
+  api.onCleanup(() => conn.leave());
+  window.addEventListener("pagehide", () => conn.leave(), { once: true });
+
+  // 내 상태를 1초에 6번(멈춰 있으면 2초에 한 번) 보내요
+  const look = palaceAvatarOpts(era.id, a);
+  let seq = 0, lastAnim = null, lastSent = 0, lastKey = "";
+  api.onTick((dt, time) => {
+    if (player.anim && player.anim !== lastAnim) seq++;
+    lastAnim = player.anim;
+    const p = player.group.position;
+    const key = `${p.x.toFixed(2)},${p.z.toFixed(2)},${player.group.rotation.y.toFixed(2)},${player.pose},${seq}`;
+    const now = performance.now();
+    if ((key !== lastKey && now - lastSent > 160) || now - lastSent > 2000) {
+      lastKey = key;
+      lastSent = now;
+      conn.send({ type: "state", name: a.name, role: a.role, look, x: +p.x.toFixed(2), z: +p.z.toFixed(2), ry: +player.group.rotation.y.toFixed(2), pose: player.pose, anim: player.anim?.type || null, seq });
+    }
+    remotes.forEach((r, id) => {
+      if (now - r.seen > 10000) return removeRemote(id);
+      const gp = r.av.group.position;
+      const d = Math.hypot(r.target.x - gp.x, r.target.z - gp.z);
+      gp.x += (r.target.x - gp.x) * Math.min(1, dt * 8);
+      gp.z += (r.target.z - gp.z) * Math.min(1, dt * 8);
+      gp.y = api.floorAt(gp.x, gp.z);
+      r.av.group.rotation.y = r.ry;
+      animateAvatar(r.av, dt, time, d > 0.05 ? (r.av.pose === "stroll" ? "stroll" : true) : false);
+    });
+  });
 }
 
 /* ---------- 건축 도구 ---------- */
