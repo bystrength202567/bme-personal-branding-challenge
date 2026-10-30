@@ -310,3 +310,13 @@ const ERAS = [
     ],
   },
 ];
+
+// 시대별 입장 공간(룸): 장소 이름·바닥색·풍경 소품·위인 캐릭터·이야기 비석 아이콘
+const SCENES = {
+  gojoseon: { place: "아사달", room: "asadal", ground: ["#2c3b26", "#3a4a2c"], deco: ["🌲", "🪨", "🌾", "🔥", "🌳"], npcs: ["👑", "🧔", "🛡️"], stone: "🪨", greet: "어서 오시오, 먼 훗날에서 온 여행자여." },
+  threekingdoms: { place: "삼국의 국경 마을", room: "samguk", ground: ["#3b3024", "#4a3b2a"], deco: ["🏯", "🌲", "🐎", "⛺", "🌾"], npcs: ["🏹", "👑", "🗿", "⚔️", "👸", "🛡️"], stone: "🗿", greet: "세 나라가 다투는 땅에 잘 왔소." },
+  silla: { place: "서라벌", room: "seorabeol", ground: ["#3a3322", "#4a4028"], deco: ["🛕", "🏮", "🪷", "🌸", "🌳"], npcs: ["🐉", "⚔️", "🧘", "⛵", "✍️"], stone: "🔔", greet: "금으로 꾸민 도시, 서라벌에 오신 것을 환영하오." },
+  goryeo: { place: "개경 벽란도", room: "byeokrando", ground: ["#223a3a", "#2a4644"], deco: ["🏺", "⛵", "🍵", "🌊", "🌲"], npcs: ["👑", "📜", "🗣️", "🐎", "🎨", "📖"], stone: "🏺", greet: "세계의 상인이 모이는 벽란도에 잘 오셨소." },
+  joseon: { place: "한양 도성", room: "hanyang", ground: ["#26304a", "#2e3a56"], deco: ["🏯", "🌸", "🏮", "🌳", "🎋"], npcs: ["👑", "🐢", "⚙️", "🖌️", "🏰", "📚"], stone: "📜", greet: "한양 도성에 들어오신 걸 환영하오." },
+  "korean-empire": { place: "한성 덕수궁", room: "deoksugung", ground: ["#33284a", "#3d3058"], deco: ["🏛️", "🚋", "☕", "💡", "🌳"], npcs: ["🤴", "👑", "🕊️", "✊", "📰"], stone: "📰", greet: "대한제국의 수도 한성에 온 것을 환영하오." },
+};
