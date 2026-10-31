@@ -18,6 +18,19 @@ Vercel에서 이 저장소를 import하면 별도의 빌드 과정 없이 배포
 
 ## 달빛 한국사 여행 (`/history`)
 
+### 🚀 배포하기 (하나만 고르세요)
+
+| 방법 | 할 일 | 주소 |
+|---|---|---|
+| **GitHub Pages** (추천, 새 가입 필요 없음) | [Pages 설정 열기](https://github.com/bystrength202567/bme-personal-branding-challenge/settings/pages) → Source: **Deploy from a branch** → Branch: **gh-pages** / **(root)** → **Save** | https://bystrength202567.github.io/bme-personal-branding-challenge/ |
+| **Vercel** | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbystrength202567%2Fbme-personal-branding-challenge&root-directory=history&project-name=moonlight-korean-history) | Vercel이 알려 주는 주소 |
+| **Netlify** | [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/bystrength202567/bme-personal-branding-challenge) | Netlify가 알려 주는 주소 |
+
+- `gh-pages` 브랜치는 main의 `history/`가 바뀔 때마다 GitHub Actions가 자동으로 갱신해요.
+- 배포한 뒤 Supabase **Authentication → URL Configuration**의 **Site URL**과 **Redirect URLs**에 그 주소를 넣어 주세요.
+- Vercel·Netlify를 쓰면 `history/config.js`의 `officialUrl`도 그 주소로 바꿔 주세요.
+- 자세한 순서는 [`history/SETUP.md`](history/SETUP.md)에 있어요.
+
 고조선 · 삼국시대 · 통일신라 · 고려 · 조선 · 대한제국 중 시대를 골라 들어가는 한국사 학습 앱입니다. 한국어/영어(KO/EN)를 지원합니다.
 
 - 시대별 소개 · 연표 · 인물 · 재미있는 사실 · 퀴즈 (3/4 이상 정답 시 도장)
