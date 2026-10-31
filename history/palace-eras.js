@@ -5,6 +5,7 @@ const PALACES = {};
 
 /* ===================== 고조선 · 왕검성 ===================== */
 PALACES.gojoseon = {
+  fires: [[2, -49], [25, 22]],
   costume: {
     patch: false,
     hats: { king: "crown", queen: "bun", prince: "topknot", princess: "princess", civil: "band", military: "helmet", courtlady: "bun", eunuch: "band" },

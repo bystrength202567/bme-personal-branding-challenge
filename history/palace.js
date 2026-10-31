@@ -331,6 +331,8 @@ function createPalaceLevel(era) {
     camDist: 11,
     camPitch: 0.36,
     camYaw: def.camYaw || 0,
+    // 불멍 자리: 횃불과 모닥불
+    fireSpots: [...def.lamps.filter((l) => l[2] === "torch"), ...(def.fires || [])],
     far: 900,
     shadows: true,
     quizEra: def.quiz ? { ...era, quiz: def.quiz[LANG] } : null,
@@ -344,6 +346,7 @@ function createPalaceLevel(era) {
       const kit = makeKit(api, def);
       def.build(api, kit);
       const player = placePeople(api, kit, era, def, info, a);
+      if (typeof placeActivities === "function") placeActivities(api, kit, era, player);
       kit.finish();
       startTogether(api, era, a, player);
     },
@@ -394,7 +397,7 @@ function placePeople(api, kit, era, def, info, a) {
 
 /* ---------- 함께 접속: 같은 궁궐에 들어온 사람들 ---------- */
 const HAT_OK = ["topknot", "band", "gat", "crown", "helmet", "western", "ikseon", "samo", "jeonrip", "gache", "princess", "bun", "naegwan", "feather", "goldcrown", "bokdu", "bald"];
-const POSE_OK = ["stroll", "read", "eat", "sleep", "rest"];
+const POSE_OK = ["stroll", "read", "eat", "sleep", "rest", "ganggang", "meong"];
 // 다른 사람이 보낸 값은 믿지 않고 허용된 값만 써요
 function safeLook(l = {}) {
   const color = (c, d) => (/^#[0-9a-f]{6}$/i.test(c) ? c : d);
@@ -480,6 +483,7 @@ function startTogether(api, era, a, player) {
       api.toast(ko ? `👋 ${name} 님이 들어왔어요` : `👋 ${name} joined`);
     }
     r.target.set(clamp(Number(msg.x) || 0, -200, 200), 0, clamp(Number(msg.z) || 0, -200, 200));
+    r.anchor = Number.isFinite(msg.cx) && Number.isFinite(msg.cz) ? { x: clamp(msg.cx, -200, 200), z: clamp(msg.cz, -200, 200) } : null;
     r.ry = Number(msg.ry) || 0;
     r.seen = performance.now();
     const pose = POSE_OK.includes(msg.pose) ? msg.pose : null;
@@ -487,13 +491,16 @@ function startTogether(api, era, a, player) {
     r.item.label.classList.toggle("sleeping", pose === "sleep");
     if (msg.seq !== r.seq) {
       r.seq = msg.seq;
-      if (msg.anim === "bow" || msg.anim === "cheer") {
+      if (msg.anim === "bow" || msg.anim === "cheer" || msg.anim === "dance") {
         r.av.anim = { type: msg.anim, t: 0 };
         if (msg.anim === "bow" && r.av.group.position.distanceTo(player.group.position) < 5) api.toast(ko ? `🙇 ${name} 님이 인사해요` : `🙇 ${name} bows to you`);
       }
     }
   }, showCount);
   if (!conn) return;
+  // 강강술래에서 같은 원을 만들 수 있게 엔진에 다른 사람 정보를 알려 줘요
+  api.myId = conn.id;
+  api.peerSource = () => [...remotes.values()].map((r) => ({ id: r.id, x: r.av.group.position.x, z: r.av.group.position.z, pose: r.av.pose, anchor: r.anchor }));
   api.onCleanup(() => conn.leave());
   window.addEventListener("pagehide", () => conn.leave(), { once: true });
 
@@ -509,7 +516,8 @@ function startTogether(api, era, a, player) {
     if ((key !== lastKey && now - lastSent > 160) || now - lastSent > 2000) {
       lastKey = key;
       lastSent = now;
-      conn.send({ type: "state", name: a.name, role: a.role, look, x: +p.x.toFixed(2), z: +p.z.toFixed(2), ry: +player.group.rotation.y.toFixed(2), pose: player.pose, anim: player.anim?.type || null, seq });
+      const anc = player.danceAnchor;
+      conn.send({ type: "state", name: a.name, role: a.role, look, x: +p.x.toFixed(2), z: +p.z.toFixed(2), ry: +player.group.rotation.y.toFixed(2), pose: player.pose, anim: player.anim?.type || null, seq, cx: anc?.x, cz: anc?.z });
     }
     remotes.forEach((r, id) => {
       if (now - r.seen > 10000) return removeRemote(id);
@@ -901,6 +909,7 @@ function setupSky(api, kit, lampSpots) {
     sun.color.copy(s.sun);
     sun.intensity = s.sunI;
     nightLevel = s.night;
+    api.night = s.night;
     stars.material.opacity = s.night;
     stars.visible = s.night > 0.05;
     kit.lattice.emissiveIntensity = s.night * 0.85;

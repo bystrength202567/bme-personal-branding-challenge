@@ -431,3 +431,29 @@ body.in-world main { max-width: none; padding: 0; }
 .w-online { color: #b8f0c8; }
 @media (max-width: 480px) { .w-online { font-size: 11px; } }
 .w-label .bubble { display: block; margin-top: 4px; padding: 4px 10px; border-radius: 12px; background: #fffcf2; color: #1d1d2b; font-weight: 700; font-size: 13px; }
+
+/* 재미 요소: 강강술래 · 멍때리기 · 놀이 마당 */
+.w-label.fun { pointer-events: auto; cursor: pointer; border-color: #e39bb0; color: #ffd6e2; background: #3a1630d9; }
+.w-label.fun:hover { background: #55204a; }
+#wMusic.on { border-color: var(--gold); color: var(--gold); }
+.w-meong { position: absolute; inset: 0; display: grid; place-content: start center; padding-top: 12vh !important; justify-items: center; gap: 10px; text-align: center; padding: 24px; background: radial-gradient(ellipse at center, #0000 30%, #05061acc 100%); cursor: pointer; animation: fadeUp .8s ease both; }
+.w-meong[hidden] { display: none; }
+.w-meong b { font-family: "Gowun Batang", serif; font-size: 28px; color: #f3d27a; text-shadow: 0 2px 12px #000; }
+.w-meong p { font-family: "Gowun Batang", serif; font-size: 17px; max-width: 420px; line-height: 1.7; text-shadow: 0 2px 8px #000; transition: opacity 1s; }
+.w-meong span { font-variant-numeric: tabular-nums; font-size: 14px; color: var(--muted); }
+.w-meong small { font-size: 12px; color: var(--muted); max-width: 420px; }
+.w-meong em { font-style: normal; font-size: 12px; color: var(--muted); opacity: .7; margin-top: 12px; }
+.meong-mode .w-actions, .meong-mode .w-top, .meong-mode .w-hud-top, .meong-mode .w-joy, .meong-mode .w-labels, .meong-mode .w-hint, .meong-mode .w-talk { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 1s, visibility 1s; }
+.tbar { position: relative; height: 26px; border-radius: 13px; background: #ffffff14; border: 1px solid var(--line); margin: 14px 0 8px; overflow: hidden; }
+.tzone { position: absolute; top: 0; bottom: 0; background: #d9a62e88; border-left: 2px solid var(--gold); border-right: 2px solid var(--gold); transition: left .3s, width .3s; }
+.tmark { position: absolute; top: -2px; bottom: -2px; width: 4px; margin-left: -2px; background: #fff; box-shadow: 0 0 8px #fff; }
+.tscore { font-weight: 700; color: var(--gold); min-height: 1.4em; }
+.fun-result { font-size: 20px; font-weight: 800; color: var(--gold); }
+.fun-step { font-family: "Gowun Batang", serif; font-size: 20px; margin: 6px 0 14px; }
+.dice-face { font-family: "Gowun Batang", serif; font-size: 40px; text-align: center; padding: 18px; margin: 10px 0; border-radius: 16px; background: #ffffff10; letter-spacing: 4px; }
+.brush { font-family: "Gowun Batang", serif; font-size: 54px; color: #f3ead6; }
+.fun-photo { width: 100%; border-radius: 8px; margin: 8px 0; box-shadow: 0 6px 24px #0008; }
+@media (max-width: 760px) {
+  .w-actions { max-width: calc(100% - 16px); overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+  .w-actions button { flex: 0 0 64px; width: 64px; }
+}
