@@ -336,6 +336,7 @@ function createPalaceLevel(era) {
     far: 900,
     shadows: true,
     quizEra: def.quiz ? { ...era, quiz: def.quiz[LANG] } : null,
+    bounds: def.bounds,
     places: def.map.map(([i, x, z]) => ({ name: info.signs[i][1].split(" ")[0], x, z })),
     clampPos(pos) {
       const [x1, x2, z1, z2] = def.bounds;

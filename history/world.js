@@ -611,10 +611,129 @@ function runEngine(era, root, level, holder) {
     });
     return stops;
   };
+  // 길찾기: 담·벽을 피해 돌아가는 길을 미리 찾아요 (격자 A*)
+  let navGrid = null;
+  const CELL = 0.8;
+  const getNav = () => {
+    if (navGrid) return navGrid;
+    let [x1, x2, z1, z2] = level.bounds || [-bound, bound, -bound, bound];
+    const W = Math.ceil((x2 - x1) / CELL) + 1, H = Math.ceil((z2 - z1) / CELL) + 1;
+    // 담·벽 자리를 격자에 칠해요 (한 번만, 빠르게)
+    const free = new Uint8Array(W * H).fill(1);
+    const m = 0.35 + 0.3;
+    colliders.forEach((b) => {
+      const i0 = Math.max(0, Math.ceil((b[0] - m - x1) / CELL)), i1 = Math.min(W - 1, Math.floor((b[1] + m - x1) / CELL));
+      const j0 = Math.max(0, Math.ceil((b[2] - m - z1) / CELL)), j1 = Math.min(H - 1, Math.floor((b[3] + m - z1) / CELL));
+      for (let j = j0; j <= j1; j++) for (let i = i0; i <= i1; i++) free[j * W + i] = 0;
+    });
+    navGrid = { x1, z1, W, H, free };
+    return navGrid;
+  };
+  const clearLine = (ax, az, bx, bz) => {
+    const d = Math.hypot(bx - ax, bz - az), n = Math.ceil(d / 0.2);
+    for (let k = 1; k <= n; k++) {
+      const t = k / n;
+      if (blocked(ax + (bx - ax) * t, az + (bz - az) * t)) return false;
+    }
+    return true;
+  };
+  const findPath = (sx, sz, tx, tz) => {
+    if (clearLine(sx, sz, tx, tz)) return [new THREE.Vector3(tx, 0, tz)];
+    const g = getNav();
+    const cell = (x, z) => [Math.round((x - g.x1) / CELL), Math.round((z - g.z1) / CELL)];
+    const ok = (i, j) => i >= 0 && j >= 0 && i < g.W && j < g.H && g.free[j * g.W + i];
+    const nearFree = (i, j) => {
+      for (let r = 0; r < 6; r++)
+        for (let a = -r; a <= r; a++)
+          for (const [di, dj] of [[a, -r], [a, r], [-r, a], [r, a]]) if (ok(i + di, j + dj)) return [i + di, j + dj];
+      return null;
+    };
+    const s0 = nearFree(...cell(sx, sz)), t0 = nearFree(...cell(tx, tz));
+    if (!s0 || !t0) return null;
+    const N = g.W * g.H, gs = new Float32Array(N).fill(Infinity), from = new Int32Array(N).fill(-1), closed = new Uint8Array(N);
+    const heap = [];
+    const push = (k, f) => {
+      heap.push([f, k]);
+      let i = heap.length - 1;
+      while (i > 0) {
+        const p = (i - 1) >> 1;
+        if (heap[p][0] <= heap[i][0]) break;
+        [heap[p], heap[i]] = [heap[i], heap[p]];
+        i = p;
+      }
+    };
+    const pop = () => {
+      const top = heap[0], last = heap.pop();
+      if (heap.length) {
+        heap[0] = last;
+        let i = 0;
+        for (;;) {
+          const l = i * 2 + 1, r = l + 1;
+          let m = i;
+          if (l < heap.length && heap[l][0] < heap[m][0]) m = l;
+          if (r < heap.length && heap[r][0] < heap[m][0]) m = r;
+          if (m === i) break;
+          [heap[m], heap[i]] = [heap[i], heap[m]];
+          i = m;
+        }
+      }
+      return top;
+    };
+    const sk = s0[1] * g.W + s0[0], tk = t0[1] * g.W + t0[0];
+    const hh = (k) => Math.hypot((k % g.W) - t0[0], Math.floor(k / g.W) - t0[1]);
+    gs[sk] = 0;
+    push(sk, hh(sk));
+    let found = false, iter = 0;
+    while (heap.length && iter++ < 200000) {
+      const [, k] = pop();
+      if (closed[k]) continue;
+      if (k === tk) {
+        found = true;
+        break;
+      }
+      closed[k] = 1;
+      const i = k % g.W, j = Math.floor(k / g.W);
+      for (let dj = -1; dj <= 1; dj++)
+        for (let di = -1; di <= 1; di++) {
+          if (!di && !dj) continue;
+          const ni = i + di, nj = j + dj;
+          if (!ok(ni, nj) || (di && dj && (!ok(i + di, j) || !ok(i, j + dj)))) continue;
+          const nk = nj * g.W + ni, ng = gs[k] + (di && dj ? 1.414 : 1);
+          if (ng < gs[nk]) {
+            gs[nk] = ng;
+            from[nk] = k;
+            push(nk, ng + hh(nk));
+          }
+        }
+    }
+    if (!found) return null;
+    const pts = [];
+    for (let k = tk; k !== -1; k = from[k]) pts.push(new THREE.Vector3(g.x1 + (k % g.W) * CELL, 0, g.z1 + Math.floor(k / g.W) * CELL));
+    pts.reverse();
+    pts.push(new THREE.Vector3(tx, 0, tz));
+    // 곧게 갈 수 있는 곳은 이어서 부드럽게
+    const out = [];
+    let ax = sx, az = sz, idx = 0;
+    while (idx < pts.length) {
+      let far = idx;
+      for (let k = pts.length - 1; k > idx; k--)
+        if (clearLine(ax, az, pts[k].x, pts[k].z)) {
+          far = k;
+          break;
+        }
+      out.push(pts[far]);
+      ax = pts[far].x;
+      az = pts[far].z;
+      idx = far + 1;
+    }
+    return out;
+  };
   const startTour = () => {
     const stops = buildTour();
     if (!stops.some((st) => st.item)) return false;
-    tour = { stops, i: 0, wait: 0, stuck: 0, lastD: Infinity, target: null };
+    tour = { stops, i: 0, wait: 0, stuck: 0, lastD: Infinity, target: null, path: [] };
+    const met = stops.filter((st) => st.item).length;
+    showTourCard({ emoji: "🚶", name: w.actions.stroll, kind: "intro", desc: w.tourStart(met) }, 0, met);
     return true;
   };
   const endTour = () => {
@@ -662,20 +781,34 @@ function runEngine(era, root, level, holder) {
     }
     if (!tour.target) {
       // 인물·비석 바로 앞(지금 다가가는 쪽)에 서요
+      let tx = st.x, tz = st.z;
       if (st.item) {
-        const dx = pos.x - st.x, dz = pos.z - st.z, d = Math.hypot(dx, dz) || 1;
-        let tx = st.x + (dx / d) * 2, tz = st.z + (dz / d) * 2;
-        if (blocked(tx, tz)) (tx = st.x), (tz = st.z + 2);
-        tour.target = new THREE.Vector3(tx, 0, tz);
-      } else tour.target = new THREE.Vector3(st.x, 0, st.z);
+        // 인물·비석 둘레에서 걸어온 쪽에 가까운 빈자리
+        const a0 = Math.atan2(pos.z - st.z, pos.x - st.x);
+        for (let k = 0; k < 12; k++) {
+          const a = a0 + (k % 2 ? 1 : -1) * Math.ceil(k / 2) * (Math.PI / 6);
+          const cx = st.x + Math.cos(a) * 2, cz = st.z + Math.sin(a) * 2;
+          if (!blocked(cx, cz)) {
+            tx = cx;
+            tz = cz;
+            break;
+          }
+        }
+      }
+      tour.target = new THREE.Vector3(tx, 0, tz);
+      tour.path = findPath(pos.x, pos.z, tx, tz) || [tour.target.clone()];
     }
     const d = Math.hypot(tour.target.x - pos.x, tour.target.z - pos.z);
+    const wp = tour.path[0] || tour.target;
+    const dw = Math.hypot(wp.x - pos.x, wp.z - pos.z);
     // 길이 막히면(벽·담장) 다음 자리로 건너가요
-    if (d < tour.lastD - 0.02) (tour.lastD = d), (tour.stuck = 0);
+    if (dw < tour.lastD - 0.02 || tour.path.length !== tour.lastN) (tour.lastD = dw), (tour.lastN = tour.path.length), (tour.stuck = 0);
     else tour.stuck += dt;
-    if (tour.stuck > 1.2 || tour.skip) {
+    if (tour.stuck > 2.5 || tour.skip) {
+      if (!tour.skip) root.dataset.tourHops = Number(root.dataset.tourHops || 0) + 1; // 막혀서 건너뛴 횟수 (점검용)
       tour.skip = false;
       pos.set(tour.target.x, floorAt(tour.target.x, tour.target.z), tour.target.z);
+      tour.path = [];
       tour.stuck = 0;
     }
     if (d < 0.35) {
@@ -691,14 +824,17 @@ function runEngine(era, root, level, holder) {
         const items = tour.stops.filter((x) => x.item);
         showTourCard(it, items.indexOf(st) + 1, items.length);
         markSeen(it);
-        tour.wait = it.kind === "npc" ? 7 : 6;
+        // 인물과는 잠깐 인사하고, 비석은 카드를 띄운 채 걸으며 읽어요
+        tour.wait = it.kind === "npc" ? 2.5 : 0.01;
       } else {
         toast(`📍 ${st.place.name}`);
-        tour.wait = 1.2;
+        tour.wait = 0.01;
       }
       return;
     }
-    moveTarget = tour.target.clone();
+    // 길 위의 다음 꺾이는 점을 따라 걸어요
+    while (tour.path.length > 1 && Math.hypot(tour.path[0].x - pos.x, tour.path[0].z - pos.z) < 0.6) tour.path.shift();
+    moveTarget = (tour.path[0] || tour.target).clone();
     pending = null;
   };
   const stopPose = () => {
@@ -797,6 +933,7 @@ function runEngine(era, root, level, holder) {
     if (hit) return walkTo(hit.object.userData.item);
     groundPlane.constant = -player.group.position.y;
     const point = raycaster.ray.intersectPlane(groundPlane, new THREE.Vector3());
+    if (point && tour) return; // 산책 중에는 화면을 눌러도 멈추지 않아요 (그만 걷기 버튼으로 멈춰요)
     if (point) {
       stopPose();
       pending = null;
