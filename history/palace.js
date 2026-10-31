@@ -409,6 +409,11 @@ function safeLook(l = {}) {
     acc: !!l.acc,
   };
 }
+// 아바타끼리 주고받는 인사말: 번호만 보내서, 받는 사람은 자기 언어로 읽어요
+const MEET_PHRASES = {
+  ko: ["안녕하세요! 👋", "반가워요 😊", "같이 둘러봐요 🚶", "여기 멋져요! ✨", "퀴즈 풀러 가요 📝", "또 만나요 🌙"],
+  en: ["Hello! 👋", "Nice to meet you 😊", "Let's explore together 🚶", "This place is amazing! ✨", "Let's take the quiz 📝", "See you again 🌙"],
+};
 function startTogether(api, era, a, player) {
   const ko = LANG === "ko";
   const pill = document.createElement("span");
@@ -421,12 +426,46 @@ function startTogether(api, era, a, player) {
     const r = remotes.get(id);
     if (!r) return;
     api.scene.remove(r.av.group);
-    api.removeLabel(r.label);
+    api.removeInteract(r.item);
     remotes.delete(id);
   };
-  const conn = Backend.joinRoom(`${era.id}-1`, (msg) => {
+  const labelHtml = (r) => `${esc(r.name)} · ${esc(roleName(era.id, r.role))}${r.bubble ? `<span class="bubble">${esc(r.bubble)}</span>` : ""}`;
+  const showBubble = (r, text) => {
+    r.bubble = text;
+    r.item.label.innerHTML = labelHtml(r);
+    clearTimeout(r.bubbleTimer);
+    r.bubbleTimer = setTimeout(() => {
+      r.bubble = "";
+      if (remotes.get(r.id) === r) r.item.label.innerHTML = labelHtml(r);
+    }, 5000);
+  };
+  let conn = null;
+  // 다른 사람에게 가까이 가서 「말 걸기」를 누르면 인사말을 골라 보내요
+  const openMeet = (r) => (body, close) => {
+    const list = MEET_PHRASES[LANG];
+    body.innerHTML = `<p>${ko ? `${esc(r.name)} 님에게 인사말을 보내 볼까요?` : `Send a greeting to ${esc(r.name)}?`}</p><div class="w-map">${list.map((t, i) => `<button data-i="${i}">${t}</button>`).join("")}</div>`;
+    body.querySelectorAll("[data-i]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const i = Number(b.dataset.i);
+        conn.send({ type: "say", to: r.id, i });
+        player.anim = { type: "bow", t: 0 };
+        api.toast(ko ? `💬 ${r.name} 님에게: ${list[i]}` : `💬 To ${r.name}: ${list[i]}`);
+        close();
+      })
+    );
+  };
+  conn = Backend.joinRoom(`${era.id}-1`, (msg) => {
     if (!msg || typeof msg.id !== "string") return;
     if (msg.type === "leave") return removeRemote(msg.id);
+    if (msg.type === "say") {
+      const from = remotes.get(msg.id);
+      const text = MEET_PHRASES[LANG][Number(msg.i)];
+      if (!from || !text || msg.to !== conn?.id) return;
+      showBubble(from, text);
+      from.av.anim = { type: "bow", t: 0 };
+      api.toast(`💬 ${from.name}: ${text}`);
+      return;
+    }
     if (msg.type !== "state") return;
     let r = remotes.get(msg.id);
     const role = ROLE_IDS.includes(msg.role) ? msg.role : "civil";
@@ -435,8 +474,8 @@ function startTogether(api, era, a, player) {
       const av = makeAvatar(safeLook(msg.look));
       av.group.position.set(Number(msg.x) || 0, 0, Number(msg.z) || 0);
       api.scene.add(av.group);
-      const label = api.addLabel(av.group, `${esc(name)} · ${esc(roleName(era.id, role))}`, "peer", 2.7);
-      r = { av, label, target: new THREE.Vector3(), ry: 0, seq: msg.seq, seen: 0 };
+      r = { id: msg.id, av, name, role, bubble: "", target: new THREE.Vector3(), ry: 0, seq: msg.seq, seen: 0, met: false };
+      r.item = api.addInteract(av.group, { kind: "custom", count: false, name, emoji: "🤝", av, labelHtml: labelHtml(r), labelCls: "peer", labelHeight: 2.7, render: openMeet(r) });
       remotes.set(msg.id, r);
       api.toast(ko ? `👋 ${name} 님이 들어왔어요` : `👋 ${name} joined`);
     }
@@ -445,7 +484,7 @@ function startTogether(api, era, a, player) {
     r.seen = performance.now();
     const pose = POSE_OK.includes(msg.pose) ? msg.pose : null;
     if (pose !== r.av.pose) setPose(r.av, pose);
-    r.label.classList.toggle("sleeping", pose === "sleep");
+    r.item.label.classList.toggle("sleeping", pose === "sleep");
     if (msg.seq !== r.seq) {
       r.seq = msg.seq;
       if (msg.anim === "bow" || msg.anim === "cheer") {
@@ -474,6 +513,10 @@ function startTogether(api, era, a, player) {
     }
     remotes.forEach((r, id) => {
       if (now - r.seen > 10000) return removeRemote(id);
+      if (!r.met && r.av.group.position.distanceTo(player.group.position) < 3.5) {
+        r.met = true;
+        api.toast(ko ? `🤝 ${r.name} 님을 만났어요! 「말 걸기」로 인사해 보세요` : `🤝 You met ${r.name}! Tap Talk to say hello`);
+      }
       const gp = r.av.group.position;
       const d = Math.hypot(r.target.x - gp.x, r.target.z - gp.z);
       gp.x += (r.target.x - gp.x) * Math.min(1, dt * 8);
@@ -530,6 +573,101 @@ function makeKit(api, def) {
     return r;
   };
   // 전각: 기단 + 기둥 + 벽 + 보 + 지붕
+  // 실내 꾸미기: 건물 성격에 맞는 소품 (y는 마루 높이)
+  const furnish = (kind, x, z, wid, dep, y, o = {}) => {
+    const back = z - dep / 2 + 0.55;
+    const wood = mat("#5a3e2b");
+    const cushion = (cx, cz, c = "#9c2f22") => {
+      box(1, 0.12, 1, mat(c), cx, y + 0.06, cz);
+      box(0.8, 0.02, 0.8, mat("#d9a62e"), cx, y + 0.13, cz);
+    };
+    const screen = (w2, h2, material) => {
+      // 병풍: 여러 폭을 살짝 꺾어 세워요
+      const n = 6;
+      for (let i = 0; i < n; i++) {
+        const p = box(w2 / n, h2, 0.08, material, x - w2 / 2 + (w2 / n) * (i + 0.5), y + h2 / 2, back + (i % 2 ? 0.12 : 0));
+        p.rotation.y = i % 2 ? 0.12 : -0.12;
+      }
+    };
+    const lamp = (lx, lz) => {
+      cyl(0.04, 0.04, 1.2, 6, wood, lx, y + 0.6, lz);
+      box(0.4, 0.5, 0.4, windows, lx, y + 1.45, lz);
+    };
+    const table = (tx, tz, bowls = true) => {
+      cyl(0.42, 0.42, 0.05, 18, mat("#7a4a2a"), tx, y + 0.42, tz);
+      [[-0.25, -0.25], [0.25, -0.25], [-0.25, 0.25], [0.25, 0.25]].forEach(([a, b]) => cyl(0.03, 0.03, 0.4, 6, wood, tx + a, y + 0.2, tz + b));
+      if (bowls) [[-0.15, 0, "#efe6cf"], [0.15, 0, "#efe6cf"], [0, 0.2, "#c9a24a"]].forEach(([a, b, c]) => add(new THREE.SphereGeometry(0.09, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), mat(c), tx + a, y + 0.45, tz + b).rotation.x = Math.PI);
+    };
+    flat(wid - 0.5, dep - 0.5, mat("#8a6440"), x, y + 0.03, z); // 마루
+    if (kind === "none") return;
+    const side = Math.min(wid / 2 - 1.2, 4);
+    if (kind === "throne") {
+      // 어좌: 단 위의 붉은 의자와 뒤의 병풍(조선·대한제국은 일월오봉도)
+      box(Math.min(5, wid - 2), 0.6, 2.6, mat("#8e2f25"), x, y + 0.3, back + 1.5);
+      box(1.6, 1.4, 1, mat("#b3262d"), x, y + 1.3, back + 1.3);
+      box(1.8, 0.2, 1.2, mat("#d9a62e"), x, y + 0.7, back + 1.3);
+      const sc = add(new THREE.PlaneGeometry(Math.min(6.4, wid - 2), 3.4), o.irwol ? new THREE.MeshBasicMaterial({ map: tex.irwol }) : mat("#c9a24a"), x, y + 2.4, back + 0.2);
+      sc.userData.noShadow = true;
+      lamp(x - side, back + 2.4);
+      lamp(x + side, back + 2.4);
+    } else if (kind === "office") {
+      // 서안(책상)과 방석, 책과 두루마리
+      screen(Math.min(5, wid - 2), 1.8, mat("#e8dcc0"));
+      box(1.8, 0.45, 0.7, wood, x, y + 0.25, back + 1.9);
+      [0, 1, 2].forEach((i) => box(0.42, 0.06, 0.3, mat(["#23305e", "#3f7a55", "#8e2f25"][i]), x - 0.5, y + 0.52 + i * 0.07, back + 1.9));
+      [0.2, 0.5].forEach((dx) => cyl(0.06, 0.06, 0.5, 8, mat("#efe6cf"), x + dx, y + 0.55, back + 1.9).rotation.z = Math.PI / 2);
+      cushion(x, back + 2.9);
+      [-1, 1].forEach((sgn) => cushion(x + sgn * 2, back + 4, "#2f5d8a"));
+      lamp(x - side, back + 1.2);
+    } else if (kind === "bed") {
+      // 침소: 꽃 병풍, 이부자리, 함(상자)
+      screen(Math.min(5, wid - 2), 1.6, mat("#ead6cf"));
+      box(1.4, 0.12, 2.4, mat("#efe6cf"), x - 0.8, y + 0.06, back + 1.8);
+      box(1.42, 0.16, 1.5, mat(o.deco || "#b3262d"), x - 0.8, y + 0.2, back + 2.2);
+      cyl(0.15, 0.15, 0.6, 10, mat("#2f5d8a"), x - 0.8, y + 0.25, back + 0.85).rotation.z = Math.PI / 2;
+      box(1.2, 0.9, 0.6, mat("#7a4a2a"), x + side, y + 0.45, back + 0.6);
+      box(1.22, 0.06, 0.62, mat("#d9a62e"), x + side, y + 0.62, back + 0.6);
+      lamp(x + side - 1.5, back + 2.6);
+    } else if (kind === "banquet") {
+      // 잔칫상: 소반과 방석을 줄지어
+      const cols = Math.max(1, Math.floor((wid - 3) / 2.4));
+      for (let i = 0; i < cols; i++)
+        for (const r of [0, 1]) {
+          const tx = x - ((cols - 1) * 2.4) / 2 + i * 2.4, tz = back + 1.6 + r * 2.2;
+          if (tz > z + dep / 2 - 1.2) continue;
+          table(tx, tz);
+          cushion(tx, tz + 0.8, "#2f5d8a");
+        }
+      lamp(x - side, back + 0.6);
+      lamp(x + side, back + 0.6);
+    } else if (kind === "study") {
+      // 서재: 양쪽 책장과 서안
+      [-1, 1].forEach((sgn) => {
+        const bx = x + sgn * (wid / 2 - 0.7);
+        box(0.5, 2.2, Math.min(3.2, dep - 2), wood, bx, y + 1.1, z - 0.4);
+        for (let r = 0; r < 4; r++) box(0.52, 0.06, Math.min(3.2, dep - 2), mat(["#23305e", "#8e2f25", "#3f7a55", "#c9a24a"][r]), bx, y + 0.4 + r * 0.5, z - 0.4);
+      });
+      box(1.6, 0.45, 0.7, wood, x, y + 0.25, back + 1.5);
+      box(0.5, 0.05, 0.36, mat("#efe6cf"), x, y + 0.5, back + 1.5);
+      cushion(x, back + 2.4);
+    } else if (kind === "parlor") {
+      // 서양식 접견실: 소파, 둥근 탁자, 샹들리에
+      [-1, 1].forEach((sgn) => {
+        box(2.4, 0.5, 0.9, mat("#8e2f25"), x + sgn * 2, y + 0.35, z);
+        box(2.4, 0.7, 0.2, mat("#8e2f25"), x + sgn * 2, y + 0.8, z - 0.45);
+      });
+      cyl(0.6, 0.6, 0.06, 20, mat("#e8e2d6"), x, y + 0.6, z + 1.2);
+      cyl(0.08, 0.1, 0.6, 8, mat("#c9a24a"), x, y + 0.3, z + 1.2);
+      add(new THREE.SphereGeometry(0.5, 14, 10), windows, x, y + 4.5, z).userData.noShadow = true;
+    } else {
+      // 기본: 병풍, 방석, 작은 상, 등잔
+      screen(Math.min(4.5, wid - 2), 1.6, mat("#e8dcc0"));
+      cushion(x, back + 1.6);
+      table(x + 1.4, back + 1.6, false);
+      lamp(x - side, back + 1);
+    }
+  };
+  // 전각: 기단 + 기둥 + 벽(앞쪽 가운데 출입문) + 보 + 지붕. 들어가면 지붕이 감춰져 실내가 보여요.
   const hall = (x, z, o) => {
     const { w: wid, d: dep, h = 5, base = 1, twoTier = false, noRidge = false, open = false, walls = true, collide = true, platform = true } = o;
     const pil = o.pillar ? mat(o.pillar) : pillar;
@@ -543,27 +681,39 @@ function makeKit(api, def) {
         if (i > 0 && i < nx && j > 0 && j < nz) continue;
         cyl(0.26, 0.3, h, 10, pil, x - wid / 2 + (wid * i) / nx, base + h / 2, z - dep / 2 + (dep * j) / nz);
       }
-    if (walls) {
-      if (open) {
-        box(wid - 0.3, h * 0.86, 0.25, wallM, x, base + h * 0.43, z - dep / 2 + 0.2);
-        [-1, 1].forEach((s) => box(0.25, h * 0.86, dep - 0.4, wallM, x + s * (wid / 2 - 0.2), base + h * 0.43, z));
-        if (collide) {
-          addCollider(x - wid / 2, x + wid / 2, z - dep / 2, z - dep / 2 + 0.4);
-          addCollider(x - wid / 2, x - wid / 2 + 0.4, z - dep / 2, z + dep / 2);
-          addCollider(x + wid / 2 - 0.4, x + wid / 2, z - dep / 2, z + dep / 2);
-        }
-      } else {
-        box(wid - 0.4, h * 0.86, dep - 0.4, wallM, x, base + h * 0.43, z);
-        if (collide) addCollider(x - wid / 2, x + wid / 2, z - dep / 2, z + dep / 2);
+    const wh = h * 0.86;
+    const enterable = walls && collide;
+    const wallPiece = (x1, x2, z1, z2) => {
+      box(x2 - x1, wh, z2 - z1, wallM, (x1 + x2) / 2, base + wh / 2, (z1 + z2) / 2);
+      addCollider(x1, x2, z1, z2);
+    };
+    if (enterable) {
+      const x1 = x - wid / 2, x2 = x + wid / 2, z1 = z - dep / 2, z2 = z + dep / 2;
+      wallPiece(x1 + 0.1, x2 - 0.1, z1 + 0.1, z1 + 0.35); // 뒷벽
+      wallPiece(x1 + 0.1, x1 + 0.35, z1 + 0.1, z2 - 0.1); // 옆벽
+      wallPiece(x2 - 0.35, x2 - 0.1, z1 + 0.1, z2 - 0.1);
+      if (!open) {
+        const g = Math.min(3.2, wid * 0.34) / 2; // 앞벽 가운데 출입문
+        wallPiece(x1 + 0.1, x - g, z2 - 0.35, z2 - 0.1);
+        wallPiece(x + g, x2 - 0.1, z2 - 0.35, z2 - 0.1);
       }
+      if (o.inside !== "custom") furnish(o.inside || "hall", x, z, wid, dep, base, o);
+    } else if (walls) {
+      box(wid - 0.4, wh, dep - 0.4, wallM, x, base + wh / 2, z);
     }
+    const partsFrom = scene.children.length; // 여기부터 지붕·보: 건물 안에 들어가면 감춰요
     if (!o.thatch) {
       box(wid + 0.7, 0.6, dep + 0.7, bm, x, base + h + 0.05, z);
       box(wid + 0.9, 0.18, dep + 0.9, pil, x, base + h - 0.3, z);
     }
     const rh = Math.min(dep + 5, wid + 5) * (o.thatch ? 0.42 : 0.3);
     let top = base + h + 0.35;
-    const block = (t) => api.addCamBlock(x - wid / 2 - 2.5, x + wid / 2 + 2.5, z - dep / 2 - 2.5, z + dep / 2 + 2.5, t);
+    let blockRef = null;
+    const block = (t) => (blockRef = api.addCamBlock(x - wid / 2 - 2.5, x + wid / 2 + 2.5, z - dep / 2 - 2.5, z + dep / 2 + 2.5, t));
+    const finishRoom = () => {
+      if (!enterable) return;
+      api.addRoom({ name: o.name, x1: x - wid / 2 + 0.35, x2: x + wid / 2 - 0.35, z1: z - dep / 2 + 0.35, z2: z + dep / 2 - 0.2, parts: scene.children.slice(partsFrom), block: blockRef });
+    };
     // rotate: 용마루가 남북(z) 방향으로 놓이는 건물 (동쪽을 바라보는 대한문 등)
     const ropts = { noRidge, tint: o.tint, thatch: o.thatch, rotate: o.rotate };
     const rdim = (a, b) => (o.rotate ? [b, a] : [a, b]);
@@ -578,10 +728,12 @@ function makeKit(api, def) {
       const rh2 = Math.min(uw, ud) * 0.42 + 1.4;
       roof(...rdim(uw + 5, ud + 5), rh2, top, x, z, ropts);
       block(top + rh2);
+      finishRoom();
       return top + rh2;
     }
     roof(...rdim(wid + 5, dep + 5), rh, top, x, z, { ...ropts, ridge: o.ridge ?? (o.thatch ? 0.3 : 0.5) });
     block(top + rh);
+    finishRoom();
     return top + rh;
   };
   // 행각(복도 건물). y0는 축대 위에 지을 때의 높이.
@@ -667,7 +819,7 @@ function makeKit(api, def) {
     }
   };
 
-  const kit = { scene, tex, lattice, windows, stone, darkStone, pillar, beam, plaster, water, box, cyl, flat, roof, hall, corridor, wall, earthWall, pond, island, mountain, sign, placeLabel, tree, forest, ground, mat, add, rand };
+  const kit = { scene, furnish, tex, lattice, windows, stone, darkStone, pillar, beam, plaster, water, box, cyl, flat, roof, hall, corridor, wall, earthWall, pond, island, mountain, sign, placeLabel, tree, forest, ground, mat, add, rand };
   kit.finish = () => {
     scene.traverse((o) => {
       if (!o.isMesh || o.material.transparent || o.userData.noShadow) return;

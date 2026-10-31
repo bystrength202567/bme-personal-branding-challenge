@@ -74,7 +74,7 @@ PALACES.gojoseon = {
     // 성 밖의 밭
     for (let i = 0; i < 10; i++) [-1, 1].forEach((s) => box(30, 0.25, 1.4, mat(i % 2 ? "#6f8a3e" : "#8a9a4a"), s * 21, 0.12, 60 + i * 2.2));
     // 왕의 큰 집 (상상 복원)
-    k.hall(0, -22, { w: 18, d: 9, h: 3.6, base: 1, thatch: true, wallMat: "earth", pillar: "#6b4a30" });
+    k.hall(0, -22, { w: 18, d: 9, h: 3.6, base: 1, thatch: true, wallMat: "earth", pillar: "#6b4a30", inside: "throne", name: LANG === "ko" ? "왕의 큰 집" : "Royal Hall" });
     k.placeLabel(LANG === "ko" ? "왕의 큰 집" : "Royal Hall", 0, 10, -22);
     [[-12.5, -16], [-13.5, -18.5], [-12, -20], [-14, -14.5]].forEach(([x, z]) => cyl(0.38, 0.25, 0.9, 10, mat("#a0704a"), x, 0.45, z)); // 민무늬토기
     // 3단 제단과 선돌, 불
@@ -190,20 +190,20 @@ PALACES.threekingdoms = {
     k.corridor(5, 28, 44, 48, { tint });
     k.corridor(-28, -24, 8, 44, { tint });
     k.corridor(24, 28, 8, 44, { tint });
-    const top = k.hall(0, 22, { w: 32, d: 12, h: 5.5, base: 1.6, tint });
+    const top = k.hall(0, 22, { w: 32, d: 12, h: 5.5, base: 1.6, tint, inside: "throne", name: LANG === "ko" ? "외전" : "Outer Hall" });
     k.placeLabel(LANG === "ko" ? "외전 外殿" : "Outer Hall", 0, top + 1, 22);
-    k.hall(0, -14, { w: 24, d: 10, h: 5, base: 1.2, tint });
+    k.hall(0, -14, { w: 24, d: 10, h: 5, base: 1.2, tint, inside: "office", name: LANG === "ko" ? "내전" : "Inner Hall" });
     k.placeLabel(LANG === "ko" ? "내전 內殿" : "Inner Hall", 0, 13, -14);
-    k.hall(0, -46, { w: 20, d: 9, h: 4.5, base: 1, tint });
+    k.hall(0, -46, { w: 20, d: 9, h: 4.5, base: 1, tint, inside: "bed", name: LANG === "ko" ? "침전" : "Sleeping Quarters" });
     k.placeLabel(LANG === "ko" ? "침전 寢殿" : "Sleeping Quarters", 0, 12, -46);
-    k.hall(-38, -10, { w: 14, d: 8, h: 4, base: 1, tint });
+    k.hall(-38, -10, { w: 14, d: 8, h: 4, base: 1, tint, inside: "study", name: LANG === "ko" ? "서쪽 전각" : "West Hall" });
     // 동쪽 정원: 연못 · 섬 · 가산 · 정자
     k.pond([[30, 48, -36, -10], [34, 44, -40, -36]]);
     k.island(39, -22, 3);
     const hill = k.add(new THREE.ConeGeometry(7, 6, 14), mat("#5f7a4a"), 44, 3, -56);
     hill.scale.z = 0.8;
     api.addCollider(39, 49, -61, -51, true);
-    k.hall(24, -24, { w: 6, d: 6, h: 3, base: 0.8, tint });
+    k.hall(24, -24, { w: 6, d: 6, h: 3, base: 0.8, tint, name: LANG === "ko" ? "정원 정자" : "Garden Pavilion" });
     // 벽화를 그린 벽
     k.box(7, 3.4, 0.5, k.plaster, -14, 1.7, -30);
     const mural = k.add(new THREE.PlaneGeometry(6.6, 3), new THREE.MeshLambertMaterial({ map: k.tex.mural }), -14, 1.7, -29.74);
@@ -284,14 +284,14 @@ PALACES.silla = {
       api.addCollider(x - 2.2, x + 2.2, z - 2.2, z + 2.2);
       if (i % 3 === 0) k.tree(C[0] + Math.cos(a) * (R + 0.2), C[1] + Math.sin(a) * (R + 0.2), 0.9, "#3d6b45", false);
     }
-    k.hall(-30, -12, { w: 14, d: 8, h: 4.5, base: 1.2 });
+    k.hall(-30, -12, { w: 14, d: 8, h: 4.5, base: 1.2, inside: "throne", name: LANG === "ko" ? "월성 정전" : "Wolseong Hall" });
     k.placeLabel(LANG === "ko" ? "월성 月城" : "Wolseong", -30, 12, -12);
-    k.hall(-30, -26, { w: 10, d: 6, h: 4, base: 1 });
+    k.hall(-30, -26, { w: 10, d: 6, h: 4, base: 1, inside: "bed", name: LANG === "ko" ? "월성 침전" : "Wolseong Quarters" });
     // 동궁과 월지
     k.pond([[26, 56, -40, -4], [22, 26, -30, -14]]);
     [[36, -12, 3], [46, -28, 2.6], [32, -30, 2]].forEach(([x, z, r]) => k.island(x, z, r));
-    [[17, -8, 7, 6], [17, -22, 8, 7], [17, -36, 7, 6]].forEach(([x, z, w, d]) => k.hall(x, z, { w, d, h: 3.5, base: 1 }));
-    const top = k.hall(4, -22, { w: 12, d: 8, h: 4.5, base: 1.2 });
+    [[17, -8, 7, 6], [17, -22, 8, 7], [17, -36, 7, 6]].forEach(([x, z, w, d]) => k.hall(x, z, { w, d, h: 3.5, base: 1, inside: "banquet", name: LANG === "ko" ? "월지 누각" : "Wolji Pavilion" }));
+    const top = k.hall(4, -22, { w: 12, d: 8, h: 4.5, base: 1.2, inside: "banquet", name: LANG === "ko" ? "임해전" : "Imhaejeon" });
     k.placeLabel(LANG === "ko" ? "임해전 臨海殿" : "Imhaejeon", 4, top + 1, -22);
     k.placeLabel(LANG === "ko" ? "월지 月池" : "Wolji Pond", 40, 6, -22);
     // 첨성대
@@ -416,7 +416,7 @@ PALACES.goryeo = {
     edge(5, 18, -14.4, -13.6);
     edge(-18.4, -17.6, -32, -14);
     edge(17.6, 18.4, -32, -14);
-    const top = k.hall(0, -23, { w: 24, d: 11, h: 5.5, base: 8, platform: false, twoTier: true });
+    const top = k.hall(0, -23, { w: 24, d: 11, h: 5.5, base: 8, platform: false, twoTier: true, inside: "throne", name: LANG === "ko" ? "회경전" : "Hoegyeongjeon" });
     box(27, 0.5, 14, k.stone, 0, 7.75, -23);
     k.placeLabel(LANG === "ko" ? "회경전 會慶殿" : "Hoegyeongjeon", 0, top + 1, -23);
     // 가장 높은 단: 장화전 · 원덕전
@@ -424,9 +424,9 @@ PALACES.goryeo = {
     api.addFloor(-18, 18, -34, -32, 8.5);
     edge(-30, -18, -34.4, -33.6);
     edge(18, 30, -34.4, -33.6);
-    k.hall(0, -46, { w: 18, d: 8, h: 4.5, base: 10, platform: false });
-    k.hall(0, -62, { w: 16, d: 8, h: 4.5, base: 10, platform: false });
-    k.hall(-22, -54, { w: 8, d: 6, h: 3.5, base: 10, platform: false });
+    k.hall(0, -46, { w: 18, d: 8, h: 4.5, base: 10, platform: false, inside: "office", name: LANG === "ko" ? "장화전" : "Janghwajeon" });
+    k.hall(0, -62, { w: 16, d: 8, h: 4.5, base: 10, platform: false, inside: "bed", name: LANG === "ko" ? "원덕전" : "Wondeokjeon" });
+    k.hall(-22, -54, { w: 8, d: 6, h: 3.5, base: 10, platform: false, inside: "study", name: LANG === "ko" ? "서고" : "Library" });
     k.placeLabel(LANG === "ko" ? "장화전 長和殿" : "Janghwajeon", 0, 21, -46);
     k.forest(60, (r) => {
       const a = r() * Math.PI * 2, d = 60 + r() * 90;
@@ -618,7 +618,7 @@ PALACES.joseon = {
     addFloor(-16, 16, -27, -7, 2.4);
     [[-4, 1.2], [-7, 2.4]].forEach(([z, h]) => box(6, h, 1, mat("#c9c1b0"), 0, h / 2, z - 0.4));
     // 근정전: 앞이 트인 내부 + 어좌 + 일월오봉도
-    const gTop = hall(0, -17, { w: 22, d: 13, h: 6, base: 2.4, twoTier: true, open: true });
+    const gTop = hall(0, -17, { w: 22, d: 13, h: 6, base: 2.4, twoTier: true, open: true, inside: "custom", name: LANG === "ko" ? "근정전" : "Geunjeongjeon" });
     box(22, 0.3, 13, mat("#7a5c40"), 0, 2.55, -17);
     addFloor(-11, 11, -23.5, -10.5, 2.7);
     box(4.4, 0.8, 3, mat("#8e2f25"), 0, 3.1, -21.3);
@@ -628,17 +628,17 @@ PALACES.joseon = {
     void screen;
 
     /* --- 사정전 · 강녕전 · 교태전 · 아미산 --- */
-    hall(0, -44, { w: 16, d: 9, h: 4.5, base: 1.1 });
+    hall(0, -44, { w: 16, d: 9, h: 4.5, base: 1.1, inside: "office", name: LANG === "ko" ? "사정전" : "Sajeongjeon" });
     placeLabel(`${LANG === "ko" ? "사정전 思政殿" : "Sajeongjeon"}`, 0, 12, -44);
     wall(-34, -12, -51, -50);
     wall(12, 34, -51, -50);
     box(22, 1.4, 5, stone, 0, 0.7, -58.5);
     addFloor(-11, 11, -61, -56, 1.4);
-    hall(0, -66, { w: 22, d: 9, h: 4.5, base: 1.4, noRidge: true });
+    hall(0, -66, { w: 22, d: 9, h: 4.5, base: 1.4, noRidge: true, inside: "bed", name: LANG === "ko" ? "강녕전" : "Gangnyeongjeon" });
     placeLabel(`${LANG === "ko" ? "강녕전 康寧殿" : "Gangnyeongjeon"}`, 0, 12, -66);
     wall(-30, -14, -75, -74);
     wall(14, 30, -75, -74);
-    hall(0, -82, { w: 20, d: 9, h: 4.5, base: 1.2, noRidge: true });
+    hall(0, -82, { w: 20, d: 9, h: 4.5, base: 1.2, noRidge: true, inside: "bed", deco: "#2f5d8a", name: LANG === "ko" ? "교태전" : "Gyotaejeon" });
     placeLabel(`${LANG === "ko" ? "교태전 交泰殿" : "Gyotaejeon"}`, 0, 12, -82);
     [[0.8, -92.5], [1.6, -95], [2.4, -97.5]].forEach(([h, z]) => {
       box(26, h, 2.5, mat("#6f8a55"), 0, h / 2, z);
@@ -683,8 +683,8 @@ PALACES.joseon = {
     });
 
     /* --- 수정전 · 자선당 --- */
-    hall(-50, 16, { w: 16, d: 6, h: 4, base: 0.9 });
-    hall(51, -10, { w: 14, d: 7, h: 4, base: 0.9 });
+    hall(-50, 16, { w: 16, d: 6, h: 4, base: 0.9, inside: "study", name: LANG === "ko" ? "수정전" : "Sujeongjeon" });
+    hall(51, -10, { w: 14, d: 7, h: 4, base: 0.9, inside: "study", name: LANG === "ko" ? "자선당" : "Jaseondang" });
     wall(38, 39, -24, 4);
     placeLabel(`${LANG === "ko" ? "수정전 修政殿" : "Sujeongjeon"}`, -50, 11, 16);
     placeLabel(`${LANG === "ko" ? "자선당 資善堂" : "Jaseondang"}`, 51, 11, -10);
@@ -820,11 +820,11 @@ PALACES["korean-empire"] = {
     k.wall(21, 23, -27, 20);
     k.wall(-7, 3, 19, 21);
     k.wall(13, 23, 19, 21);
-    const top = k.hall(8, -14, { w: 18, d: 10, h: 5, base: 1.6 });
+    const top = k.hall(8, -14, { w: 18, d: 10, h: 5, base: 1.6, inside: "throne", irwol: true, name: LANG === "ko" ? "중화전" : "Junghwajeon" });
     k.placeLabel(LANG === "ko" ? "중화전 中和殿" : "Junghwajeon", 8, top + 1, -14);
     for (let i = 0; i < 8; i++) [4, 12].forEach((x) => box(0.45, 0.7, 0.3, k.darkStone, x, 0.35, 14 - i * 1.6));
     // 석조전 (서양식 신고전주의)
-    western(api, k, -28, 12, { w: 22, d: 12, h: 8, color: "#ece7da", columns: 8, roof: "#5f6a6a" });
+    western(api, k, -28, 12, { w: 22, d: 12, h: 8, color: "#ece7da", columns: 8, roof: "#5f6a6a", inside: "parlor", name: LANG === "ko" ? "석조전" : "Seokjojeon" });
     k.placeLabel(LANG === "ko" ? "석조전 石造殿" : "Seokjojeon", -28, 15, 12);
     // 분수 정원
     cyl(6, 6, 0.6, 32, k.water, -28, 0.05, 34);
@@ -846,11 +846,11 @@ PALACES["korean-empire"] = {
     k.roof(15, 12, 2.4, 4.5, 12, -40, { noRidge: true });
     api.addCollider(6, 18, -44, -43);
     // 함녕전 · 석어당(단청 없는 2층) · 즉조당
-    k.hall(32, -24, { w: 16, d: 8, h: 4.5, base: 1 });
-    k.hall(-10, -38, { w: 14, d: 8, h: 4, base: 1, twoTier: true, pillar: "#7a5a3a", beam: "#7a5a3a" });
-    k.hall(-28, -38, { w: 12, d: 7, h: 4, base: 1 });
+    k.hall(32, -24, { w: 16, d: 8, h: 4.5, base: 1, inside: "bed", name: LANG === "ko" ? "함녕전" : "Hamnyeongjeon" });
+    k.hall(-10, -38, { w: 14, d: 8, h: 4, base: 1, twoTier: true, pillar: "#7a5a3a", beam: "#7a5a3a", inside: "study", name: LANG === "ko" ? "석어당" : "Seogeodang" });
+    k.hall(-28, -38, { w: 12, d: 7, h: 4, base: 1, inside: "office", name: LANG === "ko" ? "즉조당" : "Jeukjodang" });
     // 중명전 (서쪽 담 밖의 벽돌 건물)
-    western(api, k, -64, -20, { w: 14, d: 9, h: 7, color: "#9a4a3a", columns: 0, roof: "#3a3d44", arcade: true });
+    western(api, k, -64, -20, { w: 14, d: 9, h: 7, color: "#9a4a3a", columns: 0, roof: "#3a3d44", arcade: true, inside: "office", name: LANG === "ko" ? "중명전" : "Jungmyeongjeon" });
     // 전차와 가로등
     const tram = new THREE.Group();
     tram.position.set(70.5, 0, -22);
@@ -879,9 +879,21 @@ function western(api, k, x, z, o) {
   const { w, d, h } = o;
   box(w + 2, 1.6, d + 2, mat("#c9c3b4"), x, 0.8, z);
   api.addFloor(x - w / 2 - 1, x + w / 2 + 1, z - d / 2 - 1, z + d / 2 + 1, 1.6);
-  box(w, h, d, mat(o.color), x, 1.6 + h / 2, z);
-  api.addCollider(x - w / 2, x + w / 2, z - d / 2, z + d / 2);
-  api.addCamBlock(x - w / 2 - 1, x + w / 2 + 1, z - d / 2 - 1, z + d / 2 + 1, h + 4);
+  // 벽 네 면(앞쪽 가운데 출입문)과 실내
+  const wallM = mat(o.color);
+  const piece = (x1, x2, z1, z2) => {
+    box(x2 - x1, h, z2 - z1, wallM, (x1 + x2) / 2, 1.6 + h / 2, (z1 + z2) / 2);
+    api.addCollider(x1, x2, z1, z2);
+  };
+  const g = 1.6;
+  piece(x - w / 2, x + w / 2, z - d / 2, z - d / 2 + 0.4);
+  piece(x - w / 2, x - w / 2 + 0.4, z - d / 2, z + d / 2);
+  piece(x + w / 2 - 0.4, x + w / 2, z - d / 2, z + d / 2);
+  piece(x - w / 2, x - g, z + d / 2 - 0.4, z + d / 2);
+  piece(x + g, x + w / 2, z + d / 2 - 0.4, z + d / 2);
+  k.furnish(o.inside || "parlor", x, z, w - 0.8, d - 0.8, 1.6);
+  const block = api.addCamBlock(x - w / 2 - 1, x + w / 2 + 1, z - d / 2 - 1, z + d / 2 + 1, h + 4);
+  const partsFrom = k.scene.children.length;
   // 창문 두 줄 (밤에 불빛)
   const n = Math.floor(w / 2.6);
   [0.3, 0.68].forEach((f) => {
@@ -908,4 +920,5 @@ function western(api, k, x, z, o) {
   const r = add(new THREE.ConeGeometry(Math.max(w, d) * 0.62, 2.6, 4), mat(o.roof), x, 1.6 + h + 1.8, z);
   r.rotation.y = Math.PI / 4;
   r.scale.set(w / Math.max(w, d), 1, d / Math.max(w, d));
+  api.addRoom({ name: o.name, x1: x - w / 2 + 0.4, x2: x + w / 2 - 0.4, z1: z - d / 2 + 0.4, z2: z + d / 2 - 0.2, parts: k.scene.children.slice(partsFrom).filter((m) => m.position.y > 1.6 + h - 0.5), block });
 }
