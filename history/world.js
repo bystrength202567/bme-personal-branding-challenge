@@ -37,6 +37,10 @@ const WSTR = {
     music: "🎵",
     musicOn: (t) => `🎵 ${t}`,
     musicOff: "🔇 음악을 껐어요",
+    tourStart: (n) => `🚶 궁궐 한 바퀴 산책을 시작해요 · 역사 인물과 이야기 ${n}곳을 차례로 만나요 (한 번 더 누르면 멈춰요)`,
+    tourNext: "다음 ▶",
+    tourStop: "그만 걷기",
+    tourDone: (n) => `🎉 한 바퀴 다 돌았어요! 인물과 이야기 ${n}곳을 만났어요`,
     actionToast: {
       stroll: "🚶 뒷짐을 지고 궁궐 뜰을 천천히 거닐어요 (한 번 더 누르면 멈춰요)",
       read: "📖 방석에 앉아 책을 펼쳤어요. 임금도 날마다 학문을 닦았어요",
@@ -98,6 +102,10 @@ const WSTR = {
     music: "🎵",
     musicOn: (t) => `🎵 ${t}`,
     musicOff: "🔇 Music off",
+    tourStart: (n) => `🚶 A walk around the palace · meet ${n} historical figures and stories along the way (tap again to stop)`,
+    tourNext: "Next ▶",
+    tourStop: "Stop walking",
+    tourDone: (n) => `🎉 You walked the whole palace and met ${n} figures and stories!`,
     actionToast: {
       stroll: "🚶 Strolling slowly through the palace grounds, hands behind your back (tap again to stop)",
       read: "📖 You sit on a cushion and open a book. Kings studied every day",
@@ -247,6 +255,7 @@ function runEngine(era, root, level, holder) {
     </div>
     <p class="w-hint" id="wHint">${w.hint}</p>
     <div class="w-meong" id="wMeong" hidden><b id="wMeongName"></b><p id="wMeongLine"></p><span id="wMeongTime"></span><small id="wMeongMusic"></small><em>${w.meongExit}</em></div>
+    <div class="w-tour" id="wTour" hidden><div class="w-tour-head"><span id="wTourEmoji"></span><b id="wTourName"></b><small id="wTourStep"></small></div><div class="w-tour-body" id="wTourBody"></div><div class="w-tour-btns"><button class="btn ghost" id="wTourStop"></button><button class="btn" id="wTourNext"></button></div></div>
     <div class="w-toast" id="wToast"></div>
     <div class="w-dialog" id="wDialog" hidden>
       <div class="w-dialog-head"><span id="wDlgEmoji"></span><b id="wDlgName"></b><button class="w-close" id="wDlgClose" aria-label="close">×</button></div>
@@ -433,6 +442,9 @@ function runEngine(era, root, level, holder) {
       dlgBody.querySelector("#wStay").addEventListener("click", closeDialog);
       dlgBody.querySelector("#wLeave").addEventListener("click", () => (location.hash = `era/${era.id}`));
     }
+    markSeen(item);
+  };
+  const markSeen = (item) => {
     if (item.count && !seen.has(item)) {
       seen.add(item);
       item.label?.classList.add("seen");
@@ -550,12 +562,144 @@ function runEngine(era, root, level, holder) {
       playerLabel?.querySelector(".bubble")?.remove();
     }
     if (old === "meong" && pose !== "meong") endMeong();
+    if (old === "stroll" && pose !== "stroll") endTour();
     setPose(player, pose);
     if (pose === "ganggang") {
       danceAnchor = player.group.position.clone();
       player.danceAnchor = { x: +danceAnchor.x.toFixed(2), z: +danceAnchor.z.toFixed(2) };
     }
     if (pose === "meong") startMeong();
+  };
+  // 산책: 궁궐을 한 바퀴 돌며 역사 인물과 이야기를 차례로 만나요
+  const tourEl = root.querySelector("#wTour");
+  tourEl.querySelector("#wTourNext").textContent = w.tourNext;
+  tourEl.querySelector("#wTourStop").textContent = w.tourStop;
+  let tour = null;
+  const buildTour = () => {
+    const pos = player.group.position;
+    const items = interactables.filter((i) => (i.kind === "npc" || i.kind === "sign") && i.obj);
+    const groups = (level.places || []).map((p) => ({ place: p, items: [] }));
+    if (!groups.length) groups.push({ place: { x: pos.x, z: pos.z }, items: [], plain: true });
+    items.forEach((it) => {
+      const o = it.obj.position;
+      let best = groups[0], bd = Infinity;
+      groups.forEach((g) => {
+        const d = Math.hypot(g.place.x - o.x, g.place.z - o.z);
+        if (d < bd) (bd = d), (best = g);
+      });
+      best.items.push(it);
+    });
+    // 지금 있는 곳에서 가장 가까운 장소부터 출발해서 한 바퀴
+    let start = 0, sd = Infinity;
+    groups.forEach((g, i) => {
+      const d = Math.hypot(g.place.x - pos.x, g.place.z - pos.z);
+      if (d < sd) (sd = d), (start = i);
+    });
+    const order = [...groups.slice(start), ...groups.slice(0, start)];
+    const stops = [];
+    order.forEach((g) => {
+      if (!g.plain) stops.push({ place: g.place, x: g.place.x, z: g.place.z });
+      let cx = g.place.x, cz = g.place.z;
+      const rest = [...g.items];
+      while (rest.length) {
+        rest.sort((a, b) => Math.hypot(a.obj.position.x - cx, a.obj.position.z - cz) - Math.hypot(b.obj.position.x - cx, b.obj.position.z - cz));
+        const it = rest.shift();
+        cx = it.obj.position.x;
+        cz = it.obj.position.z;
+        stops.push({ item: it, x: cx, z: cz });
+      }
+    });
+    return stops;
+  };
+  const startTour = () => {
+    const stops = buildTour();
+    if (!stops.some((st) => st.item)) return false;
+    tour = { stops, i: 0, wait: 0, stuck: 0, lastD: Infinity, target: null };
+    return true;
+  };
+  const endTour = () => {
+    tour = null;
+    tourEl.hidden = true;
+    moveTarget = null;
+  };
+  const showTourCard = (item, n, total) => {
+    tourEl.querySelector("#wTourEmoji").textContent = item.emoji || "📜";
+    tourEl.querySelector("#wTourName").textContent = item.name;
+    tourEl.querySelector("#wTourStep").textContent = `${n} / ${total}`;
+    tourEl.querySelector("#wTourBody").innerHTML = item.kind === "npc" ? `<p class="w-quote">「${item.say || `${level.greet} ${w.iAm(item.name)}`}」</p><p>${item.desc}</p>` : `${item.sub ? `<p class="w-sub">${item.sub}</p>` : ""}<p>${item.desc}</p>`;
+    tourEl.hidden = false;
+    tourEl.scrollTop = 0;
+  };
+  tourEl.querySelector("#wTourNext").addEventListener("click", () => {
+    if (!tour) return;
+    if (tour.wait > 0) tour.wait = 0.01;
+    else tour.skip = true; // 걷는 중이면 다음 인물 앞으로 바로 건너가요
+  });
+  tourEl.querySelector("#wTourStop").addEventListener("click", () => player.pose === "stroll" && stopPose());
+  const tourTick = (dt, pos) => {
+    if (!dialog.hidden) return (moveTarget = null);
+    if (tour.wait > 0) {
+      tour.wait -= dt;
+      moveTarget = null;
+      if (tour.wait <= 0) {
+        tour.i++;
+        tour.target = null;
+        tour.lastD = Infinity;
+        tour.stuck = 0;
+      }
+      return;
+    }
+    const st = tour.stops[tour.i];
+    if (!st) {
+      const met = tour.stops.filter((x) => x.item).length;
+      player.anim = { type: "cheer", t: 0 };
+      toast(w.tourDone(met));
+      setTimeout(() => (tourEl.hidden = true), 4000);
+      tour = null;
+      setPlayerPose(null);
+      markAction();
+      return;
+    }
+    if (!tour.target) {
+      // 인물·비석 바로 앞(지금 다가가는 쪽)에 서요
+      if (st.item) {
+        const dx = pos.x - st.x, dz = pos.z - st.z, d = Math.hypot(dx, dz) || 1;
+        let tx = st.x + (dx / d) * 2, tz = st.z + (dz / d) * 2;
+        if (blocked(tx, tz)) (tx = st.x), (tz = st.z + 2);
+        tour.target = new THREE.Vector3(tx, 0, tz);
+      } else tour.target = new THREE.Vector3(st.x, 0, st.z);
+    }
+    const d = Math.hypot(tour.target.x - pos.x, tour.target.z - pos.z);
+    // 길이 막히면(벽·담장) 다음 자리로 건너가요
+    if (d < tour.lastD - 0.02) (tour.lastD = d), (tour.stuck = 0);
+    else tour.stuck += dt;
+    if (tour.stuck > 1.2 || tour.skip) {
+      tour.skip = false;
+      pos.set(tour.target.x, floorAt(tour.target.x, tour.target.z), tour.target.z);
+      tour.stuck = 0;
+    }
+    if (d < 0.35) {
+      moveTarget = null;
+      if (st.item) {
+        const it = st.item;
+        facePoint(player.group, it.obj.position);
+        if (it.av) {
+          facePoint(it.av.group, pos);
+          it.av.anim = { type: "bow", t: 0 };
+          setTimeout(() => (player.anim = { type: "bow", t: 0 }), 300);
+        }
+        const items = tour.stops.filter((x) => x.item);
+        showTourCard(it, items.indexOf(st) + 1, items.length);
+        markSeen(it);
+        tour.wait = it.kind === "npc" ? 7 : 6;
+      } else {
+        toast(`📍 ${st.place.name}`);
+        tour.wait = 1.2;
+      }
+      return;
+    }
+    moveTarget = tour.target.clone();
+    pending = null;
   };
   const stopPose = () => {
     if (!player || !player.pose) return;
@@ -585,6 +729,8 @@ function runEngine(era, root, level, holder) {
           const peers = (api.peerSource?.() || []).filter((p) => p.pose === "ganggang" && Math.hypot(p.x - strollHome.x, p.z - strollHome.z) < 12);
           if (!peers.length) recruitDancers();
           toast(peers.length ? w.ganggangGroup(peers.length + 1) : w.ganggangSolo);
+        } else if (type === "stroll" && startTour()) {
+          toast(w.tourStart(tour.stops.filter((st) => st.item).length));
         } else if (type !== "meong") {
           const tip = w.actionTip[era.id]?.[type];
           toast(tip ? `${w.actionToast[type]} · ${tip}` : w.actionToast[type]);
@@ -714,7 +860,8 @@ function runEngine(era, root, level, holder) {
     let moving = false;
     if ((ix || iz) && player.pose) stopPose();
     // 산책: 출발한 자리 둘레를 천천히 거닐어요
-    if (player.pose === "stroll" && !moveTarget && strollHome) {
+    if (player.pose === "stroll" && tour) tourTick(dt, pos);
+    else if (player.pose === "stroll" && !moveTarget && strollHome) {
       for (let k = 0; k < 10; k++) {
         const a = rand() * Math.PI * 2, r = 2 + rand() * 6;
         const tx = strollHome.x + Math.cos(a) * r, tz = strollHome.z + Math.sin(a) * r;
@@ -792,7 +939,7 @@ function runEngine(era, root, level, holder) {
       });
       cam.yaw += dt * 0.05;
     }
-    const speed = player.pose === "stroll" ? 1.8 : player.pose === "ganggang" ? 5 : baseSpeed;
+    const speed = player.pose === "stroll" ? (tour ? 3.4 : 1.8) : player.pose === "ganggang" ? 5 : baseSpeed;
     if (ix || iz) {
       moveTarget = null;
       pending = null;
