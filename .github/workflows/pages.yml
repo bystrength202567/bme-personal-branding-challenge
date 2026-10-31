@@ -1,6 +1,7 @@
-# 달빛 한국사 여행(history/)을 GitHub Pages에 올려요.
-# 한 번만: 저장소 Settings → Pages → Build and deployment → Source를 "GitHub Actions"로 바꿔 주세요.
-name: Deploy history to GitHub Pages
+# 달빛 한국사 여행(history/)을 gh-pages 브랜치로 올려 GitHub Pages로 공개해요.
+# 공개 저장소는 gh-pages 브랜치가 생기면 보통 Pages가 자동으로 켜져요.
+# 켜지지 않으면: Settings → Pages → Source를 "Deploy from a branch", 브랜치를 gh-pages / (root)로 골라 주세요.
+name: Publish history to GitHub Pages
 
 on:
   push:
@@ -9,25 +10,26 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: history
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Push history/ to the gh-pages branch
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir site
+          cp -r history/. site/
+          touch site/.nojekyll
+          cd site
+          git init -q -b gh-pages
+          git add -A
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Publish history/ from ${GITHUB_SHA}"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" gh-pages
