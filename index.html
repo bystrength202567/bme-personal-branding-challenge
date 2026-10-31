@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="고조선부터 대한제국까지, 캐릭터로 입장해 떠나는 달빛 한국사 시간여행 · Explore Korean history by moonlight" />
+    <title>달빛 한국사 여행</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true"><div class="stars"></div><div class="stars stars-2"></div></div>
+
+    <header class="topbar">
+      <a class="logo" href="#"><span class="logo-moon"></span><span id="logoText">달빛 한국사 여행</span></a>
+      <div class="top-right">
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button data-lang="ko">KO</button><button data-lang="en">EN</button>
+        </div>
+        <button class="stamp-chip" id="shareChip" aria-label="공유하기">🔗</button>
+        <button class="stamp-chip" id="memberChip" hidden></button>
+        <button class="stamp-chip" id="stampChip">🏮 <span id="stampLabel">도장</span> <b id="stampCount">0</b>/6</button>
+      </div>
+    </header>
+
+    <main id="app"></main>
+
+    <footer>
+      <p id="footerText"></p>
+      <small id="footerNote"></small>
+      <a class="footer-link" href="#privacy" id="privacyLink">개인정보 처리방침 · Privacy</a>
+    </footer>
+
+    <dialog id="modal"><button class="close" aria-label="닫기">×</button><div id="modalBody"></div></dialog>
+
+    <script src="config.js"></script>
+    <script src="backend.js"></script>
+    <script src="data.js"></script>
+    <script src="data.en.js"></script>
+    <script src="world.js"></script>
+    <script src="palace.js"></script>
+    <script src="palace-eras.js"></script>
+    <script src="fun.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
