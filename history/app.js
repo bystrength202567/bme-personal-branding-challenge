@@ -55,7 +55,8 @@ const STR = {
     enterPalace: (place) => `🏯 ${place} 입장하기`,
     palaceTag: (place) => `🏯 ${place} 입장`,
     signupTitle: "회원가입",
-    signupLead: "궁궐에 입장하려면 먼저 회원가입을 해 주세요.",
+    signupLead: "회원가입은 선택이에요. 가입하지 않아도 궁궐에 바로 들어갈 수 있어요. 가입하면 도장 기록을 회원 서버에 저장할 수 있어요.",
+    joinChip: "회원가입",
     email: "이메일 주소",
     emailPh: "예: hong@example.com",
     country: "국적",
@@ -137,7 +138,8 @@ const STR = {
     enterPalace: (place) => `🏯 Enter ${place}`,
     palaceTag: (place) => `🏯 Enter ${place}`,
     signupTitle: "Sign up",
-    signupLead: "Please sign up before entering the palaces.",
+    signupLead: "Signing up is optional — you can enter the palaces right away. Members can save their stamps on the member server.",
+    joinChip: "Sign up",
     email: "Email address",
     emailPh: "e.g. alex@example.com",
     country: "Nationality",
@@ -257,10 +259,8 @@ function route() {
   const era = eras().find((e) => e.id === m[2]);
   const profile = loadProfile();
   updateMemberChip();
-  // 궁궐 입장(꾸미기·공간)은 회원가입을 한 사람만
-  const member = loadMember();
-  const needSignup = !member || (Backend.client && !member.verified); // 서버 모드에서는 이메일 인증까지 끝나야 해요
-  if (era && (m[1] === "world" || m[1] === "enter") && needSignup) renderSignup();
+  // 궁궐은 가입 없이 바로 입장해요. 회원가입은 원하는 사람만 (#signup)
+  if (location.hash === "#signup") renderSignup();
   else if (era && m[1] === "world") enterWorld(era);
   else if (era && m[1] === "enter") renderCharacterSelect(era);
   else if (era) renderEra(era, TAB_IDS.includes(m[3]) ? m[3] : "intro");
@@ -799,7 +799,7 @@ function renderSignup() {
       // 이미 메일 링크로 로그인한 상태(다른 기기에서 링크를 연 경우): 바로 저장해요
       if (await Backend.saveProfile(info)) {
         updateMemberChip();
-        return route();
+        return (location.hash = "");
       }
       return (err.textContent = m.sendFail);
     }
@@ -811,7 +811,7 @@ function renderSignup() {
       // 체험 모드: 이 브라우저에만 저장
       writeJSON(MEMBER_KEY, { ...info, joinedAt: info.consentedAt, verified: false });
       updateMemberChip();
-      return route();
+      return (location.hash = "");
     }
     const btn = f.querySelector("button[type=submit]");
     btn.disabled = true;
@@ -852,7 +852,8 @@ function renderCheckMail(info) {
       await Backend.verifyCode(info.email, code);
       updateMemberChip();
       updateStampCount();
-      if (Backend.nextHash && location.hash !== Backend.nextHash) location.hash = Backend.nextHash;
+      const target = Backend.nextHash || "";
+      if (location.hash.replace("#", "") !== target.replace("#", "")) location.hash = target;
       else route();
     } catch {
       err.textContent = m.codeBad;
@@ -918,14 +919,14 @@ function renderPrivacy() {
 function updateMemberChip() {
   const chip = document.getElementById("memberChip");
   const m = loadMember();
-  chip.hidden = !m;
-  if (m) chip.textContent = `👤 ${m.name}`;
+  chip.hidden = false;
+  chip.textContent = m ? `👤 ${m.name}` : `👤 ${T().joinChip}`;
 }
 function openMemberInfo() {
   const t = T();
   const mm = M();
   const m = loadMember();
-  if (!m) return;
+  if (!m) return (location.hash = "signup");
   const server = !!(Backend.user && m.verified);
   modalBody.innerHTML = `
     <h2 style="margin:0">👤 ${t.memberInfo}</h2>

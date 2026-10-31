@@ -81,7 +81,7 @@ const Backend = {
 
   // 가입: 확인 메일(로그인 링크)을 보내요. 링크를 누르면 이 사이트로 돌아와 가입이 끝나요.
   async signUp(info) {
-    writeJSON(PENDING_KEY, { ...info, next: location.hash });
+    writeJSON(PENDING_KEY, { ...info, next: location.hash === "#signup" ? "" : location.hash });
     // 로그인 정보가 주소 뒤(#)에 붙어 돌아오므로, 돌아올 주소에는 #를 붙이지 않아요
     const redirect = location.origin + location.pathname;
     const { error } = await this.client.auth.signInWithOtp({ email: info.email, options: { emailRedirectTo: redirect } });
