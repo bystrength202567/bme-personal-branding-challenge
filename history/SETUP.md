@@ -12,12 +12,12 @@ claude.ai 아티팩트 화면은 보안 정책으로 외부 서버(Supabase 포�
 
 1. main에 `history/`가 바뀔 때마다 Actions가 `gh-pages` 브랜치로 사이트 파일을 올려요 (`.github/workflows/pages.yml`).
 2. 공개 저장소는 보통 `gh-pages` 브랜치가 생기면 Pages가 자동으로 켜져요. 켜지지 않았다면 저장소 **Settings → Pages → Source**를 **Deploy from a branch**, 브랜치 **gh-pages / (root)**로 골라 주세요.
-3. 주소: <https://bystrength202567.github.io/bme-personal-branding-challenge/>
+3. 주소: <https://bystrength202567.github.io/korea-time-travel/>
 4. Supabase **Authentication → URL Configuration**에서 **Site URL**과 **Redirect URLs**에 위 주소를 넣어요.
 
 ## 1-B. 공식 사이트: Vercel (선택)
 
-1. <https://vercel.com>에 GitHub 계정으로 로그인 → **Add New → Project** → `bme-personal-branding-challenge` **Import** → **Deploy**
+1. <https://vercel.com>에 GitHub 계정으로 로그인 → **Add New → Project** → `korea-time-travel` **Import** → **Deploy**
    (이미 연결돼 있다면 main에 합쳐질 때마다 자동으로 배포돼요.)
 2. 배포된 주소 뒤에 `/history/`를 붙인 주소가 서비스 주소예요. 예: `https://내프로젝트.vercel.app/history/`
 3. (선택) **Settings → Domains**에서 원하는 도메인을 연결할 수 있어요.
@@ -29,7 +29,7 @@ claude.ai 아티팩트 화면은 보안 정책으로 외부 서버(Supabase 포�
 2. 왼쪽 **SQL Editor** → `history/supabase.sql` 내용을 그대로 붙여 넣고 **Run**
    - 회원 정보(`members`)와 도장 기록(`progress`) 표가 만들어지고, 각 회원은 자기 정보만 읽고 쓸 수 있게 잠겨요(RLS).
 3. **Authentication → URL Configuration**
-   - **Site URL**: 1번의 공식 사이트 주소 (GitHub Pages면 `https://bystrength202567.github.io/bme-personal-branding-challenge/`)
+   - **Site URL**: 1번의 공식 사이트 주소 (GitHub Pages면 `https://bystrength202567.github.io/korea-time-travel/`)
    - **Redirect URLs**에도 같은 주소를 추가해요. (가입 메일의 링크가 이 주소로 돌아와요.)
 4. **Authentication → Providers → Email** 이 켜져 있는지 확인해요.
    - **Authentication → Emails → Templates**의 **Confirm signup**과 **Magic Link** 템플릿 본문에 `{{ .Token }}`을 넣어 주세요 (예: `인증 코드: {{ .Token }}`).
