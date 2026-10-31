@@ -8,6 +8,8 @@ const Backend = {
   client: null,
   user: null,
   nextHash: "", // 메일 링크로 돌아온 뒤 이어서 갈 화면
+  // claude.ai 아티팩트 미리보기처럼 외부 서버 연결이 막힌 화면이면 true (그때는 체험 모드로 동작)
+  blocked: false,
   get enabled() {
     return !!(this.config.supabaseUrl && this.config.supabaseAnonKey);
   },
@@ -23,6 +25,17 @@ const Backend = {
         s.onerror = reject;
         document.head.appendChild(s);
       });
+      // 먼저 회원 서버에 닿는지 확인해요. claude.ai 아티팩트 화면은 외부 연결을 막아서 여기서 실패해요.
+      const ctl = new AbortController();
+      const timer = setTimeout(() => ctl.abort(), 6000);
+      try {
+        await fetch(`${this.config.supabaseUrl}/auth/v1/health`, { headers: { apikey: this.config.supabaseAnonKey }, signal: ctl.signal });
+      } catch {
+        this.blocked = window.self !== window.top;
+        throw new Error("member server unreachable");
+      } finally {
+        clearTimeout(timer);
+      }
       this.client = window.supabase.createClient(this.config.supabaseUrl, this.config.supabaseAnonKey);
       const { data } = await this.client.auth.getSession();
       await this.onSession(data.session);

@@ -1,0 +1,33 @@
+# 달빛 한국사 여행(history/)을 GitHub Pages에 올려요.
+# 한 번만: 저장소 Settings → Pages → Build and deployment → Source를 "GitHub Actions"로 바꿔 주세요.
+name: Deploy history to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ["history/**", ".github/workflows/pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: history
+      - id: deployment
+        uses: actions/deploy-pages@v4

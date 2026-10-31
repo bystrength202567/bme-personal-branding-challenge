@@ -688,6 +688,8 @@ const MSTR = {
     resend: "메일 다시 보내기",
     sendFail: "메일을 보내지 못했어요. 잠시 뒤 다시 시도해 주세요.",
     serverDown: "지금 회원 서버에 연결할 수 없어요. 잠시 뒤 다시 시도해 주세요.",
+    previewNote: "이 claude.ai 미리보기 화면은 외부 서버 연결이 막혀 있어서 체험 모드로 동작해요. 가입 정보는 이 기기의 브라우저에만 저장되고 회원 서버로 보내지지 않아요.",
+    officialLink: "정식 회원가입은 공식 사이트에서 할 수 있어요 →",
     mode: "저장 위치",
     modeServer: "회원 서버 (이메일 인증 완료)",
     modeLocal: "이 기기 브라우저 (체험 모드)",
@@ -717,6 +719,8 @@ const MSTR = {
     resend: "Resend email",
     sendFail: "Couldn't send the email. Please try again shortly.",
     serverDown: "We can't reach the member server right now. Please try again shortly.",
+    previewNote: "This claude.ai preview blocks connections to outside servers, so it runs in demo mode. Your details are saved only in this device's browser and are not sent to the member server.",
+    officialLink: "Sign up for real on the official site →",
     mode: "Stored in",
     modeServer: "Member server (email verified)",
     modeLocal: "This device's browser (demo mode)",
@@ -766,7 +770,8 @@ function renderSignup() {
           <label class="check"><input type="checkbox" name="guardianConsent" /> ${m.guardianConsent}</label>
         </div>
         <label class="check"><input type="checkbox" name="consent" /> <span>${m.consent} <a href="#privacy" target="_blank" rel="noopener">${m.policyLink} ↗</a></span></label>
-        <p class="note">🔒 ${Backend.enabled ? m.serverNote : m.localNote}</p>
+        <p class="note">🔒 ${Backend.client ? m.serverNote : Backend.blocked ? m.previewNote : Backend.enabled ? m.serverNote : m.localNote}</p>
+        ${Backend.blocked && Backend.config.officialUrl ? `<p class="note"><a href="${esc(Backend.config.officialUrl)}" target="_blank" rel="noopener">${m.officialLink} ${esc(Backend.config.officialUrl)}</a></p>` : ""}
         <p class="form-error" id="signupError" role="alert"></p>
         <button class="btn" type="submit">${t.signupBtn}</button>
       </form>
@@ -799,7 +804,9 @@ function renderSignup() {
       return (err.textContent = m.sendFail);
     }
     // 서버를 쓰도록 설정했는데 연결이 안 되면 브라우저에 몰래 저장하지 않고 알려요
-    if (Backend.enabled && !Backend.client) return (err.textContent = m.serverDown);
+    // 서버를 쓰도록 설정한 공식 사이트에서 연결이 안 되면 몰래 브라우저에 저장하지 않고 알려요.
+    // (claude.ai 미리보기는 위 안내문으로 체험 모드임을 미리 밝혀요.)
+    if (Backend.enabled && !Backend.client && !Backend.blocked) return (err.textContent = m.serverDown);
     if (!Backend.client) {
       // 체험 모드: 이 브라우저에만 저장
       writeJSON(MEMBER_KEY, { ...info, joinedAt: info.consentedAt, verified: false });

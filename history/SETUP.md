@@ -3,7 +3,19 @@
 `config.js`가 비어 있으면 **체험 모드**(회원 정보·도장은 이 기기 브라우저에만 저장, 함께 접속은 같은 브라우저의 다른 탭끼리만)로 동작해요.
 아래 순서를 따라 하면 **실제 회원가입(이메일 인증) · 기기와 상관없는 도장 기록 · 다른 사람들과 함께 접속**이 켜져요.
 
-## 1. 사이트 주소 확인 (Vercel)
+## 0. 꼭 알아 둘 점: claude.ai 아티팩트 링크에서는 실제 회원가입이 안 돼요
+
+claude.ai 아티팩트 화면은 보안 정책으로 외부 서버(Supabase 포함) 연결을 모두 막아요. 그래서 아티팩트 링크에서는 자동으로 **체험 모드**(이 기기에만 저장)로 동작하고, 그 사실을 가입 화면에 안내해요.
+**실제 회원가입·도장 저장·함께 접속은 공식 사이트(GitHub Pages 또는 Vercel)에서만** 동작해요.
+
+## 1-A. 공식 사이트: GitHub Pages (권장, 무료)
+
+1. GitHub 저장소 → **Settings → Pages → Build and deployment → Source**를 **GitHub Actions**로 바꿔요. (한 번만)
+2. **Actions** 탭 → **Deploy history to GitHub Pages** → **Run workflow** (이후에는 main에 `history/`가 바뀔 때마다 자동 배포)
+3. 주소: <https://bystrength202567.github.io/bme-personal-branding-challenge/>
+4. Supabase **Authentication → URL Configuration**에서 **Site URL**과 **Redirect URLs**에 위 주소를 넣어요.
+
+## 1-B. 공식 사이트: Vercel (선택)
 
 1. <https://vercel.com>에 GitHub 계정으로 로그인 → **Add New → Project** → `bme-personal-branding-challenge` **Import** → **Deploy**
    (이미 연결돼 있다면 main에 합쳐질 때마다 자동으로 배포돼요.)
@@ -17,7 +29,7 @@
 2. 왼쪽 **SQL Editor** → `history/supabase.sql` 내용을 그대로 붙여 넣고 **Run**
    - 회원 정보(`members`)와 도장 기록(`progress`) 표가 만들어지고, 각 회원은 자기 정보만 읽고 쓸 수 있게 잠겨요(RLS).
 3. **Authentication → URL Configuration**
-   - **Site URL**: 1번의 서비스 주소 (예: `https://내프로젝트.vercel.app/history/`)
+   - **Site URL**: 1번의 공식 사이트 주소 (GitHub Pages면 `https://bystrength202567.github.io/bme-personal-branding-challenge/`)
    - **Redirect URLs**에도 같은 주소를 추가해요. (가입 메일의 링크가 이 주소로 돌아와요.)
 4. **Authentication → Providers → Email** 이 켜져 있는지 확인해요.
    - **Authentication → Emails → Templates**의 **Confirm signup**과 **Magic Link** 템플릿 본문에 `{{ .Token }}`을 넣어 주세요 (예: `인증 코드: {{ .Token }}`).
