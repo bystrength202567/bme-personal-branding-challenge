@@ -9,5 +9,7 @@ window.DALBIT_CONFIG = {
   // 공유 버튼(QR코드)에 넣을 주소. 비워 두면 지금 열린 주소를 써요.
   // 단, claude.ai 아티팩트 화면 안에서는 실제 주소를 알 수 없어서 artifactUrl을 써요.
   siteUrl: "",
+  // 실제 회원가입이 되는 공식 사이트 (GitHub Pages). claude.ai 미리보기 화면에서 안내 링크로 보여요.
+  officialUrl: "https://bystrength202567.github.io/bme-personal-branding-challenge/",
   artifactUrl: "https://claude.ai/artifact/ECAJffSiiuVVWLcjJ7r5uh",
 };
