@@ -1,0 +1,9 @@
+# Netlify로 배포할 때: 달빛 한국사 여행(history/)을 사이트 루트로 올려요. 빌드 과정은 없어요.
+[build]
+  publish = "history"
+  command = ""
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
