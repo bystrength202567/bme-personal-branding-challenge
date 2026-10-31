@@ -1176,15 +1176,42 @@ function runEngine(era, root, level, holder) {
       if (room && !activeRoom && room.name) toast(`🚪 ${room.name}`);
       activeRoom = room;
     }
+    // 산책 중에는 카메라가 걷는 방향 뒤로 천천히 돌아와 따라가요 (인물을 만나면 그 얼굴이 보여요)
+    // 걸을 땐 등 뒤에서, 인물을 만나면 옆에서 두 얼굴이 함께 보이게. 벽·지붕에 가리지 않는 각도를 골라요
+    if (tour && !pointers.size) {
+      tour.camT = (tour.camT || 0) - dt;
+      if (tour.camT <= 0 || tour.camYaw === undefined) {
+        tour.camT = 0.4;
+        const st = tour.stops[tour.i];
+        const meeting = tour.wait > 0 && st?.item?.av;
+        const base = meeting ? Math.atan2(st.x - pos.x, st.z - pos.z) + Math.PI + 1.1 : player.group.rotation.y + Math.PI;
+        const d0 = Math.min(cam.dist, 7), p0 = 0.32;
+        const wallAt = (x, z) => colliders.some((b) => !b[4] && x > b[0] - 0.4 && x < b[1] + 0.4 && z > b[2] - 0.4 && z < b[3] + 0.4);
+        const good = (yaw) => {
+          const pc = Math.cos(p0), cx = pos.x + Math.sin(yaw) * d0 * pc, cz = pos.z + Math.cos(yaw) * d0 * pc, cy = pos.y + 1.4 + Math.sin(p0) * d0;
+          if (camBlocks.some((b) => b !== activeRoom?.block && cy < b[4] + 0.8 && cx > b[0] && cx < b[1] && cz > b[2] && cz < b[3])) return false;
+          for (let k = 1; k <= 8; k++) if (wallAt(pos.x + (cx - pos.x) * (k / 8), pos.z + (cz - pos.z) * (k / 8))) return false;
+          return true;
+        };
+        const offs = meeting ? [0, -2.2, 0.4, -2.6, -0.4, -1.8, 0.8, -1.4, 1.2] : [0, 0.4, -0.4, 0.8, -0.8, 1.2, -1.2, 1.6, -1.6, Math.PI];
+        const pick = offs.map((o) => base + o).find(good);
+        tour.camYaw = pick ?? base;
+      }
+      const diff = ((tour.camYaw - cam.yaw + Math.PI) % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2) - Math.PI;
+      cam.yaw += diff * Math.min(1, dt * 1.8);
+    }
     let dist = room ? Math.min(cam.dist, 7.5) : cam.dist, pitch = room ? Math.max(cam.pitch, 0.8) : cam.pitch;
+    // 행각·회랑처럼 지붕 아래에 있으면 지붕 위로 올라가지 말고 낮고 가깝게 따라가요
+    const under = !room && camBlocks.some((b) => pos.x > b[0] && pos.x < b[1] && pos.z > b[2] && pos.z < b[3] && pos.y + 1.8 < b[4]);
+    if (under) (dist = Math.min(dist, 6)), (pitch = Math.min(pitch, 0.14));
     for (let k = 0; k < 12; k++) {
       const pc = Math.cos(pitch);
       const cx = pos.x + Math.sin(cam.yaw) * dist * pc, cz = pos.z + Math.cos(cam.yaw) * dist * pc;
       const cy = pos.y + 1.4 + Math.sin(pitch) * dist;
       const inWall = !room && colliders.some((b) => !b[4] && cx > b[0] - 0.6 && cx < b[1] + 0.6 && cz > b[2] - 0.6 && cz < b[3] + 0.6);
       const inRoof = camBlocks.some((b) => b !== room?.block && cy < b[4] + 0.8 && cx > b[0] && cx < b[1] && cz > b[2] && cz < b[3]);
-      if ((!inWall && !inRoof) || dist < 2.5) break;
-      if (pitch < 1.15) pitch = Math.min(1.15, pitch + 0.16);
+      if ((!inWall && (!inRoof || under)) || dist < 2.5) break;
+      if (pitch < 1.15 && !under) pitch = Math.min(1.15, pitch + 0.16);
       else dist *= 0.75;
     }
     const pc = Math.cos(pitch);
