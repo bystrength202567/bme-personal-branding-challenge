@@ -22,9 +22,9 @@ Vercel에서 이 저장소를 import하면 별도의 빌드 과정 없이 배포
 
 | 방법 | 할 일 | 주소 |
 |---|---|---|
-| **GitHub Pages** (추천, 새 가입 필요 없음) | [Pages 설정 열기](https://github.com/bystrength202567/bme-personal-branding-challenge/settings/pages) → Source: **Deploy from a branch** → Branch: **gh-pages** / **(root)** → **Save** | https://bystrength202567.github.io/bme-personal-branding-challenge/ |
-| **Vercel** | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbystrength202567%2Fbme-personal-branding-challenge&root-directory=history&project-name=moonlight-korean-history) | Vercel이 알려 주는 주소 |
-| **Netlify** | [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/bystrength202567/bme-personal-branding-challenge) | Netlify가 알려 주는 주소 |
+| **GitHub Pages** ✅ 배포 중 | main의 `history/`가 바뀌면 자동으로 다시 배포돼요 (gh-pages 브랜치) | https://bystrength202567.github.io/korea-time-travel/ |
+| **Vercel** | [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbystrength202567%2Fkorea-time-travel&root-directory=history&project-name=moonlight-korean-history) | Vercel이 알려 주는 주소 |
+| **Netlify** | [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/bystrength202567/korea-time-travel) | Netlify가 알려 주는 주소 |
 
 - `gh-pages` 브랜치는 main의 `history/`가 바뀔 때마다 GitHub Actions가 자동으로 갱신해요.
 - 배포한 뒤 Supabase **Authentication → URL Configuration**의 **Site URL**과 **Redirect URLs**에 그 주소를 넣어 주세요.
