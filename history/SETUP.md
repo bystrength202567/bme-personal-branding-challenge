@@ -10,8 +10,8 @@ claude.ai 아티팩트 화면은 보안 정책으로 외부 서버(Supabase 포�
 
 ## 1-A. 공식 사이트: GitHub Pages (권장, 무료)
 
-1. GitHub 저장소 → **Settings → Pages → Build and deployment → Source**를 **GitHub Actions**로 바꿔요. (한 번만)
-2. **Actions** 탭 → **Deploy history to GitHub Pages** → **Run workflow** (이후에는 main에 `history/`가 바뀔 때마다 자동 배포)
+1. main에 `history/`가 바뀔 때마다 Actions가 `gh-pages` 브랜치로 사이트 파일을 올려요 (`.github/workflows/pages.yml`).
+2. 공개 저장소는 보통 `gh-pages` 브랜치가 생기면 Pages가 자동으로 켜져요. 켜지지 않았다면 저장소 **Settings → Pages → Source**를 **Deploy from a branch**, 브랜치 **gh-pages / (root)**로 골라 주세요.
 3. 주소: <https://bystrength202567.github.io/bme-personal-branding-challenge/>
 4. Supabase **Authentication → URL Configuration**에서 **Site URL**과 **Redirect URLs**에 위 주소를 넣어요.
 
