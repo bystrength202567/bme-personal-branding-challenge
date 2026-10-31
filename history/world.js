@@ -1,6 +1,6 @@
 // 시대별 3D 입장 공간: 공용 엔진(이동·충돌·대화·동작) + 시대별 공간. 조선은 palace.js의 경복궁을 사용해요.
 const THREE_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
-const ACTIONS = [["stroll", "🚶"], ["read", "📖"], ["eat", "🍚"], ["sleep", "😴"], ["rest", "🍵"], ["greet", "🙇"]];
+const ACTIONS = [["ganggang", "🌕"], ["meong", "🧘"], ["stroll", "🚶"], ["read", "📖"], ["eat", "🍚"], ["sleep", "😴"], ["rest", "🍵"], ["greet", "🙇"]];
 
 const WSTR = {
   ko: {
@@ -21,7 +21,22 @@ const WSTR = {
     stone: (i) => `이야기 비석 ${i}`,
     gate: "시간의 문",
     talk: "말 걸기",
-    actions: { stroll: "산책하기", read: "책읽기", eat: "식사하기", sleep: "잠자기", rest: "휴식하기", greet: "인사하기" },
+    actions: { ganggang: "강강술래", meong: "멍때리기", stroll: "산책하기", read: "책읽기", eat: "식사하기", sleep: "잠자기", rest: "휴식하기", greet: "인사하기" },
+    ganggangSolo: "🌕 강강술래~ 궁녀들과 손잡고 둥글게 돌아요. 다른 사람이 함께 누르면 같이 돌아요!",
+    ganggangGroup: (n) => `🌕 강강술래~ ${n}명이 함께 돌아요!`,
+    songs: ["강강술래~", "달 떠온다 달 떠온다~", "강강술래~", "동해 동천 달 떠온다~"],
+    meongNames: { water: "🌊 물멍", fire: "🔥 불멍", moon: "🌕 달멍", palace: "🏯 궁궐멍" },
+    meongLines: {
+      water: ["물소리에 마음을 맡겨요", "연못에 비친 하늘을 바라봐요", "잔물결이 천천히 번져요"],
+      fire: ["타닥타닥, 불꽃이 춤춰요", "따뜻한 불빛을 바라봐요", "옛사람들도 이 불을 바라봤겠지요"],
+      moon: ["달빛이 궁궐을 비춰요", "같은 달을 옛사람들도 보았어요", "별이 하나둘 떠올라요"],
+      palace: ["처마 끝에 바람이 머물러요", "기와 너머로 하늘이 흘러가요", "오래된 기둥이 들려주는 이야기를 상상해요"],
+    },
+    meongExit: "화면을 누르면 일어나요",
+    meongMilestone: { 60: "🍃 마음이 고요해졌어요", 180: "🌿 '풍류객' 칭호를 얻었어요!", 300: "☁️ '신선' 칭호를 얻었어요!" },
+    music: "🎵",
+    musicOn: (t) => `🎵 ${t}`,
+    musicOff: "🔇 음악을 껐어요",
     actionToast: {
       stroll: "🚶 뒷짐을 지고 궁궐 뜰을 천천히 거닐어요 (한 번 더 누르면 멈춰요)",
       read: "📖 방석에 앉아 책을 펼쳤어요. 임금도 날마다 학문을 닦았어요",
@@ -67,7 +82,22 @@ const WSTR = {
     stone: (i) => `Story Stone ${i}`,
     gate: "Gate of Time",
     talk: "Talk",
-    actions: { stroll: "Stroll", read: "Read", eat: "Dine", sleep: "Sleep", rest: "Rest", greet: "Greet" },
+    actions: { ganggang: "Ganggang", meong: "Zone out", stroll: "Stroll", read: "Read", eat: "Dine", sleep: "Sleep", rest: "Rest", greet: "Greet" },
+    ganggangSolo: "🌕 Ganggangsullae! Hold hands with the court ladies and circle around. Others who join will dance with you!",
+    ganggangGroup: (n) => `🌕 Ganggangsullae! ${n} people dancing together!`,
+    songs: ["Ganggang-sullae~", "The moon is rising~", "Ganggang-sullae~", "Over the eastern sea~"],
+    meongNames: { water: "🌊 Water gazing", fire: "🔥 Fire gazing", moon: "🌕 Moon gazing", palace: "🏯 Palace gazing" },
+    meongLines: {
+      water: ["Let the sound of water carry you", "Watch the sky in the pond", "Ripples spread slowly"],
+      fire: ["Crackle, crackle — the flames dance", "Watch the warm firelight", "People long ago watched this fire too"],
+      moon: ["Moonlight falls on the palace", "People long ago saw this same moon", "Stars appear one by one"],
+      palace: ["The wind rests at the tip of the eaves", "Sky drifts past the roof tiles", "Imagine the stories these old pillars could tell"],
+    },
+    meongExit: "Tap the screen to get up",
+    meongMilestone: { 60: "🍃 Your mind feels calm", 180: "🌿 You earned the title 'Pungnyu Poet'!", 300: "☁️ You earned the title 'Immortal Sage'!" },
+    music: "🎵",
+    musicOn: (t) => `🎵 ${t}`,
+    musicOff: "🔇 Music off",
     actionToast: {
       stroll: "🚶 Strolling slowly through the palace grounds, hands behind your back (tap again to stop)",
       read: "📖 You sit on a cushion and open a book. Kings studied every day",
@@ -211,10 +241,12 @@ function runEngine(era, root, level, holder) {
       <div class="w-right" id="wRight">
         <span class="w-pill" id="wProgress"></span>
         ${level.places ? `<button class="w-pill w-btn" id="wMap">${w.map}</button>` : ""}
+        <button class="w-pill w-btn" id="wMusic" aria-label="music">${w.music}</button>
         <span class="w-pill w-crowd">👥 ${level.crowdText}</span>
       </div>
     </div>
     <p class="w-hint" id="wHint">${w.hint}</p>
+    <div class="w-meong" id="wMeong" hidden><b id="wMeongName"></b><p id="wMeongLine"></p><span id="wMeongTime"></span><small id="wMeongMusic"></small><em>${w.meongExit}</em></div>
     <div class="w-toast" id="wToast"></div>
     <div class="w-dialog" id="wDialog" hidden>
       <div class="w-dialog-head"><span id="wDlgEmoji"></span><b id="wDlgName"></b><button class="w-close" id="wDlgClose" aria-label="close">×</button></div>
@@ -438,9 +470,96 @@ function runEngine(era, root, level, holder) {
   let strollHome = null;
   const actionBtns = root.querySelectorAll("[data-action]");
   const markAction = () => actionBtns.forEach((b) => b.classList.toggle("on", b.dataset.action === player.pose));
+  // 강강술래: 함께 추는 사람(실제 접속자)이 없으면 가까운 궁인들이 손을 잡아 줘요
+  let danceAnchor = null;
+  const npcDancers = [];
+  const releaseDancers = () => {
+    npcDancers.splice(0).forEach((v) => {
+      v.dancing = false;
+      v.wait = 1;
+      setPose(v.av, null);
+    });
+  };
+  const recruitDancers = () => {
+    const pos = player.group.position;
+    wanderers
+      .filter((v) => !v.dancing && v.av.group.position.distanceTo(pos) < 30)
+      .sort((a, b) => a.av.group.position.distanceTo(pos) - b.av.group.position.distanceTo(pos))
+      .slice(0, 4)
+      .forEach((v) => {
+        v.dancing = true;
+        setPose(v.av, "ganggang");
+        npcDancers.push(v);
+      });
+  };
+  // 멍때리기: 있는 곳에 따라 물멍·불멍·달멍·궁궐멍, 그 시대 악기 소리가 흘러요
+  const meongEl = root.querySelector("#wMeong");
+  let meong = null;
+  const meongType = () => {
+    const pos = player.group.position;
+    const nearBox = (b, r) => pos.x > b[0] - r && pos.x < b[1] + r && pos.z > b[2] - r && pos.z < b[3] + r;
+    if (colliders.some((b) => b[4] && nearBox(b, 5))) return "water";
+    if ((level.fireSpots || []).some(([fx, fz]) => Math.hypot(fx - pos.x, fz - pos.z) < 7)) return "fire";
+    if (!activeRoom && (api.night || 0) > 0.55) return "moon";
+    return "palace";
+  };
+  const startMeong = () => {
+    const type = meongType();
+    const lines = w.meongLines[type];
+    meong = { type, t: 0, line: 0, shown: {}, stopMusic: window.Gugak ? Gugak.start(era.id, type) : null };
+    root.querySelector("#wMeongName").textContent = w.meongNames[type];
+    root.querySelector("#wMeongLine").textContent = lines[0];
+    root.querySelector("#wMeongMusic").textContent = window.Gugak ? Gugak.describe(era.id) : "";
+    meongEl.hidden = false;
+    root.classList.add("meong-mode");
+    musicBtn.classList.toggle("on", true);
+  };
+  const endMeong = () => {
+    if (!meong) return;
+    meong.stopMusic?.();
+    meong = null;
+    meongEl.hidden = true;
+    root.classList.remove("meong-mode");
+    musicBtn.classList.toggle("on", !!bgm);
+  };
+  meongEl.addEventListener("pointerdown", () => stopPose());
+  // 🎵 궁궐 배경 음악 (그 시대 악기 소리를 흉내 낸 합성 음악)
+  const musicBtn = root.querySelector("#wMusic");
+  let bgm = null;
+  musicBtn.addEventListener("click", () => {
+    if (bgm) {
+      bgm();
+      bgm = null;
+      toast(w.musicOff);
+    } else if (window.Gugak) {
+      bgm = Gugak.start(era.id, "bgm");
+      toast(w.musicOn(Gugak.describe(era.id)));
+    }
+    musicBtn.classList.toggle("on", !!bgm);
+  });
+  c.cleanup.push(() => {
+    bgm?.();
+    meong?.stopMusic?.();
+  });
+  const setPlayerPose = (pose) => {
+    const old = player.pose;
+    if (old === "ganggang" && pose !== "ganggang") {
+      releaseDancers();
+      danceAnchor = null;
+      player.danceAnchor = null;
+      playerLabel?.querySelector(".bubble")?.remove();
+    }
+    if (old === "meong" && pose !== "meong") endMeong();
+    setPose(player, pose);
+    if (pose === "ganggang") {
+      danceAnchor = player.group.position.clone();
+      player.danceAnchor = { x: +danceAnchor.x.toFixed(2), z: +danceAnchor.z.toFixed(2) };
+    }
+    if (pose === "meong") startMeong();
+  };
   const stopPose = () => {
     if (!player || !player.pose) return;
-    setPose(player, null);
+    setPlayerPose(null);
     markAction();
   };
   actionBtns.forEach((b) =>
@@ -448,7 +567,7 @@ function runEngine(era, root, level, holder) {
       const type = b.dataset.action;
       moveTarget = pending = null;
       if (type === "greet") {
-        setPose(player, null);
+        setPlayerPose(null);
         player.anim = { type: "bow", t: 0 };
         const near = interactables.find((n) => n.av && n.av.group.position.distanceTo(player.group.position) < 4.5);
         if (near) {
@@ -458,12 +577,18 @@ function runEngine(era, root, level, holder) {
           toast(w.greetBack(near.name));
         } else toast(w.actionToast.greet);
       } else if (player.pose === type) {
-        setPose(player, null);
+        setPlayerPose(null);
       } else {
-        setPose(player, type);
+        setPlayerPose(type);
         strollHome = player.group.position.clone();
-        const tip = w.actionTip[era.id]?.[type];
-        toast(tip ? `${w.actionToast[type]} · ${tip}` : w.actionToast[type]);
+        if (type === "ganggang") {
+          const peers = (api.peerSource?.() || []).filter((p) => p.pose === "ganggang" && Math.hypot(p.x - strollHome.x, p.z - strollHome.z) < 12);
+          if (!peers.length) recruitDancers();
+          toast(peers.length ? w.ganggangGroup(peers.length + 1) : w.ganggangSolo);
+        } else if (type !== "meong") {
+          const tip = w.actionTip[era.id]?.[type];
+          toast(tip ? `${w.actionToast[type]} · ${tip}` : w.actionToast[type]);
+        }
       }
       markAction();
       playerLabel?.classList.toggle("sleeping", player.pose === "sleep");
@@ -599,7 +724,75 @@ function runEngine(era, root, level, holder) {
         }
       }
     }
-    const speed = player.pose === "stroll" ? 1.8 : baseSpeed;
+    // 강강술래: 같은 원에 있는 사람들은 id 순서로 자리를 나눠 같은 시계로 함께 돌아요
+    if (player.pose === "ganggang" && danceAnchor) {
+      const myId = api.myId || "me";
+      const peers = (api.peerSource?.() || []).filter((p) => p.pose === "ganggang" && Math.hypot(p.x - pos.x, p.z - pos.z) < 12);
+      if (peers.length && npcDancers.length) releaseDancers();
+      const members = [{ id: myId, anchor: danceAnchor }, ...peers.map((p) => ({ id: p.id, anchor: p.anchor }))].sort((a, b) => (a.id < b.id ? -1 : 1));
+      const center = members[0].anchor && Number.isFinite(members[0].anchor.x) ? members[0].anchor : danceAnchor;
+      const slots = [...members.map((m) => m.id), ...npcDancers.map((_, i) => `npc${i}`)];
+      const n = slots.length;
+      const radius = 1.6 + n * 0.45;
+      const spin = (Date.now() / 1000) * 0.6;
+      const at = (i) => {
+        const th = (Math.PI * 2 * i) / n + spin;
+        return [center.x + Math.cos(th) * radius, center.z + Math.sin(th) * radius];
+      };
+      const [tx, tz] = at(slots.indexOf(myId));
+      moveTarget = new THREE.Vector3(tx, 0, tz);
+      pending = null;
+      npcDancers.forEach((v, i) => {
+        const [nx, nz] = at(members.length + i);
+        const vp = v.av.group.position;
+        const dx = nx - vp.x, dz = nz - vp.z;
+        const d = Math.hypot(dx, dz);
+        if (d > 0.05) {
+          const len = Math.min(d, 5 * dt);
+          vp.x += (dx / d) * len;
+          vp.z += (dz / d) * len;
+          v.av.group.rotation.y = Math.atan2(dx, dz);
+        }
+        vp.y = floorAt(vp.x, vp.z);
+        animateAvatar(v.av, dt, time, d > 0.05);
+      });
+      // 노랫말 말풍선
+      const line = w.songs[Math.floor(Date.now() / 2500) % w.songs.length];
+      let bubble = playerLabel?.querySelector(".bubble");
+      if (playerLabel && !bubble) {
+        bubble = document.createElement("span");
+        bubble.className = "bubble";
+        playerLabel.appendChild(bubble);
+      }
+      if (bubble && bubble.textContent !== line) bubble.textContent = line;
+    }
+    // 멍때리기: 시간과 문구, 이정표
+    if (meong) {
+      meong.t += dt;
+      const sec = Math.floor(meong.t);
+      root.querySelector("#wMeongTime").textContent = `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`;
+      const lines = w.meongLines[meong.type];
+      const li = Math.floor(meong.t / 8) % lines.length;
+      if (li !== meong.line) {
+        meong.line = li;
+        root.querySelector("#wMeongLine").textContent = lines[li];
+      }
+      Object.entries(w.meongMilestone).forEach(([at, msg]) => {
+        if (sec >= Number(at) && !meong.shown[at]) {
+          meong.shown[at] = true;
+          toast(msg);
+          if (Number(at) >= 180) {
+            try {
+              const b = JSON.parse(localStorage.getItem("dalbit-badges") || "{}");
+              b[Number(at) >= 300 ? "sinseon" : "pungnyu"] = true;
+              localStorage.setItem("dalbit-badges", JSON.stringify(b));
+            } catch {}
+          }
+        }
+      });
+      cam.yaw += dt * 0.05;
+    }
+    const speed = player.pose === "stroll" ? 1.8 : player.pose === "ganggang" ? 5 : baseSpeed;
     if (ix || iz) {
       moveTarget = null;
       pending = null;
@@ -619,7 +812,17 @@ function runEngine(era, root, level, holder) {
         step(pos, tmp.x * len, tmp.z * len);
         player.group.rotation.y = Math.atan2(tmp.x, tmp.z);
         moving = true;
-        if (Math.abs(pos.x + pos.z - before) < 1e-4) moveTarget = pending = null; // 벽에 막힘
+        if (Math.abs(pos.x + pos.z - before) < 1e-4) {
+          // 벽에 막힘: 놀이 마당처럼 꼭 가야 하는 곳이면 바로 앞으로 건너가요
+          if (pending?.hop) {
+            const o = pending.obj.position;
+            pos.set(o.x, floorAt(o.x, o.z + 2.2), o.z + 2.2);
+            player.group.rotation.y = Math.PI;
+            const it = pending;
+            moveTarget = pending = null;
+            openDialog(it);
+          } else moveTarget = pending = null;
+        }
         if (player.pose === "stroll") moving = "stroll";
       } else {
         moveTarget = null;
@@ -638,6 +841,7 @@ function runEngine(era, root, level, holder) {
 
     npcAvatars.forEach((av) => animateAvatar(av, dt, time, false));
     wanderers.forEach((v) => {
+      if (v.dancing) return; // 강강술래 중인 궁인은 위에서 움직여요
       const vp = v.av.group.position;
       if (v.wait > 0) {
         v.wait -= dt;
@@ -920,7 +1124,7 @@ function makeAvatar({ robe, sash, hat, scale = 1, skin = "#f1c7a1", body = "robe
 function setPose(av, pose) {
   av.pose = pose;
   av.anim = null;
-  const need = { read: ["cushion", "book"], eat: ["cushion", "table"], sleep: ["bed"], rest: ["cushion", "fan"] }[pose] || [];
+  const need = { read: ["cushion", "book"], eat: ["cushion", "table"], sleep: ["bed"], rest: ["cushion", "fan"], meong: ["cushion"] }[pose] || [];
   need.forEach((n) => av.props[n] || (av.props[n] = makeProp(av, n)));
   Object.entries(av.props).forEach(([n, obj]) => (obj.visible = need.includes(n)));
 }
@@ -972,13 +1176,26 @@ function makeProp(av, name) {
 function animateAvatar(av, dt, time, moving) {
   const t = time + av.phase;
   av.inner.position.y = moving ? Math.abs(Math.sin(t * 10)) * 0.08 : Math.sin(t * 2) * 0.012;
-  let armL = -0.28, armR = 0.28, swingL = 0, swingR = 0, lean = 0, headX = 0, y = 0, z = 0;
+  let armL = -0.28, armR = 0.28, swingL = 0, swingR = 0, lean = 0, headX = 0, y = 0, z = 0, twist = 0;
   const pose = av.pose;
-  if (moving && pose !== "stroll") {
+  if (moving && pose !== "stroll" && pose !== "ganggang") {
     swingL = Math.sin(t * 10) * 0.6;
     swingR = -swingL;
   }
-  if (pose === "stroll") {
+  if (pose === "ganggang") {
+    // 양옆 사람과 손을 잡듯 두 팔을 벌리고, 박자에 맞춰 흔들어요
+    armL = -1.15 + Math.sin(t * 4) * 0.12;
+    armR = 1.15 + Math.sin(t * 4) * 0.12;
+    av.inner.position.y = Math.abs(Math.sin(t * 4)) * 0.07;
+    headX = -0.1;
+  } else if (pose === "meong") {
+    // 가만히 앉아 무릎에 손을 얹고 숨을 고르는 자세
+    y = av.body === "dress" ? -0.25 : -0.32;
+    swingL = swingR = -0.5;
+    armL = -0.15;
+    armR = 0.15;
+    headX = 0.12 + Math.sin(t * 0.8) * 0.04;
+  } else if (pose === "stroll") {
     // 뒷짐을 지고 느긋하게
     swingL = swingR = 0.7;
     armL = 0.15;
@@ -1033,6 +1250,14 @@ function animateAvatar(av, dt, time, moving) {
       armL = -0.45 * k - 0.1;
       armR = 0.45 * k + 0.1;
       if (av.anim.t > 1.6) av.anim = null;
+    } else if (av.anim.type === "dance") {
+      // 흥겨운 춤: 팔을 번갈아 올리고 몸을 좌우로 흔들어요
+      const p2 = av.anim.t;
+      armL = -1.6 - Math.sin(p2 * 6) * 0.9;
+      armR = 1.6 - Math.sin(p2 * 6 + Math.PI) * 0.9;
+      twist = Math.sin(p2 * 3) * 0.5;
+      av.inner.position.y += Math.abs(Math.sin(p2 * 6)) * 0.12;
+      if (p2 > 3) av.anim = null;
     } else if (av.anim.type === "cheer") {
       const up = Math.abs(Math.sin(p * 5));
       armL = -2.6 * up - 0.3;
@@ -1046,6 +1271,7 @@ function animateAvatar(av, dt, time, moving) {
   av.armL.rotation.x = swingL;
   av.armR.rotation.x = swingR;
   av.inner.rotation.x = lean;
+  av.inner.rotation.y = twist;
   av.head.rotation.x = headX;
   if (pose === "sleep" || y) {
     av.inner.position.y = y + (pose === "sleep" ? Math.sin(t * 1.5) * 0.015 : Math.sin(t * 2) * 0.01);
