@@ -430,3 +430,4 @@ body.in-world main { max-width: none; padding: 0; }
 .w-label.peer.sleeping::after { content: " 💤"; }
 .w-online { color: #b8f0c8; }
 @media (max-width: 480px) { .w-online { font-size: 11px; } }
+.w-label .bubble { display: block; margin-top: 4px; padding: 4px 10px; border-radius: 12px; background: #fffcf2; color: #1d1d2b; font-weight: 700; font-size: 13px; }

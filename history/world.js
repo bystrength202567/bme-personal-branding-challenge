@@ -248,6 +248,8 @@ function runEngine(era, root, level, holder) {
   const colliders = [];
   const floors = [];
   const camBlocks = [];
+  const rooms = []; // 들어갈 수 있는 건물 안: 들어가면 지붕을 감춰 실내가 보여요
+  let activeRoom = null;
   const tickers = [];
   const wanderers = [];
   const npcAvatars = [];
@@ -303,11 +305,24 @@ function runEngine(era, root, level, holder) {
     addCollider: (x1, x2, z1, z2, low = false) => colliders.push([x1, x2, z1, z2, low]),
     addFloor: (x1, x2, z1, z2, h) => floors.push([x1, x2, z1, z2, h]),
     // 지붕처럼 카메라가 들어가면 안 되는 공간 (바닥면 + 꼭대기 높이)
-    addCamBlock: (x1, x2, z1, z2, top) => camBlocks.push([x1, x2, z1, z2, top]),
+    addCamBlock: (x1, x2, z1, z2, top) => {
+      const b = [x1, x2, z1, z2, top];
+      camBlocks.push(b);
+      return b;
+    },
+    // 건물 안 공간 (x1~x2, z1~z2). parts: 안에 있을 때 감출 지붕들, block: 그 건물의 카메라 막이
+    addRoom: (room) => rooms.push(room),
+    removeInteract(item) {
+      const i = interactables.indexOf(item);
+      if (i >= 0) interactables.splice(i, 1);
+      if (item.label) api.removeLabel(item.label);
+      if (nearest === item) nearest = null;
+    },
     floorAt,
     setPlayer(av, x, z, ry, label) {
       player = av;
       playerLabel = label;
+      x += (Math.random() - 0.5) * 4; // 입장할 때도 조금씩 다른 자리에
       av.group.position.set(x, floorAt(x, z), z);
       av.group.rotation.y = ry;
       scene.add(av.group);
@@ -379,6 +394,8 @@ function runEngine(era, root, level, holder) {
           },
         })
       );
+    } else if (item.kind === "custom") {
+      item.render(dlgBody, closeDialog);
     } else {
       dlgBody.innerHTML = `<p>${w.leaveQ}</p><div class="actions"><button class="btn ghost" id="wStay">${w.keep}</button><button class="btn" id="wLeave">${w.leave}</button></div>`;
       dlgBody.querySelector("#wStay").addEventListener("click", closeDialog);
@@ -403,7 +420,8 @@ function runEngine(era, root, level, holder) {
     dlgBody.querySelectorAll("[data-i]").forEach((b) =>
       b.addEventListener("click", () => {
         const p = level.places[Number(b.dataset.i)];
-        player.group.position.set(p.x, floorAt(p.x, p.z), p.z);
+        const jx = p.x + (Math.random() - 0.5) * 3; // 다른 사람과 겹치지 않게 조금씩 다른 자리에
+        player.group.position.set(jx, floorAt(jx, p.z), p.z);
         player.group.rotation.y = Math.PI;
         cam.yaw = 0;
         stopPose();
@@ -662,13 +680,21 @@ function runEngine(era, root, level, holder) {
     camTarget.set(pos.x, pos.y + 1.4, pos.z);
     // 카메라가 건물 안으로 들어가지 않도록 거리를 줄여요
     // 먼저 위로 올려 지붕 너머에서 내려다보고, 그래도 막히면 거리를 줄여요
-    let dist = cam.dist, pitch = cam.pitch;
+    // 건물 안에 들어가면 그 건물 지붕을 감추고, 카메라를 가까이 높게 둬 실내를 내려다봐요
+    const room = rooms.find((r) => pos.x > r.x1 && pos.x < r.x2 && pos.z > r.z1 && pos.z < r.z2) || null;
+    if (room !== activeRoom) {
+      activeRoom?.parts.forEach((m) => (m.visible = true));
+      room?.parts.forEach((m) => (m.visible = false));
+      if (room && !activeRoom && room.name) toast(`🚪 ${room.name}`);
+      activeRoom = room;
+    }
+    let dist = room ? Math.min(cam.dist, 7.5) : cam.dist, pitch = room ? Math.max(cam.pitch, 0.8) : cam.pitch;
     for (let k = 0; k < 12; k++) {
       const pc = Math.cos(pitch);
       const cx = pos.x + Math.sin(cam.yaw) * dist * pc, cz = pos.z + Math.cos(cam.yaw) * dist * pc;
       const cy = pos.y + 1.4 + Math.sin(pitch) * dist;
-      const inWall = colliders.some((b) => !b[4] && cx > b[0] - 0.6 && cx < b[1] + 0.6 && cz > b[2] - 0.6 && cz < b[3] + 0.6);
-      const inRoof = camBlocks.some((b) => cy < b[4] + 0.8 && cx > b[0] && cx < b[1] && cz > b[2] && cz < b[3]);
+      const inWall = !room && colliders.some((b) => !b[4] && cx > b[0] - 0.6 && cx < b[1] + 0.6 && cz > b[2] - 0.6 && cz < b[3] + 0.6);
+      const inRoof = camBlocks.some((b) => b !== room?.block && cy < b[4] + 0.8 && cx > b[0] && cx < b[1] && cz > b[2] && cz < b[3]);
       if ((!inWall && !inRoof) || dist < 2.5) break;
       if (pitch < 1.15) pitch = Math.min(1.15, pitch + 0.16);
       else dist *= 0.75;

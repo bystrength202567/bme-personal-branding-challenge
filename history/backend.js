@@ -119,15 +119,17 @@ const Backend = {
 
   // 같은 궁궐(방)에 들어온 사람들끼리 위치·동작을 주고받는 통로
   joinRoom(name, onMessage, onPeople) {
-    if (this.client && this.user) {
-      const ch = this.client.channel(`room:${name}`, { config: { broadcast: { self: false }, presence: { key: this.user.id } } });
+    if (this.client) {
+      // 회원이 아니어도 같은 궁궐 사람끼리 만나요 (위치·동작만 실시간으로 주고받고 저장하지 않아요)
+      const myId = this.user?.id || `guest-${Math.random().toString(36).slice(2, 10)}`;
+      const ch = this.client.channel(`room:${name}`, { config: { broadcast: { self: false }, presence: { key: myId } } });
       ch.on("broadcast", { event: "msg" }, ({ payload }) => onMessage(payload));
       ch.on("presence", { event: "sync" }, () => onPeople(Object.keys(ch.presenceState()).length));
       ch.on("presence", { event: "leave" }, ({ key }) => onMessage({ type: "leave", id: key }));
       ch.subscribe((status) => status === "SUBSCRIBED" && ch.track({ at: Date.now() }));
       return {
-        id: this.user.id,
-        send: (payload) => ch.send({ type: "broadcast", event: "msg", payload: { ...payload, id: this.user.id } }),
+        id: myId,
+        send: (payload) => ch.send({ type: "broadcast", event: "msg", payload: { ...payload, id: myId } }),
         leave: () => this.client.removeChannel(ch),
       };
     }
